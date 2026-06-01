@@ -1518,8 +1518,8 @@ canvas.width = 120; canvas.height = 120;
   proxyImg.crossOrigin = 'anonymous';
   proxyImg.src = imgEl.src;
   await new Promise(r => { proxyImg.onload = r; proxyImg.onerror = r; });
-  ctx2.drawImage(proxyImg, 0, 0, 60, 60);
-  doc.addImage(canvas.toDataURL('image/jpeg', 0.8), 'JPEG', x+2, y+2, 28, 28);
+ctx2.drawImage(proxyImg, 0, 0, canvas.width, canvas.height);
+doc.addImage(canvas.toDataURL('image/jpeg', 1.0), 'JPEG', x+2, y+2, 28, 28);  doc.addImage(canvas.toDataURL('image/jpeg', 0.8), 'JPEG', x+2, y+2, 28, 28);
 } catch(e) {}      }
       doc.setFillColor(22, 163, 74); doc.roundedRect(x+32, y+3, colW-35, 6, 1, 1, 'F');
       doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(6);
