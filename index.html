@@ -294,8 +294,15 @@
     .cart-overlay.open { display: block; }
     #modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center; padding: 1rem; }
     #modal-box { background: white; border-radius: 16px; max-width: 480px; width: 100%; overflow: hidden; position: relative; max-height: 90vh; overflow-y: auto; }
-    #modal-img-wrap { background: #f8f9fa; display: flex; align-items: center; justify-content: center; padding: 1.5rem; height: 180px; }
-    #modal-img { max-height: 140px; max-width: 100%; object-fit: contain; display: none; }
+    #modal-img-wrap { background: #f8f9fa; display: flex; align-items: center; justify-content: center; padding: 1.5rem; height: 220px; position: relative; }
+    #modal-img { max-height: 180px; max-width: 100%; object-fit: contain; display: none; transition: opacity 0.2s; }
+    .modal-gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.35); color: white; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; }
+    .modal-gallery-nav.prev { left: 0.5rem; }
+    .modal-gallery-nav.next { right: 0.5rem; }
+    .modal-gallery-dots { display: flex; gap: 0.35rem; justify-content: center; padding: 0.5rem 0; }
+    .modal-gallery-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(0,0,0,0.2); cursor: pointer; transition: background 0.2s; }
+    .modal-gallery-dot.active { background: var(--teal); }
+    .modal-gallery-thumbs { display: flex; gap: 0.4rem; justify-content: center; padding: 0.3rem 1rem 0.75rem; flex-wrap: wrap; }
     #modal-body { padding: 1.25rem; }
     #modal-badge { font-family: 'Montserrat', sans-serif; font-size: 0.68rem; font-weight: 600; color: var(--green); margin-bottom: 0.4rem; }
     #modal-name { font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.75rem; }
@@ -513,15 +520,12 @@
   <div class="catalog-header">
     <p class="section-eyebrow">Lo que ofrecemos</p>
     <h2 class="section-title">Nuestro Catálogo</h2>
-  </div>
-  <div style="display:flex; gap:0.75rem; margin-bottom:1rem; flex-wrap:wrap;">
-    <button class="mobile-filter-btn" style="flex:0 0 auto; width:auto; padding:0.85rem 1.2rem;" onclick="openSidebar()">☰ Categorías</button>
-    <div style="flex:1; min-width:200px; position:relative;">
-      <input type="text" id="searchInput" placeholder="Buscar productos..." oninput="searchProducts()" style="width:100%; padding:0.85rem 1rem; border:1px solid rgba(0,0,0,0.12); border-radius:8px; font-family:'Lato',sans-serif; font-size:0.9rem; outline:none; background:white;" />
-      <button onclick="clearSearch()" id="clearBtn" style="display:none; position:absolute; right:0.75rem; top:50%; transform:translateY(-50%); background:none; border:none; font-size:1.1rem; cursor:pointer; color:#aaa;">✕</button>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.75rem;">
+      <button onclick="exportarPDF()" id="btnPDF" style="background:#a67c2e;color:white;border:none;border-radius:8px;padding:0.6rem 1.2rem;font-family:'Montserrat',sans-serif;font-size:0.76rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem;">📄 Catálogo PDF</button>
+      <button onclick="document.getElementById('compat-modal').style.display='flex'" style="background:white;color:var(--teal);border:1.5px solid var(--teal);border-radius:8px;padding:0.6rem 1.2rem;font-family:'Montserrat',sans-serif;font-size:0.76rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem;">🔗 Compatibilidad Dispensers</button>
     </div>
   </div>
-  <div class="catalog-layout">
+<div class="catalog-layout">
     <div class="sidebar-wrapper">
       <div class="sidebar">
         <div class="sidebar-header">Categorías</div>
@@ -536,7 +540,15 @@
       </div>
     </div>
 
-    <div class="products-grid" id="productsGrid">
+    <div>
+  <div style="display:flex; gap:0.75rem; margin-bottom:1rem; flex-wrap:wrap;">
+    <button class="mobile-filter-btn" style="flex:0 0 auto; width:auto; padding:0.85rem 1.2rem;" onclick="openSidebar()">☰ Categorías</button>
+    <div style="flex:1; min-width:200px; position:relative;">
+      <input type="text" id="searchInput" placeholder="Buscar productos..." oninput="searchProducts()" style="width:100%; padding:0.85rem 1rem; border:1px solid rgba(0,0,0,0.12); border-radius:8px; font-family:'Lato',sans-serif; font-size:0.9rem; outline:none; background:white;" />
+      <button onclick="clearSearch()" id="clearBtn" style="display:none; position:absolute; right:0.75rem; top:50%; transform:translateY(-50%); background:none; border:none; font-size:1.1rem; cursor:pointer; color:#aaa;">✕</button>
+    </div>
+  </div>
+        <div class="products-grid" id="productsGrid">
       <div class="product-card" data-category="Dispensers" data-sub="Dispenser Toallas" onclick="openModal(this)">
         <div class="product-image"><img src="img/dispenser-toallas-intercaladas-32dade41cd0324d90317454393690583-480-0.webp" alt="Dispenser Toalla Intercalada" /><div class="hover-overlay">Ver Detalle</div></div>
         <div class="product-info"><div class="product-badge">Dispensers</div><h3 class="product-name">Dispenser Toalla Intercalada</h3><p class="product-desc">Diseño inteligente que entrega una toalla a la vez, reduciendo el consumo innecesario y manteniendo el orden.</p><div class="product-actions"><a class="btn-cotizar" href="https://wa.me/5491144402807" target="_blank" onclick="event.stopPropagation()">✓ Consultar</a><button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(this)">+ Cotizar</button></div></div>
@@ -683,19 +695,20 @@
       <!-- PRODUCTOS DINÁMICOS DESDE SUPABASE -->
       <div id="dynamicProducts"></div>
 
-    </div>
-  </div>
+      </div><!-- /products-grid -->
+    </div><!-- /columna derecha -->
+  </div><!-- /catalog-layout -->
 </section>
 
 <script>
   // Cargar productos desde Supabase
-  const SB_URL = 'https://khxtmxbdrcigddvskalk.supabase.co';
-  const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoeHRteGJkcmNpZ2RkdnNrYWxrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzOTA0OTUsImV4cCI6MjA5NDk2NjQ5NX0.D82fR_OTye8Fbsk4xccfCr-J1FvqjO2Rnxjfsnsc_nQ';
+  const SUPABASE_URL = 'https://khxtmxbdrcigddvskalk.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoeHRteGJkcmNpZ2RkdnNrYWxrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzOTA0OTUsImV4cCI6MjA5NDk2NjQ5NX0.D82fR_OTye8Fbsk4xccfCr-J1FvqjO2Rnxjfsnsc_nQ';
 
   async function cargarProductosDinamicos() {
     try {
-      const res = await fetch(`${SB_URL}/rest/v1/productos?order=created_at.asc`, {
-        headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?order=created_at.asc`, {
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
       });
       const productos = await res.json();
       const container = document.getElementById('dynamicProducts');
@@ -1091,6 +1104,76 @@
   </div>
 </section>
 
+<!-- FAQ SEO -->
+<section id="faq" style="padding:4rem 1.5rem; background:white;">
+  <div style="max-width:900px; margin:0 auto;">
+    <p style="font-family:'Montserrat',sans-serif; font-size:0.7rem; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:var(--teal); margin-bottom:0.5rem; text-align:center;">Preguntas frecuentes</p>
+    <h2 style="font-family:'Montserrat',sans-serif; font-size:clamp(1.4rem,3vw,2.2rem); font-weight:700; color:var(--teal); margin-bottom:2.5rem; text-align:center;">Todo lo que necesitás saber</h2>
+    <div style="display:flex; flex-direction:column; gap:0.75rem;">
+      <details style="background:var(--dark); border:1px solid var(--border); border-radius:10px; padding:1.25rem 1.5rem; cursor:pointer;"><summary style="font-family:'Montserrat',sans-serif; font-size:0.92rem; font-weight:700; color:var(--teal); list-style:none; display:flex; justify-content:space-between; align-items:center;">¿Hacen envíos a todo Buenos Aires y GBA? <span>▾</span></summary><p style="font-size:0.88rem; color:var(--muted); margin-top:0.75rem; line-height:1.7;">Sí, realizamos entregas programadas en Capital Federal, todo el Gran Buenos Aires y la Provincia de Buenos Aires.</p></details>
+      <details style="background:var(--dark); border:1px solid var(--border); border-radius:10px; padding:1.25rem 1.5rem; cursor:pointer;"><summary style="font-family:'Montserrat',sans-serif; font-size:0.92rem; font-weight:700; color:var(--teal); list-style:none; display:flex; justify-content:space-between; align-items:center;">¿Tienen precio mayorista para empresas y hospitales? <span>▾</span></summary><p style="font-size:0.88rem; color:var(--muted); margin-top:0.75rem; line-height:1.7;">Sí, trabajamos con precios mayoristas. Pedí tu cotización sin cargo.</p></details>
+      <details style="background:var(--dark); border:1px solid var(--border); border-radius:10px; padding:1.25rem 1.5rem; cursor:pointer;"><summary style="font-family:'Montserrat',sans-serif; font-size:0.92rem; font-weight:700; color:var(--teal); list-style:none; display:flex; justify-content:space-between; align-items:center;">¿Emiten factura A y B? <span>▾</span></summary><p style="font-size:0.88rem; color:var(--muted); margin-top:0.75rem; line-height:1.7;">Sí, somos empresa regularmente inscripta en AFIP. Emitimos factura A y B.</p></details>
+      <details style="background:var(--dark); border:1px solid var(--border); border-radius:10px; padding:1.25rem 1.5rem; cursor:pointer;"><summary style="font-family:'Montserrat',sans-serif; font-size:0.92rem; font-weight:700; color:var(--teal); list-style:none; display:flex; justify-content:space-between; align-items:center;">¿Cuál es el pedido mínimo? <span>▾</span></summary><p style="font-size:0.88rem; color:var(--muted); margin-top:0.75rem; line-height:1.7;">No exigimos un pedido mínimo fijo. Consultanos por WhatsApp.</p></details>
+      <details style="background:var(--dark); border:1px solid var(--border); border-radius:10px; padding:1.25rem 1.5rem; cursor:pointer;"><summary style="font-family:'Montserrat',sans-serif; font-size:0.92rem; font-weight:700; color:var(--teal); list-style:none; display:flex; justify-content:space-between; align-items:center;">¿Ofrecen dispensers en comodato? <span>▾</span></summary><p style="font-size:0.88rem; color:var(--muted); margin-top:0.75rem; line-height:1.7;">Sí, ofrecemos dispensers en comodato para empresas que compren nuestros insumos.</p></details>
+      <details style="background:var(--dark); border:1px solid var(--border); border-radius:10px; padding:1.25rem 1.5rem; cursor:pointer;"><summary style="font-family:'Montserrat',sans-serif; font-size:0.92rem; font-weight:700; color:var(--teal); list-style:none; display:flex; justify-content:space-between; align-items:center;">¿Cuánto tarda la entrega? <span>▾</span></summary><p style="font-size:0.88rem; color:var(--muted); margin-top:0.75rem; line-height:1.7;">24 a 48 horas hábiles en CABA y GBA.</p></details>
+      <details style="background:var(--dark); border:1px solid var(--border); border-radius:10px; padding:1.25rem 1.5rem; cursor:pointer;"><summary style="font-family:'Montserrat',sans-serif; font-size:0.92rem; font-weight:700; color:var(--teal); list-style:none; display:flex; justify-content:space-between; align-items:center;">¿Qué medios de pago aceptan? <span>▾</span></summary><p style="font-size:0.88rem; color:var(--muted); margin-top:0.75rem; line-height:1.7;">Transferencia bancaria, cheque y efectivo. Financiación a 30, 60 y 90 días para cuentas corrientes.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- SELLOS EMPRESA FAMILIAR + GARANTÍA -->
+<section style="padding:3.5rem 1.5rem; background:var(--teal);">
+  <div style="max-width:1100px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:2rem;">
+    <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(201,168,76,0.3); border-radius:16px; padding:2rem; display:flex; align-items:center; gap:1.5rem;">
+      <div style="font-size:3.5rem; flex-shrink:0;">🏠</div>
+      <div><div style="font-family:'Montserrat',sans-serif; font-size:0.65rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent2); margin-bottom:0.3rem;">Empresa familiar</div><h3 style="font-family:'Montserrat',sans-serif; font-size:1.1rem; font-weight:700; color:#f0ece4; margin-bottom:0.4rem;">Desde 1985</h3><p style="font-size:0.82rem; color:rgba(240,236,228,0.7); line-height:1.6;">Más de 40 años creciendo junto a nuestros clientes.</p></div>
+    </div>
+    <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(201,168,76,0.3); border-radius:16px; padding:2rem; display:flex; align-items:center; gap:1.5rem;">
+      <div style="font-size:3.5rem; flex-shrink:0;">🛡️</div>
+      <div><div style="font-family:'Montserrat',sans-serif; font-size:0.65rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent2); margin-bottom:0.3rem;">Garantía total</div><h3 style="font-family:'Montserrat',sans-serif; font-size:1.1rem; font-weight:700; color:#f0ece4; margin-bottom:0.4rem;">Entrega garantizada</h3><p style="font-size:0.82rem; color:rgba(240,236,228,0.7); line-height:1.6;">Si no cumplimos el plazo, gestionamos una solución inmediata.</p></div>
+    </div>
+    <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(201,168,76,0.3); border-radius:16px; padding:2rem; display:flex; align-items:center; gap:1.5rem;">
+      <div style="font-size:3.5rem; flex-shrink:0;">📦</div>
+      <div><div style="font-family:'Montserrat',sans-serif; font-size:0.65rem; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--accent2); margin-bottom:0.3rem;">Sin interrupciones</div><h3 style="font-family:'Montserrat',sans-serif; font-size:1.1rem; font-weight:700; color:#f0ece4; margin-bottom:0.4rem;">Stock permanente</h3><p style="font-size:0.82rem; color:rgba(240,236,228,0.7); line-height:1.6;">Tu empresa nunca queda sin insumos.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- GLOSARIO -->
+<section id="glosario" style="padding:4rem 1.5rem; background:var(--dark2);">
+  <div style="max-width:900px; margin:0 auto;">
+    <p style="font-family:'Montserrat',sans-serif; font-size:0.7rem; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:var(--teal); margin-bottom:0.5rem; text-align:center;">Glosario</p>
+    <h2 style="font-family:'Montserrat',sans-serif; font-size:clamp(1.4rem,3vw,2.2rem); font-weight:700; color:var(--teal); margin-bottom:0.5rem; text-align:center;">Términos de limpieza institucional</h2>
+    <p style="text-align:center; color:var(--muted); font-size:0.88rem; margin-bottom:2.5rem;">Todo lo que necesitás saber para elegir los productos correctos.</p>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:1rem;">
+      <div style="background:white; border-radius:10px; padding:1.25rem; border-left:3px solid var(--teal);"><h3 style="font-family:'Montserrat',sans-serif; font-size:0.88rem; font-weight:700; color:var(--teal); margin-bottom:0.4rem;">Dispenser en comodato</h3><p style="font-size:0.8rem; color:var(--muted); line-height:1.6;">Equipo cedido en préstamo gratuito a cambio del consumo regular de insumos compatibles.</p></div>
+      <div style="background:white; border-radius:10px; padding:1.25rem; border-left:3px solid var(--teal);"><h3 style="font-family:'Montserrat',sans-serif; font-size:0.88rem; font-weight:700; color:var(--teal); margin-bottom:0.4rem;">Toallas intercaladas</h3><p style="font-size:0.8rem; color:var(--muted); line-height:1.6;">Toallas de papel dobladas en Z o V que se dispensan de a una, reduciendo el consumo.</p></div>
+      <div style="background:white; border-radius:10px; padding:1.25rem; border-left:3px solid var(--teal);"><h3 style="font-family:'Montserrat',sans-serif; font-size:0.88rem; font-weight:700; color:var(--teal); margin-bottom:0.4rem;">Lavandina concentrada</h3><p style="font-size:0.8rem; color:var(--muted); line-height:1.6;">Solución de hipoclorito de sodio de alta concentración. Requiere dilución antes de usar.</p></div>
+      <div style="background:white; border-radius:10px; padding:1.25rem; border-left:3px solid var(--teal);"><h3 style="font-family:'Montserrat',sans-serif; font-size:0.88rem; font-weight:700; color:var(--teal); margin-bottom:0.4rem;">Desengrasante industrial</h3><p style="font-size:0.8rem; color:var(--muted); line-height:1.6;">Producto de alta potencia para eliminar grasa en cocinas industriales y superficies duras.</p></div>
+      <div style="background:white; border-radius:10px; padding:1.25rem; border-left:3px solid var(--teal);"><h3 style="font-family:'Montserrat',sans-serif; font-size:0.88rem; font-weight:700; color:var(--teal); margin-bottom:0.4rem;">Papel tissue institucional</h3><p style="font-size:0.8rem; color:var(--muted); line-height:1.6;">Papel de mayor gramaje para uso en baños de empresas, hospitales y espacios de alto tráfico.</p></div>
+      <div style="background:white; border-radius:10px; padding:1.25rem; border-left:3px solid var(--teal);"><h3 style="font-family:'Montserrat',sans-serif; font-size:0.88rem; font-weight:700; color:var(--teal); margin-bottom:0.4rem;">Jabón líquido antibacterial</h3><p style="font-size:0.8rem; color:var(--muted); line-height:1.6;">Jabón con agentes bactericidas. Apto para salud, alimentación e industria.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- MAPA COBERTURA -->
+<section style="padding:4rem 1.5rem; background:var(--dark2);">
+  <div style="max-width:1100px; margin:0 auto;">
+    <p style="font-family:'Montserrat',sans-serif; font-size:0.7rem; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:var(--teal); margin-bottom:0.5rem; text-align:center;">Dónde llegamos</p>
+    <h2 style="font-family:'Montserrat',sans-serif; font-size:clamp(1.4rem,3vw,2.2rem); font-weight:700; color:var(--teal); margin-bottom:0.75rem; text-align:center;">Zona de cobertura</h2>
+    <p style="text-align:center; color:var(--muted); font-size:0.9rem; margin-bottom:2rem;">Entregamos en toda CABA, GBA y Provincia de Buenos Aires.</p>
+    <div style="border-radius:16px; overflow:hidden; box-shadow:0 8px 32px rgba(0,0,0,0.12); border:1px solid var(--border);">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1302447.8!2d-59.5!3d-35.5!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccac1bed4c2fd%3A0xb61618e4e11d3b8!2sBuenos%20Aires%20Province%2C%20Argentina!5e0!3m2!1ses!2sar!4v1700000000000!5m2!1ses!2sar" width="100%" height="420" style="border:0; display:block;" allowfullscreen="" loading="lazy"></iframe>
+    </div>
+    <div style="display:flex; gap:1.5rem; margin-top:1.5rem; flex-wrap:wrap; justify-content:center;">
+      <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.84rem; color:var(--text);"><span style="width:14px;height:14px;background:var(--teal);border-radius:50%;display:inline-block;"></span> CABA completa</div>
+      <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.84rem; color:var(--text);"><span style="width:14px;height:14px;background:#a67c2e;border-radius:50%;display:inline-block;"></span> Gran Buenos Aires completo</div>
+      <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.84rem; color:var(--text);"><span style="width:14px;height:14px;background:#16a34a;border-radius:50%;display:inline-block;"></span> Provincia de Buenos Aires</div>
+      <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.84rem; color:var(--text);">🚚 Entrega programada Lun-Vie</div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
@@ -1111,7 +1194,11 @@
       <ul class="footer-links"><li><a href="#">info@ibarrainsumos.com.ar</a></li><li><a href="#">+54 11 4440-2807</a></li><li><a href="https://wa.me/5491144402807" target="_blank">WhatsApp</a></li></ul>
     </div>
   </div>
-  <div class="footer-bottom"><span>© 2026 Ibarra Insumos. Todos los derechos reservados.</span><span style="color:rgba(240,236,228,0.5);">Proveedor del Gobierno de la Ciudad de Buenos Aires</span></div>
+  <div class="footer-bottom"><span>© 2026 Ibarra Insumos. Todos los derechos reservados.</span><span class="ssl-badge">🔒 Sitio seguro HTTPS</span>
+      <span class="ssl-badge">✅ Empresa verificada</span>
+      <button onclick="document.getElementById('cartel-modal').style.display='flex'" style="background:none;border:1px solid rgba(240,236,228,0.3);color:rgba(240,236,228,0.6);border-radius:20px;padding:0.3rem 0.75rem;font-size:0.68rem;font-family:'Montserrat',sans-serif;font-weight:700;cursor:pointer;">🖨️ Generador de carteles</button>
+      <button onclick="document.getElementById('etiqueta-modal').style.display='flex'" style="background:none;border:1px solid rgba(240,236,228,0.3);color:rgba(240,236,228,0.6);border-radius:20px;padding:0.3rem 0.75rem;font-size:0.68rem;font-family:'Montserrat',sans-serif;font-weight:700;cursor:pointer;">🏷️ Etiquetas personalizadas</button>
+      <span style="color:rgba(240,236,228,0.5);">Proveedor del Gobierno de la Ciudad de Buenos Aires</span></div>
 </footer>
 
 <div id="modal-overlay" onclick="closeModal()">
@@ -1131,6 +1218,7 @@
       <div id="modal-actions">
         <a class="btn-cotizar" id="modal-wa-btn" href="https://wa.me/5491144402807" target="_blank">✓ Consultar</a>
         <button class="btn-add-cart" id="modal-add-btn" onclick="addToCartFromModal()">+ Agregar a Cotización</button>
+        <button onclick="compartirProducto()" style="background:none;border:1px solid rgba(0,0,0,0.12);border-radius:6px;padding:0.5rem 0.75rem;font-size:0.72rem;cursor:pointer;color:var(--muted);">📤 Compartir</button>
       </div>
     </div>
   </div>
@@ -1352,5 +1440,231 @@
 
 <!-- BOTÓN VOLVER ARRIBA -->
 <button id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none; position:fixed; bottom:5.5rem; right:1.5rem; z-index:490; background:var(--teal); color:white; border:none; border-radius:50%; width:44px; height:44px; font-size:1.2rem; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.2); transition:background 0.2s; align-items:center; justify-content:center;">↑</button>
+
+<!-- CHAT PROACTIVO WA -->
+<div id="wa-chat-box" style="display:none; position:fixed; bottom:5rem; right:1.5rem; z-index:491; background:white; border-radius:16px; box-shadow:0 8px 32px rgba(0,0,0,0.2); width:280px; padding:1.25rem; border:1px solid rgba(0,0,0,0.08);">
+  <button onclick="document.getElementById('wa-chat-box').style.display='none'" style="position:absolute;top:0.5rem;right:0.75rem;background:none;border:none;font-size:1.1rem;cursor:pointer;color:#aaa;">✕</button>
+  <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
+    <div style="width:42px;height:42px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg viewBox="0 0 24 24" fill="white" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885a.5.5 0 0 0 .606.62l6.288-1.643A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.726 9.726 0 0 1-5.001-1.383l-.36-.214-3.733.976.999-3.62-.234-.374A9.718 9.718 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg></div>
+    <div><p style="font-family:'Montserrat',sans-serif;font-size:0.82rem;font-weight:700;color:#1a2420;margin:0;">Ibarra Insumos</p><p style="font-size:0.72rem;color:#25D366;margin:0;">● En línea ahora</p></div>
+  </div>
+  <div style="background:#f0fdf4;border-radius:10px;padding:0.85rem;margin-bottom:1rem;"><p style="font-size:0.82rem;color:#1a2420;line-height:1.5;margin:0;">👋 ¡Hola! ¿Necesitás ayuda para elegir los productos correctos para tu empresa?</p></div>
+  <a href="https://wa.me/5491144402807?text=Hola!%20Necesito%20ayuda%20para%20elegir%20productos%20para%20mi%20empresa." target="_blank" style="display:block;background:#25D366;color:white;text-align:center;padding:0.75rem;border-radius:8px;font-family:'Montserrat',sans-serif;font-size:0.78rem;font-weight:700;text-decoration:none;">💬 Iniciar conversación</a>
+</div>
+
+<!-- BOTÓN WA FLOTANTE -->
+<div style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:490;display:flex;flex-direction:column;align-items:flex-end;gap:0.5rem;">
+  <div id="wa-bubble" style="background:white;border-radius:20px;padding:0.4rem 0.85rem;font-family:'Montserrat',sans-serif;font-size:0.72rem;font-weight:600;color:#1a2420;box-shadow:0 4px 12px rgba(0,0,0,0.15);display:none;animation:fadeInUp 0.3s ease;">¿Necesitás ayuda? 👋</div>
+  <button onclick="toggleWAChat()" style="background:#25D366;color:white;width:56px;height:56px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(37,211,102,0.4);cursor:pointer;transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+    <svg viewBox="0 0 24 24" fill="white" width="28" height="28"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885a.5.5 0 0 0 .606.62l6.288-1.643A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.726 9.726 0 0 1-5.001-1.383l-.36-.214-3.733.976.999-3.62-.234-.374A9.718 9.718 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
+  </button>
+</div>
+
+<!-- MODAL COMPARTIR PRODUCTO -->
+<div id="share-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:white;border-radius:16px;padding:1.75rem;max-width:360px;width:100%;position:relative;">
+    <button onclick="document.getElementById('share-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.2rem;cursor:pointer;">✕</button>
+    <h3 style="font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:700;color:var(--teal);margin-bottom:0.5rem;">Compartir producto</h3>
+    <p id="share-product-name" style="font-size:0.84rem;color:var(--muted);margin-bottom:1.25rem;"></p>
+    <div style="display:flex;flex-direction:column;gap:0.75rem;">
+      <a id="share-wa-btn" href="#" target="_blank" style="display:flex;align-items:center;gap:0.75rem;background:#25D366;color:white;padding:0.85rem 1.25rem;border-radius:10px;text-decoration:none;font-family:'Montserrat',sans-serif;font-size:0.82rem;font-weight:700;">💬 Compartir por WhatsApp</a>
+      <button onclick="copiarLinkProducto()" style="display:flex;align-items:center;gap:0.75rem;background:var(--dark);color:var(--text);padding:0.85rem 1.25rem;border-radius:10px;border:1px solid var(--border);font-family:'Montserrat',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;">🔗 Copiar link</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CARTEL DE BAÑO -->
+<div id="cartel-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:white;border-radius:16px;padding:1.75rem;max-width:420px;width:100%;position:relative;max-height:90vh;overflow-y:auto;">
+    <button onclick="document.getElementById('cartel-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.2rem;cursor:pointer;">✕</button>
+    <h3 style="font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:700;color:var(--teal);margin-bottom:0.25rem;">🖨️ Generador de cartel para baños</h3>
+    <p style="font-size:0.8rem;color:var(--muted);margin-bottom:1.25rem;">Personalizá el cartel con el nombre de tu empresa y descargalo listo para imprimir.</p>
+    <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.25rem;">
+      <input id="cartel-empresa" type="text" placeholder="Nombre de tu empresa" style="padding:0.7rem 1rem;border:1px solid rgba(0,0,0,0.12);border-radius:8px;font-size:0.88rem;font-family:'Lato',sans-serif;outline:none;" />
+      <select id="cartel-mensaje" style="padding:0.7rem 1rem;border:1px solid rgba(0,0,0,0.12);border-radius:8px;font-size:0.88rem;font-family:'Lato',sans-serif;outline:none;">
+        <option>Por favor lavá tus manos</option><option>Mantenemos este espacio limpio para vos</option><option>Higiene ante todo</option><option>Cuidamos tu salud</option>
+      </select>
+    </div>
+    <div id="cartel-preview" style="border:2px solid var(--teal);border-radius:12px;padding:2rem;text-align:center;background:linear-gradient(135deg,#1a4a44,#2a6b62);margin-bottom:1.25rem;">
+      <div style="font-size:2.5rem;margin-bottom:0.75rem;">🧼</div>
+      <p id="cartel-msg-preview" style="font-family:'Montserrat',sans-serif;font-size:1.1rem;font-weight:700;color:white;margin-bottom:0.5rem;">Por favor lavá tus manos</p>
+      <p style="font-size:0.72rem;color:rgba(255,255,255,0.6);">— Provisto por Ibarra Insumos —</p>
+      <p id="cartel-empresa-preview" style="font-size:0.8rem;color:rgba(255,255,255,0.8);margin-top:0.3rem;"></p>
+    </div>
+    <button onclick="imprimirCartel()" style="width:100%;background:var(--teal);color:white;border:none;border-radius:8px;padding:0.85rem;font-family:'Montserrat',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;">🖨️ Imprimir / Descargar</button>
+  </div>
+</div>
+
+<!-- MODAL ETIQUETAS -->
+<div id="etiqueta-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center;padding:1rem;">
+  <div style="background:white;border-radius:16px;padding:1.75rem;max-width:400px;width:100%;position:relative;">
+    <button onclick="document.getElementById('etiqueta-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.2rem;cursor:pointer;">✕</button>
+    <h3 style="font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:700;color:var(--teal);margin-bottom:0.25rem;">🏷️ Etiquetas personalizadas</h3>
+    <p style="font-size:0.8rem;color:var(--muted);margin-bottom:1.25rem;">Generá una etiqueta para pegar en los dispensers.</p>
+    <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.25rem;">
+      <input id="etiq-empresa" type="text" placeholder="Nombre de tu empresa" style="padding:0.7rem 1rem;border:1px solid rgba(0,0,0,0.12);border-radius:8px;font-size:0.88rem;font-family:'Lato',sans-serif;outline:none;" />
+      <input id="etiq-sector" type="text" placeholder="Sector (ej: Baño Planta 2)" style="padding:0.7rem 1rem;border:1px solid rgba(0,0,0,0.12);border-radius:8px;font-size:0.88rem;font-family:'Lato',sans-serif;outline:none;" />
+      <input id="etiq-tel" type="text" placeholder="Teléfono de contacto (opcional)" style="padding:0.7rem 1rem;border:1px solid rgba(0,0,0,0.12);border-radius:8px;font-size:0.88rem;font-family:'Lato',sans-serif;outline:none;" />
+    </div>
+    <div id="etiq-preview" style="border:2px dashed var(--teal);border-radius:8px;padding:1.25rem;text-align:center;margin-bottom:1.25rem;background:var(--dark);">
+      <p style="font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.25rem;">PROVISTO POR IBARRA INSUMOS</p>
+      <p id="etiq-empresa-preview" style="font-family:'Montserrat',sans-serif;font-size:1rem;font-weight:700;color:var(--teal);">Tu empresa</p>
+      <p id="etiq-sector-preview" style="font-size:0.78rem;color:var(--muted);margin-top:0.2rem;"></p>
+      <p id="etiq-tel-preview" style="font-size:0.72rem;color:var(--muted);margin-top:0.2rem;"></p>
+    </div>
+    <button onclick="pedirEtiquetas()" style="width:100%;background:var(--teal);color:white;border:none;border-radius:8px;padding:0.85rem;font-family:'Montserrat',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;">📲 Pedir etiquetas por WhatsApp</button>
+  </div>
+</div>
+
+<!-- MODAL COMPATIBILIDAD DISPENSERS -->
+<div id="compat-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center;padding:1rem;overflow-y:auto;">
+  <div style="background:white;border-radius:16px;padding:2rem;max-width:800px;width:100%;position:relative;max-height:90vh;overflow-y:auto;">
+    <button onclick="document.getElementById('compat-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.3rem;cursor:pointer;">✕</button>
+    <h2 style="font-family:'Montserrat',sans-serif;font-size:1.3rem;font-weight:700;color:var(--teal);margin-bottom:0.5rem;">🔗 Compatibilidad Dispensers — Insumos</h2>
+    <p style="font-size:0.84rem;color:var(--muted);margin-bottom:1.75rem;">Hacé clic en un dispenser para ver qué insumos son compatibles.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:2rem;">
+      <div class="compat-card" onclick="mostrarInsumos('toallas')" style="border:2px solid var(--border);border-radius:12px;padding:1.25rem;text-align:center;cursor:pointer;transition:all 0.2s;" id="card-toallas"><div style="font-size:2.5rem;margin-bottom:0.5rem;">🧻</div><h3 style="font-family:'Montserrat',sans-serif;font-size:0.84rem;font-weight:700;color:var(--teal);">Dispenser Toallas</h3><p style="font-size:0.72rem;color:var(--muted);margin-top:0.3rem;">Ver insumos compatibles →</p></div>
+      <div class="compat-card" onclick="mostrarInsumos('jabon')" style="border:2px solid var(--border);border-radius:12px;padding:1.25rem;text-align:center;cursor:pointer;transition:all 0.2s;" id="card-jabon"><div style="font-size:2.5rem;margin-bottom:0.5rem;">🧴</div><h3 style="font-family:'Montserrat',sans-serif;font-size:0.84rem;font-weight:700;color:var(--teal);">Dispenser Jabón</h3><p style="font-size:0.72rem;color:var(--muted);margin-top:0.3rem;">Ver insumos compatibles →</p></div>
+      <div class="compat-card" onclick="mostrarInsumos('papel')" style="border:2px solid var(--border);border-radius:12px;padding:1.25rem;text-align:center;cursor:pointer;transition:all 0.2s;" id="card-papel"><div style="font-size:2.5rem;margin-bottom:0.5rem;">🚿</div><h3 style="font-family:'Montserrat',sans-serif;font-size:0.84rem;font-weight:700;color:var(--teal);">Dispenser Papel Higiénico</h3><p style="font-size:0.72rem;color:var(--muted);margin-top:0.3rem;">Ver insumos compatibles →</p></div>
+      <div class="compat-card" onclick="mostrarInsumos('alcohol')" style="border:2px solid var(--border);border-radius:12px;padding:1.25rem;text-align:center;cursor:pointer;transition:all 0.2s;" id="card-alcohol"><div style="font-size:2.5rem;margin-bottom:0.5rem;">🧪</div><h3 style="font-family:'Montserrat',sans-serif;font-size:0.84rem;font-weight:700;color:var(--teal);">Dispenser Alcohol en Gel</h3><p style="font-size:0.72rem;color:var(--muted);margin-top:0.3rem;">Ver insumos compatibles →</p></div>
+    </div>
+    <div id="compat-result" style="display:none;background:var(--dark);border-radius:12px;padding:1.5rem;border-left:4px solid var(--teal);">
+      <h3 id="compat-title" style="font-family:'Montserrat',sans-serif;font-size:0.9rem;font-weight:700;color:var(--teal);margin-bottom:1rem;"></h3>
+      <div id="compat-items" style="display:flex;flex-direction:column;gap:0.75rem;"></div>
+      <a id="compat-wa" href="#" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;margin-top:1.25rem;background:#25D366;color:white;padding:0.7rem 1.25rem;border-radius:8px;text-decoration:none;font-family:'Montserrat',sans-serif;font-size:0.78rem;font-weight:700;">💬 Cotizar estos insumos por WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script>
+// ── WA CHAT ──
+function toggleWAChat() {
+  const box = document.getElementById('wa-chat-box');
+  box.style.display = box.style.display === 'none' || box.style.display === '' ? 'block' : 'none';
+}
+setTimeout(() => {
+  const bubble = document.getElementById('wa-bubble');
+  if (bubble) { bubble.style.display = 'block'; setTimeout(() => { bubble.style.display = 'none'; }, 5000); }
+}, 30000);
+
+// ── COMPARTIR PRODUCTO ──
+function compartirProducto() {
+  if (!currentModalCard) return;
+  const nombre = currentModalCard.querySelector('.product-name')?.textContent || '';
+  const desc = currentModalCard.querySelector('.product-desc')?.textContent || '';
+  document.getElementById('share-product-name').textContent = nombre;
+  const msg = encodeURIComponent(`¡Mirá este producto de Ibarra Insumos!\n\n*${nombre}*\n${desc}\n\nVer catálogo: https://ibs-delta.vercel.app`);
+  document.getElementById('share-wa-btn').href = `https://wa.me/?text=${msg}`;
+  document.getElementById('share-modal').style.display = 'flex';
+}
+function copiarLinkProducto() {
+  navigator.clipboard.writeText('https://ibs-delta.vercel.app/#catalogo').then(() => alert('¡Link copiado!'));
+}
+
+// ── CARTEL ──
+document.getElementById('cartel-empresa')?.addEventListener('input', function() {
+  document.getElementById('cartel-empresa-preview').textContent = this.value ? `— ${this.value} —` : '';
+});
+document.getElementById('cartel-mensaje')?.addEventListener('change', function() {
+  document.getElementById('cartel-msg-preview').textContent = this.value;
+});
+function imprimirCartel() {
+  const empresa = document.getElementById('cartel-empresa').value;
+  const mensaje = document.getElementById('cartel-mensaje').value;
+  const w = window.open('', '_blank');
+  w.document.write(`<!DOCTYPE html><html><head><title>Cartel Baño</title><style>body{margin:0;display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f5f2ec;font-family:Arial,sans-serif;}.cartel{background:linear-gradient(135deg,#1a4a44,#2a6b62);color:white;padding:3rem 2.5rem;text-align:center;border-radius:16px;max-width:400px;width:90%;}.icono{font-size:4rem;margin-bottom:1rem;}.msg{font-size:1.6rem;font-weight:700;margin-bottom:0.75rem;}.sub{font-size:0.9rem;opacity:0.7;}</style></head><body><div class="cartel"><div class="icono">🧼</div><div class="msg">${mensaje}</div><div class="sub">— Provisto por Ibarra Insumos —</div>${empresa?`<div style="font-size:1rem;opacity:0.85;margin-top:0.5rem;font-weight:600;">${empresa}</div>`:''}</div></body></html>`);
+  w.document.close(); w.print();
+}
+
+// ── ETIQUETAS ──
+document.getElementById('etiq-empresa')?.addEventListener('input', function() { document.getElementById('etiq-empresa-preview').textContent = this.value || 'Tu empresa'; });
+document.getElementById('etiq-sector')?.addEventListener('input', function() { document.getElementById('etiq-sector-preview').textContent = this.value; });
+document.getElementById('etiq-tel')?.addEventListener('input', function() { document.getElementById('etiq-tel-preview').textContent = this.value ? `📞 ${this.value}` : ''; });
+function pedirEtiquetas() {
+  const empresa = document.getElementById('etiq-empresa').value || 'mi empresa';
+  const sector = document.getElementById('etiq-sector').value;
+  const tel = document.getElementById('etiq-tel').value;
+  const msg = encodeURIComponent(`Hola! Quiero pedir etiquetas personalizadas.\n\nEmpresa: ${empresa}${sector?`\nSector: ${sector}`:''}${tel?`\nTel: ${tel}`:''}\n\n¿Pueden cotizarme?`);
+  window.open(`https://wa.me/5491144402807?text=${msg}`, '_blank');
+}
+
+// ── COMPATIBILIDAD ──
+const compatData = {
+  toallas: { title: '🧻 Insumos compatibles con Dispenser de Toallas', items: [{nombre:'Toallas Intercaladas Z',detalle:'Hoja simple o doble. 20x25 cm.',icono:'✅'},{nombre:'Toallas Intercaladas V',detalle:'Ideal para dispensers de apertura frontal.',icono:'✅'},{nombre:'Toallas en Bobina',detalle:'Solo compatible con dispensers de bobina.',icono:'⚠️'}], wa:'Hola! Quiero cotizar toallas para dispenser.' },
+  jabon: { title: '🧴 Insumos compatibles con Dispenser de Jabón', items: [{nombre:'Jabón Líquido 1L',detalle:'Compatible con dispensers de tapa rosca.',icono:'✅'},{nombre:'Jabón Líquido 5L',detalle:'Refill para dispensers de carga trasera.',icono:'✅'},{nombre:'Jabón Espuma 800ml',detalle:'Solo para dispensers de espuma.',icono:'⚠️'}], wa:'Hola! Quiero cotizar jabón líquido para dispenser.' },
+  papel: { title: '🚿 Insumos compatibles con Dispenser de Papel Higiénico', items: [{nombre:'Papel Higiénico Rollo Grande 400m',detalle:'Dispensers jumbo. Núcleo 45mm.',icono:'✅'},{nombre:'Papel Higiénico Doble Hoja',detalle:'Dispensers domésticos e institucionales básicos.',icono:'✅'},{nombre:'Papel Jumbo 600m',detalle:'Solo dispensers jumbo alta capacidad.',icono:'⚠️'}], wa:'Hola! Quiero cotizar papel higiénico para dispenser.' },
+  alcohol: { title: '🧪 Insumos compatibles con Dispenser de Alcohol', items: [{nombre:'Alcohol en Gel 500ml',detalle:'Palanca o sensor automático.',icono:'✅'},{nombre:'Alcohol en Gel 5L',detalle:'Bidón para dispensers institucionales.',icono:'✅'},{nombre:'Alcohol al 70% Líquido',detalle:'No compatible con dispensers de gel.',icono:'❌'}], wa:'Hola! Quiero cotizar alcohol en gel para dispenser.' }
+};
+function mostrarInsumos(tipo) {
+  document.querySelectorAll('.compat-card').forEach(c => { c.style.border = '2px solid var(--border)'; c.style.background = 'white'; });
+  const card = document.getElementById('card-' + tipo);
+  if (card) { card.style.border = '2px solid var(--teal)'; card.style.background = '#f0f6f5'; }
+  const data = compatData[tipo];
+  document.getElementById('compat-title').textContent = data.title;
+  document.getElementById('compat-items').innerHTML = data.items.map(item => `<div style="display:flex;align-items:flex-start;gap:0.75rem;background:white;padding:0.85rem;border-radius:8px;border:1px solid rgba(0,0,0,0.06);"><span style="font-size:1.2rem;flex-shrink:0;">${item.icono}</span><div><p style="font-family:'Montserrat',sans-serif;font-size:0.84rem;font-weight:700;color:var(--text);margin-bottom:0.2rem;">${item.nombre}</p><p style="font-size:0.76rem;color:var(--muted);line-height:1.5;">${item.detalle}</p></div></div>`).join('');
+  document.getElementById('compat-wa').href = `https://wa.me/5491144402807?text=${encodeURIComponent(data.wa)}`;
+  document.getElementById('compat-result').style.display = 'block';
+}
+
+// ── PDF ──
+async function exportarPDF() {
+  const btn = document.getElementById('btnPDF');
+  btn.textContent = '⏳ Generando PDF...'; btn.disabled = true;
+  try {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const pageW = 210, pageH = 297, margin = 15;
+    doc.setFillColor(26, 74, 68); doc.rect(0, 0, pageW, pageH, 'F');
+    doc.setTextColor(245, 240, 232); doc.setFont('helvetica', 'bold'); doc.setFontSize(28);
+    doc.text('IBARRA INSUMOS', pageW/2, 100, { align: 'center' });
+    doc.setFontSize(13); doc.setFont('helvetica', 'normal');
+    doc.text('Catálogo de Productos', pageW/2, 115, { align: 'center' });
+    doc.setFontSize(9); doc.setTextColor(200, 200, 200);
+    doc.text(`Generado: ${new Date().toLocaleDateString('es-AR')}`, pageW/2, 260, { align: 'center' });
+    doc.text('ibs-delta.vercel.app  |  +54 11 4440-2807', pageW/2, 268, { align: 'center' });
+    doc.addPage();
+    let y = margin + 8;
+    doc.setFillColor(26, 74, 68); doc.rect(0, 0, pageW, 20, 'F');
+    doc.setTextColor(245, 240, 232); doc.setFont('helvetica', 'bold'); doc.setFontSize(11);
+    doc.text('IBARRA INSUMOS — Catálogo de Productos', margin, 13);
+    const cards = document.querySelectorAll('.product-card');
+    let col = 0;
+    const colW = (pageW - margin*2 - 10) / 2, cardH = 52;
+    for (let i = 0; i < Math.min(cards.length, 40); i++) {
+      const card = cards[i];
+      const nombre = card.querySelector('.product-name')?.textContent || '';
+      const cat = card.querySelector('.product-badge')?.textContent || '';
+      const desc = (card.querySelector('.product-desc')?.textContent || '').substring(0, 80);
+      const imgEl = card.querySelector('.product-image img');
+      const x = margin + col * (colW + 10);
+      doc.setFillColor(248, 246, 242); doc.roundedRect(x, y, colW, cardH, 3, 3, 'F');
+      doc.setDrawColor(220, 215, 205); doc.roundedRect(x, y, colW, cardH, 3, 3, 'S');
+      if (imgEl && imgEl.src && imgEl.complete) {
+        try { const canvas = document.createElement('canvas'); canvas.width = 60; canvas.height = 60; canvas.getContext('2d').drawImage(imgEl, 0, 0, 60, 60); doc.addImage(canvas.toDataURL('image/jpeg', 0.8), 'JPEG', x+2, y+2, 28, 28); } catch(e) {}
+      }
+      doc.setFillColor(22, 163, 74); doc.roundedRect(x+32, y+3, colW-35, 6, 1, 1, 'F');
+      doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(6);
+      doc.text(cat.toUpperCase(), x+34, y+7.5);
+      doc.setTextColor(26,36,32); doc.setFontSize(8);
+      doc.text(doc.splitTextToSize(nombre, colW-35).slice(0,2), x+32, y+14);
+      doc.setFont('helvetica','normal'); doc.setFontSize(6.5); doc.setTextColor(74,107,101);
+      doc.text(doc.splitTextToSize(desc, colW-35).slice(0,3), x+32, y+23);
+      doc.setFillColor(26,74,68); doc.roundedRect(x+32, y+cardH-10, colW-35, 8, 1, 1, 'F');
+      doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(6.5);
+      doc.text('Consultar: wa.me/5491144402807', x+34, y+cardH-5);
+      col++;
+      if (col === 2) { col = 0; y += cardH + 6; if (y + cardH > pageH - 20) { doc.addPage(); doc.setFillColor(26,74,68); doc.rect(0,0,pageW,14,'F'); y = 22; } }
+    }
+    doc.setFillColor(26,74,68); doc.rect(0, pageH-18, pageW, 18, 'F');
+    doc.setTextColor(245,240,232); doc.setFont('helvetica','normal'); doc.setFontSize(8);
+    doc.text('Ibarra Insumos  |  info@ibarrainsumos.com.ar  |  +54 11 4440-2807', pageW/2, pageH-7, { align: 'center' });
+    doc.save(`catalogo-ibarra-insumos-${new Date().toLocaleDateString('es-AR').replace(/\//g,'-')}.pdf`);
+  } catch(e) { alert('Error al generar PDF: ' + e.message); }
+  btn.textContent = '📄 Catálogo PDF'; btn.disabled = false;
+}
+</script>
+
 </body>
-</html>
