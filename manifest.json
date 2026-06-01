@@ -1,0 +1,52 @@
+{
+  "name": "Ibarra Insumos",
+  "short_name": "Ibarra",
+  "description": "Distribuidora mayorista de limpieza e higiene institucional en CABA y GBA",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a4a44",
+  "theme_color": "#1a4a44",
+  "orientation": "portrait-primary",
+  "lang": "es-AR",
+  "icons": [
+    {
+      "src": "img/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "img/Logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "img/Logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Ver Catálogo",
+      "short_name": "Catálogo",
+      "description": "Ver todos los productos",
+      "url": "/#catalogo",
+      "icons": [{ "src": "img/Logo.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Cotizar por WhatsApp",
+      "short_name": "Cotizar",
+      "description": "Cotizá tus productos",
+      "url": "https://wa.me/5491144402807",
+      "icons": [{ "src": "img/Logo.png", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "img/CAMIONETA.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ]
+}

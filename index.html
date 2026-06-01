@@ -12,8 +12,15 @@
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://www.ibarrainsumos.com.ar" />
   <link rel="icon" type="image/png" href="img/favicon-32x32.png" id="faviconTag" />
-  <!-- LinkedIn -->
-  <meta property="og:linkedin" content="https://www.linkedin.com/company/ibarra-insumos" />
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Ibarra Insumos" />
+  <link rel="apple-touch-icon" href="img/Logo.png" />
+  <meta name="theme-color" content="#1a4a44" />
 <meta name="google-site-verification" content="Yh2HohPI6JTdsEgFAsBh1AHRMPolortS5bXgcn3GxFs" />
 
   <!-- SEO AVANZADO: IndexNow -->
@@ -1783,6 +1790,15 @@
   }
 
   setInterval(animarFavicon, 60000); // cada 1 minuto
+
+  // ── PWA SERVICE WORKER ──
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(() => console.log('✅ Service Worker registrado'))
+        .catch(err => console.log('SW error:', err));
+    });
+  }
   function exportarExcel() {
     const cards = document.querySelectorAll('.product-card');
     let csv = 'Nombre,Categoría,Subcategoría,Descripción\n';
