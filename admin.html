@@ -7,8 +7,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --teal: #1a4a44; --teal2: #2a6b62; --green: #16a34a; --red: #ef4444; --dark: #f5f2ec; --dark2: #ede9e0; --text: #1a2420; --muted: #4a6b65; --border: rgba(0,0,0,0.1); }
+    :root {
+      --teal: #1a4a44; --teal2: #2a6b62;
+      --green: #16a34a; --red: #ef4444;
+      --dark: #f5f2ec; --dark2: #ede9e0;
+      --text: #1a2420; --muted: #4a6b65;
+      --border: rgba(0,0,0,0.1);
+    }
     body { font-family: 'Lato', sans-serif; background: #f0f4f8; color: var(--text); min-height: 100vh; }
+
+    /* LOGIN */
     #loginScreen { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: var(--teal); }
     .login-box { background: white; border-radius: 16px; padding: 2.5rem; width: 100%; max-width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
     .login-logo { text-align: center; margin-bottom: 2rem; }
@@ -24,28 +32,29 @@
     .btn-primary:hover { background: var(--teal2); }
     .btn-danger { background: var(--red); color: white; width: auto; padding: 0.45rem 0.9rem; font-size: 0.72rem; }
     .error-msg { color: var(--red); font-size: 0.82rem; text-align: center; margin-top: 0.75rem; display: none; }
+
+    /* ADMIN PANEL */
     #adminPanel { display: none; }
     .admin-header { background: var(--teal); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
     .admin-header h1 { font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; color: white; }
     .btn-logout { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; padding: 0.45rem 1rem; font-family: 'Montserrat', sans-serif; font-size: 0.72rem; font-weight: 600; cursor: pointer; }
     .admin-body { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; display: grid; grid-template-columns: 380px 1fr; gap: 2rem; align-items: start; }
-    .admin-tabs-wrapper { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1.5rem 0; }
-    .admin-tabs { display: flex; border-bottom: 2px solid var(--dark2); }
-    .admin-tab { padding: 0.6rem 1.25rem; font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 700; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; background: none; border-top: none; border-left: none; border-right: none; transition: all 0.2s; }
-    .admin-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+
+    /* FORM PANEL */
     .panel { background: white; border-radius: 12px; padding: 1.75rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
     .panel-title { font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--dark2); }
-    .multi-upload-area { border: 2px dashed var(--border); border-radius: 8px; padding: 1.25rem; text-align: center; cursor: pointer; margin-bottom: 0.75rem; }
-    .multi-upload-area:hover { border-color: var(--teal); }
-    .fotos-preview { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-top: 0.75rem; }
-    .foto-thumb { position: relative; aspect-ratio: 1; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); }
-    .foto-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .foto-principal { position: absolute; top: 0; left: 0; background: var(--teal); color: white; font-size: 0.6rem; font-family: 'Montserrat', sans-serif; font-weight: 700; padding: 0.2rem 0.4rem; }
-    .foto-del { position: absolute; top: 0; right: 0; background: var(--red); color: white; border: none; width: 22px; height: 22px; cursor: pointer; font-size: 0.8rem; }
-    .foto-set-principal { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.6); color: white; border: none; font-size: 0.6rem; font-family: 'Montserrat', sans-serif; padding: 0.2rem; cursor: pointer; opacity: 0; transition: opacity 0.2s; }
-    .foto-thumb:hover .foto-set-principal { opacity: 1; }
-    .progress-bar { height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; margin-top: 0.5rem; }
+
+    /* IMAGE UPLOAD */
+    .upload-area { border: 2px dashed var(--border); border-radius: 8px; padding: 1.5rem; text-align: center; cursor: pointer; transition: border-color 0.2s; margin-bottom: 1rem; }
+    .upload-area:hover { border-color: var(--teal); }
+    .upload-area p { font-size: 0.82rem; color: var(--muted); }
+    .upload-area input { display: none; }
+    #previewImg { max-width: 100%; max-height: 150px; border-radius: 8px; margin-top: 0.75rem; display: none; }
+    .upload-progress { display: none; margin-top: 0.5rem; }
+    .progress-bar { height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
     .progress-fill { height: 100%; background: var(--teal); width: 0%; transition: width 0.3s; }
+
+    /* PRODUCTS LIST */
     .products-list { display: flex; flex-direction: column; gap: 0.75rem; max-height: 600px; overflow-y: auto; }
     .product-item { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1rem; border: 1px solid var(--border); border-radius: 10px; background: var(--dark); }
     .product-item img { width: 52px; height: 52px; object-fit: contain; border-radius: 6px; background: white; padding: 4px; flex-shrink: 0; }
@@ -55,38 +64,20 @@
     .product-item-cat { font-size: 0.72rem; color: var(--muted); margin-top: 0.1rem; }
     .product-item-actions { display: flex; gap: 0.4rem; }
     .btn-edit { background: var(--teal); color: white; border: none; border-radius: 6px; padding: 0.4rem 0.75rem; font-size: 0.72rem; font-family: 'Montserrat', sans-serif; font-weight: 600; cursor: pointer; }
-    .cat-manager { display: flex; flex-direction: column; gap: 0.75rem; }
-    .cat-row-admin { background: var(--dark); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-    .cat-header-admin { display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1rem; user-select: none; }
-    .drag-handle { color: var(--muted); font-size: 1rem; cursor: grab; flex-shrink: 0; }
-    .cat-name-display { flex: 1; font-family: 'Montserrat', sans-serif; font-size: 0.88rem; font-weight: 700; color: var(--text); }
-    .cat-count { font-size: 0.72rem; color: var(--muted); }
-    .cat-actions { display: flex; gap: 0.4rem; }
-    .btn-sm { padding: 0.35rem 0.7rem; border: none; border-radius: 6px; font-family: 'Montserrat', sans-serif; font-size: 0.68rem; font-weight: 700; cursor: pointer; }
-    .btn-sm-teal { background: var(--teal); color: white; }
-    .btn-sm-red { background: var(--red); color: white; }
-    .btn-sm-gray { background: var(--dark2); color: var(--text); }
-    .cat-edit-form { padding: 0.75rem 1rem; border-top: 1px solid var(--border); background: white; display: none; }
-    .cat-edit-form.open { display: block; }
-    .sub-list { padding: 0.5rem 1rem 0.75rem; border-top: 1px solid var(--border); display: none; }
-    .sub-list.open { display: block; }
-    .sub-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0; border-bottom: 1px solid rgba(0,0,0,0.04); }
-    .sub-item:last-child { border-bottom: none; }
-    .sub-drag { color: var(--muted); font-size: 0.8rem; cursor: grab; }
-    .sub-name { flex: 1; font-size: 0.82rem; color: var(--text); }
-    .add-sub-row { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
-    .add-sub-row input { flex: 1; padding: 0.5rem 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.82rem; outline: none; }
-    .dragging { opacity: 0.4; }
-    .drag-over { border: 2px dashed var(--teal) !important; }
+
+    /* TOAST */
     #toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--teal); color: white; padding: 0.75rem 1.5rem; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 600; z-index: 9999; opacity: 0; transition: all 0.3s; pointer-events: none; }
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     #toast.error { background: var(--red); }
+
     .loading { text-align: center; color: var(--muted); font-size: 0.84rem; padding: 2rem; }
     .empty { text-align: center; color: var(--muted); font-size: 0.84rem; padding: 2rem; }
+
     @media (max-width: 768px) { .admin-body { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
+
 <div id="toast"></div>
 
 <!-- LOGIN -->
@@ -108,160 +99,156 @@
 <!-- ADMIN PANEL -->
 <div id="adminPanel">
   <div class="admin-header">
-    <h1>📦 Panel de Administración — Ibarra Insumos</h1>
+    <h1>📦 Panel de Productos — Ibarra Insumos</h1>
     <button class="btn-logout" onclick="logout()">Cerrar sesión</button>
   </div>
-  <div class="admin-tabs-wrapper">
-    <div class="admin-tabs">
-      <button class="admin-tab active" onclick="switchTab('productos')">📦 Productos</button>
-      <button class="admin-tab" onclick="switchTab('categorias')">🗂️ Categorías</button>
-    </div>
-  </div>
+  <div class="admin-body">
 
-  <!-- TAB PRODUCTOS -->
-  <div id="tab-productos" class="admin-body">
+    <!-- FORMULARIO -->
     <div class="panel">
       <div class="panel-title" id="formTitle">Agregar Producto</div>
+
       <div class="form-group">
-        <label>Fotos del producto (hasta 6)</label>
-        <div class="multi-upload-area" onclick="document.getElementById('fileInput').click()">
-          <p style="font-size:0.82rem;color:var(--muted);">📷 Hacé clic para agregar fotos</p>
-          <p style="font-size:0.72rem;color:var(--muted);margin-top:0.3rem;">JPG, PNG, WEBP — podés subir varias a la vez</p>
-          <input type="file" id="fileInput" accept="image/*" multiple onchange="agregarFotos(this)" style="display:none;" />
+        <label>Foto del producto</label>
+        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+          <p>📷 Hacé clic para subir una foto</p>
+          <p style="font-size:0.72rem; margin-top:0.3rem;">JPG, PNG, WEBP — máx 2MB</p>
+          <img id="previewImg" src="" alt="Preview" />
+          <input type="file" id="fileInput" accept="image/*" onchange="previewImage(this)" />
         </div>
-        <div class="fotos-preview" id="fotosPreview"></div>
-        <div id="uploadProgressWrap" style="display:none;">
+        <div class="upload-progress" id="uploadProgress">
           <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-          <p style="font-size:0.72rem;color:var(--muted);margin-top:0.3rem;" id="uploadStatus">Subiendo...</p>
+          <p style="font-size:0.72rem; color:var(--muted); margin-top:0.3rem;" id="uploadStatus">Subiendo...</p>
         </div>
       </div>
+
       <div class="form-group">
         <label>Nombre del producto</label>
         <input type="text" id="inputNombre" placeholder="Ej: Lavandina Concentrada x 5 lts." />
       </div>
+
       <div class="form-group">
         <label>Descripción</label>
         <textarea id="inputDescripcion" placeholder="Describí las características principales del producto..."></textarea>
       </div>
+
       <div class="form-group">
         <label>Categoría</label>
         <select id="inputCategoria" onchange="updateSubcategorias()">
           <option value="">Seleccioná una categoría</option>
+          <option value="Dispensers">Dispensers</option>
+          <option value="Papeles">Papeles</option>
+          <option value="Limpieza">Limpieza</option>
+          <option value="Limpieza Institucional">Limpieza Institucional</option>
+          <option value="Higiene">Higiene</option>
+          <option value="Descartables">Descartables</option>
         </select>
       </div>
+
       <div class="form-group">
         <label>Subcategoría</label>
         <select id="inputSubcategoria">
           <option value="">Primero elegí una categoría</option>
         </select>
       </div>
+
       <input type="hidden" id="editingId" value="" />
+
       <button class="btn btn-primary" id="submitBtn" onclick="guardarProducto()">Agregar Producto</button>
-      <button class="btn" id="cancelBtn" style="display:none;margin-top:0.5rem;background:var(--dark2);color:var(--text);" onclick="cancelarEdicion()">Cancelar</button>
+      <button class="btn" id="cancelBtn" style="display:none; margin-top:0.5rem; background:var(--dark2); color:var(--text);" onclick="cancelarEdicion()">Cancelar</button>
     </div>
+
+    <!-- LISTA DE PRODUCTOS -->
     <div class="panel">
-      <div class="panel-title">Productos cargados <span id="productCount" style="font-weight:400;color:var(--muted);"></span></div>
+      <div class="panel-title">Productos cargados <span id="productCount" style="font-weight:400; color:var(--muted);"></span></div>
       <div class="products-list" id="productsList">
         <div class="loading">Cargando productos...</div>
       </div>
     </div>
-  </div>
 
-  <!-- TAB CATEGORÍAS -->
-  <div id="tab-categorias" style="display:none;max-width:1100px;margin:0 auto;padding:1.5rem;">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;">
+  </div>
+  <!-- TAB TESTIMONIOS -->
+  <div id="tab-testimonios" style="display:none;max-width:1100px;margin:0 auto;padding:1.5rem;">
+    <div style="display:grid;grid-template-columns:400px 1fr;gap:2rem;align-items:start;">
+      
+      <!-- FORMULARIO -->
       <div class="panel">
-        <div class="panel-title">➕ Nueva Categoría</div>
+        <div class="panel-title" id="testiFormTitle">➕ Nuevo Testimonio</div>
         <div class="form-group">
-          <label>Nombre</label>
-          <input type="text" id="nuevaCatNombre" placeholder="Ej: Descartables" />
+          <label>Foto (opcional)</label>
+          <div class="multi-upload-area" onclick="document.getElementById('testiFileInput').click()" id="testiUploadArea">
+            <p style="font-size:0.82rem;color:var(--muted);">📷 Subir foto de perfil</p>
+            <input type="file" id="testiFileInput" accept="image/*" onchange="previewTestiFoto(this)" style="display:none;" />
+          </div>
+          <div id="testiPhotoPreview" style="margin-top:0.5rem;display:none;">
+            <div style="position:relative;width:80px;height:80px;">
+              <img id="testiPhotoImg" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--teal);" />
+              <button onclick="quitarTestiFoto()" style="position:absolute;top:-5px;right:-5px;background:var(--red);color:white;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;font-size:0.75rem;">✕</button>
+            </div>
+          </div>
         </div>
         <div class="form-group">
-          <label>Subcategorías (una por línea)</label>
-          <textarea id="nuevaCatSubs" placeholder="Vasos descartables&#10;Platos descartables" style="min-height:100px;"></textarea>
+          <label>Nombre completo *</label>
+          <input type="text" id="testiNombre" placeholder="Ej: María Laura González" />
         </div>
-        <button class="btn btn-primary" onclick="agregarCategoria()">Agregar Categoría</button>
+        <div class="form-group">
+          <label>Cargo y empresa *</label>
+          <input type="text" id="testiCargo" placeholder="Ej: Jefa de Compras — Hospital del Sur" />
+        </div>
+        <div class="form-group">
+          <label>Testimonio *</label>
+          <textarea id="testiTexto" placeholder="Escribí el testimonio entre comillas..." style="min-height:100px;"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Calificación</label>
+          <select id="testiEstrellas">
+            <option value="5">⭐⭐⭐⭐⭐ 5 estrellas</option>
+            <option value="4">⭐⭐⭐⭐ 4 estrellas</option>
+            <option value="3">⭐⭐⭐ 3 estrellas</option>
+          </select>
+        </div>
+        <input type="hidden" id="testiEditingId" value="" />
+        <button class="btn btn-primary" id="testiSubmitBtn" onclick="guardarTestimonio()">Agregar Testimonio</button>
+        <button class="btn" id="testiCancelBtn" style="display:none;margin-top:0.5rem;background:var(--dark2);color:var(--text);" onclick="cancelarTestimonio()">Cancelar</button>
       </div>
+
+      <!-- LISTA -->
       <div class="panel">
-        <div class="panel-title">🗂️ Categorías actuales <span id="catCount" style="font-weight:400;color:var(--muted);"></span></div>
-        <p style="font-size:0.76rem;color:var(--muted);margin-bottom:1rem;">Arrastrá para reordenar. ✏️ para editar, ▼ para ver subcategorías.</p>
-        <div class="cat-manager" id="catManager"></div>
+        <div class="panel-title">⭐ Testimonios <span id="testiCount" style="font-weight:400;color:var(--muted);"></span></div>
+        <div id="testiList" style="display:flex;flex-direction:column;gap:0.75rem;max-height:600px;overflow-y:auto;">
+          <div class="loading">Cargando testimonios...</div>
+        </div>
       </div>
+
     </div>
   </div>
 </div>
 
 <script>
+  // ── CONFIG ──
   const SUPABASE_URL = 'https://khxtmxbdrcigddvskalk.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoeHRteGJkcmNpZ2RkdnNrYWxrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzOTA0OTUsImV4cCI6MjA5NDk2NjQ5NX0.D82fR_OTye8Fbsk4xccfCr-J1FvqjO2Rnxjfsnsc_nQ';
   const ADMIN_PASSWORD = 'Choco2026ok';
   const BUCKET = 'productos';
 
-  let SUBCATEGORIAS = {};
+  const SUBCATEGORIAS = {
+    'Dispensers': ['Dispenser Toallas', 'Dispenser Jabón', 'Dispenser Papel', 'Dispenser Alcohol'],
+    'Papeles': ['Toallas Intercaladas', 'Toallas en Bobina', 'Toallas en Rollo', 'Papel Higiénico'],
+    'Limpieza': ['Lavandinas', 'Limpiadores Multiusos', 'Limpiavidrios', 'Desodorantes Ambientes', 'Alcoholes en Gel', 'Alcoholes al 70%', 'Baldes de Plástico', 'Blanqueadores para Ropa', 'Bolsas Camiseta', 'Cepillos de Mano', 'Escobas de Plástico', 'Esponjas y Fibras', 'Guantes Domésticos', 'Insecticidas', 'Jabones en Pan', 'Limpiabaños', 'Trapos de Piso'],
+    'Limpieza Institucional': ['Toallas de Papel', 'Jabones Líquidos Dispenser', 'Papeles Higiénicos Inst.', 'Detergentes Profesionales', 'Desengrasantes Profesionales', 'Guantes Industriales', 'Señales Piso Mojado'],
+    'Higiene': ['Higiene General'],
+    'Descartables': ['Descartables General']
+  };
+
   let uploadedImageUrl = '';
-  let fotosProducto = [];
-  let fotosExistentes = [];
 
-  function guardarCatsLocal() { localStorage.setItem('ibarra_cats', JSON.stringify(SUBCATEGORIAS)); }
-
-  async function cargarCats() {
-    try {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/categorias?order=orden.asc`, {
-        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-      });
-      const cats = await res.json();
-      if (cats && cats.length > 0) {
-        SUBCATEGORIAS = {};
-        cats.forEach(c => { SUBCATEGORIAS[c.nombre] = c.subcategorias || []; });
-        guardarCatsLocal();
-      } else {
-        SUBCATEGORIAS = JSON.parse(localStorage.getItem('ibarra_cats') || '{}');
-      }
-    } catch(e) {
-      SUBCATEGORIAS = JSON.parse(localStorage.getItem('ibarra_cats') || '{}');
-    }
-  }
-
-  async function sbPatch(nombre, subcategorias) {
-    await fetch(`${SUPABASE_URL}/rest/v1/categorias?nombre=eq.${encodeURIComponent(nombre)}`, {
-      method: 'PATCH', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-      body: JSON.stringify({ subcategorias })
-    });
-    guardarCatsLocal();
-  }
-
-  async function sbCreate(nombre, subcategorias, orden) {
-    await fetch(`${SUPABASE_URL}/rest/v1/categorias`, {
-      method: 'POST', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-      body: JSON.stringify({ nombre, subcategorias, orden })
-    });
-    guardarCatsLocal();
-  }
-
-  async function sbDelete(nombre) {
-    await fetch(`${SUPABASE_URL}/rest/v1/categorias?nombre=eq.${encodeURIComponent(nombre)}`, {
-      method: 'DELETE', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-    });
-    guardarCatsLocal();
-  }
-
-  async function sbReorder() {
-    const cats = Object.keys(SUBCATEGORIAS);
-    for (let i = 0; i < cats.length; i++) {
-      await fetch(`${SUPABASE_URL}/rest/v1/categorias?nombre=eq.${encodeURIComponent(cats[i])}`, {
-        method: 'PATCH', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-        body: JSON.stringify({ orden: i + 1 })
-      });
-    }
-    guardarCatsLocal();
-  }
-
+  // ── AUTH ──
   function login() {
     const pw = document.getElementById('passwordInput').value;
     if (pw === ADMIN_PASSWORD) {
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('adminPanel').style.display = 'block';
-      cargarCats().then(() => { populateCatSelect(); cargarProductos(); });
+      cargarProductos();
     } else {
       document.getElementById('loginError').style.display = 'block';
     }
@@ -273,313 +260,348 @@
     document.getElementById('passwordInput').value = '';
   }
 
-  function switchTab(tab) {
-    document.getElementById('tab-productos').style.display = tab === 'productos' ? 'grid' : 'none';
-    document.getElementById('tab-categorias').style.display = tab === 'categorias' ? 'block' : 'none';
-    document.querySelectorAll('.admin-tab').forEach((t, i) => t.classList.toggle('active', (tab === 'productos' && i === 0) || (tab === 'categorias' && i === 1)));
-    if (tab === 'categorias') renderCategorias();
-  }
-
-  function populateCatSelect() {
-    const sel = document.getElementById('inputCategoria');
-    sel.innerHTML = '<option value="">Seleccioná una categoría</option>';
-    Object.keys(SUBCATEGORIAS).forEach(cat => { const o = document.createElement('option'); o.value = cat; o.textContent = cat; sel.appendChild(o); });
-  }
-
+  // ── SUBCATEGORIAS ──
   function updateSubcategorias() {
     const cat = document.getElementById('inputCategoria').value;
     const sel = document.getElementById('inputSubcategoria');
     sel.innerHTML = '<option value="">Seleccioná una subcategoría</option>';
-    if (cat && SUBCATEGORIAS[cat]) { SUBCATEGORIAS[cat].forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; sel.appendChild(o); }); }
+    if (cat && SUBCATEGORIAS[cat]) {
+      SUBCATEGORIAS[cat].forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s; opt.textContent = s;
+        sel.appendChild(opt);
+      });
+    }
   }
 
-  function agregarFotos(input) {
-    const files = Array.from(input.files);
-    const disponibles = 6 - fotosProducto.length;
-    if (disponibles <= 0) { showToast('Máximo 6 fotos', true); return; }
-    files.slice(0, disponibles).forEach(file => {
-      const reader = new FileReader();
-      reader.onload = e => { fotosProducto.push({ url: e.target.result, esLocal: true, file, orden: fotosProducto.length }); renderFotosPreview(); };
-      reader.readAsDataURL(file);
-    });
-    input.value = '';
-  }
-
-  function renderFotosPreview() {
-    document.getElementById('fotosPreview').innerHTML = fotosProducto.map((f, i) => `
-      <div class="foto-thumb" draggable="true" data-idx="${i}" ondragstart="dragStartFoto(event)" ondragover="dragOverFoto(event)" ondrop="dropFoto(event)">
-        <img src="${f.url}" />
-        ${i === 0 ? '<span class="foto-principal">★ Principal</span>' : ''}
-        <button class="foto-del" onclick="eliminarFotoLocal(${i})">✕</button>
-        ${i > 0 ? `<button class="foto-set-principal" onclick="setPrincipal(${i})">★ Hacer principal</button>` : ''}
-      </div>`).join('');
-  }
-
-  function eliminarFotoLocal(idx) { fotosProducto.splice(idx, 1); renderFotosPreview(); }
-  function setPrincipal(idx) { const [f] = fotosProducto.splice(idx, 1); fotosProducto.unshift(f); renderFotosPreview(); }
-
-  let dragFotoIdx = null;
-  function dragStartFoto(e) { dragFotoIdx = parseInt(e.currentTarget.dataset.idx); }
-  function dragOverFoto(e) { e.preventDefault(); }
-  function dropFoto(e) {
-    e.preventDefault();
-    const to = parseInt(e.currentTarget.dataset.idx);
-    if (dragFotoIdx === null || dragFotoIdx === to) return;
-    const [m] = fotosProducto.splice(dragFotoIdx, 1); fotosProducto.splice(to, 0, m);
-    renderFotosPreview(); dragFotoIdx = null;
+  // ── IMAGE PREVIEW & UPLOAD ──
+  function previewImage(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = document.getElementById('previewImg');
+      img.src = e.target.result;
+      img.style.display = 'block';
+    };
+    reader.readAsDataURL(file);
   }
 
   async function uploadImage(file) {
     const ext = file.name.split('.').pop();
-    const fileName = `producto_${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
-    const formData = new FormData(); formData.append('', file);
+    const fileName = `producto_${Date.now()}.${ext}`;
+    document.getElementById('uploadProgress').style.display = 'block';
+    document.getElementById('progressFill').style.width = '30%';
+    document.getElementById('uploadStatus').textContent = 'Subiendo imagen...';
+
+    const formData = new FormData();
+    formData.append('', file);
+
     const res = await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET}/${fileName}`, {
-      method: 'POST', headers: { 'Authorization': `Bearer ${SUPABASE_KEY}`, 'apikey': SUPABASE_KEY, 'x-upsert': 'true' }, body: formData
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'apikey': SUPABASE_KEY,
+        'x-upsert': 'true'
+      },
+      body: formData
     });
-    if (!res.ok) throw new Error(await res.text());
+
+    document.getElementById('progressFill').style.width = '100%';
+
+    if (!res.ok) {
+      const err = await res.text();
+      console.error('Upload error:', err);
+      document.getElementById('uploadStatus').textContent = '❌ Error al subir imagen';
+      throw new Error('Upload failed: ' + err);
+    }
+
+    document.getElementById('uploadStatus').textContent = '✓ Imagen subida';
     return `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${fileName}`;
   }
 
+  // ── GUARDAR PRODUCTO ──
   async function guardarProducto() {
     const nombre = document.getElementById('inputNombre').value.trim();
     const descripcion = document.getElementById('inputDescripcion').value.trim();
     const categoria = document.getElementById('inputCategoria').value;
     const subcategoria = document.getElementById('inputSubcategoria').value;
     const editingId = document.getElementById('editingId').value;
-    if (!nombre || !descripcion || !categoria || !subcategoria) { showToast('Completá todos los campos', true); return; }
-    if (fotosProducto.length === 0 && fotosExistentes.length === 0) { showToast('Agregá al menos una foto', true); return; }
+    const fileInput = document.getElementById('fileInput');
+
+    if (!nombre || !descripcion || !categoria || !subcategoria) {
+      showToast('Completá todos los campos', true); return;
+    }
+
+    let imagen_url = uploadedImageUrl;
+
+    if (fileInput.files[0]) {
+      try { imagen_url = await uploadImage(fileInput.files[0]); }
+      catch (e) { showToast('Error al subir la imagen', true); return; }
+    }
+
+    const data = { nombre, descripcion, categoria, subcategoria, imagen_url };
     const btn = document.getElementById('submitBtn');
     btn.textContent = 'Guardando...'; btn.disabled = true;
-    document.getElementById('uploadProgressWrap').style.display = 'block';
-    document.getElementById('uploadStatus').textContent = 'Subiendo fotos...';
-    const urlsSubidas = [];
-    for (let i = 0; i < fotosProducto.length; i++) {
-      const f = fotosProducto[i];
-      document.getElementById('progressFill').style.width = `${((i+1)/fotosProducto.length)*100}%`;
-      if (f.esLocal && f.file) {
-        try { urlsSubidas.push({ url: await uploadImage(f.file), orden: i }); }
-        catch(e) { showToast('Error al subir foto ' + (i+1), true); btn.textContent = editingId ? 'Guardar Cambios' : 'Agregar Producto'; btn.disabled = false; return; }
-      } else { urlsSubidas.push({ url: f.url, orden: i }); }
-    }
-    document.getElementById('uploadStatus').textContent = '✓ Listo';
-    const imagen_url = urlsSubidas[0]?.url || fotosExistentes[0]?.imagen_url || '';
-    const data = { nombre, descripcion, categoria, subcategoria, imagen_url };
-    let res, productoId = editingId;
+
+    let res;
     if (editingId) {
       res = await fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${editingId}`, {
-        method: 'PATCH', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }, body: JSON.stringify(data)
+        method: 'PATCH',
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify(data)
       });
     } else {
       res = await fetch(`${SUPABASE_URL}/rest/v1/productos`, {
-        method: 'POST', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' }, body: JSON.stringify(data)
-      });
-      const newProd = await res.json(); productoId = newProd[0]?.id;
-    }
-    if (productoId && urlsSubidas.length > 0) {
-      if (editingId) await fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes?producto_id=eq.${editingId}`, { method: 'DELETE', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
-      await fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes`, {
-        method: 'POST', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-        body: JSON.stringify(urlsSubidas.map(f => ({ producto_id: parseInt(productoId), imagen_url: f.url, orden: f.orden })))
+        method: 'POST',
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify(data)
       });
     }
-    btn.textContent = editingId ? 'Guardar Cambios' : 'Agregar Producto'; btn.disabled = false;
-    if (res.ok || res.status === 201) { showToast(editingId ? '✓ Producto actualizado' : '✓ Producto agregado'); resetForm(); cargarProductos(); }
-    else showToast('Error al guardar', true);
+
+    btn.textContent = editingId ? 'Guardar Cambios' : 'Agregar Producto';
+    btn.disabled = false;
+
+    if (res.ok) {
+      showToast(editingId ? '✓ Producto actualizado' : '✓ Producto agregado');
+      resetForm();
+      cargarProductos();
+    } else {
+      showToast('Error al guardar el producto', true);
+    }
   }
 
+  // ── CARGAR PRODUCTOS ──
   async function cargarProductos() {
     const list = document.getElementById('productsList');
     list.innerHTML = '<div class="loading">Cargando...</div>';
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?order=created_at.desc`, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?order=created_at.desc`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+
     const productos = await res.json();
     document.getElementById('productCount').textContent = `(${productos.length})`;
-    if (!productos.length) { list.innerHTML = '<div class="empty">No hay productos todavía.</div>'; return; }
+
+    if (!productos.length) {
+      list.innerHTML = '<div class="empty">No hay productos cargados todavía.</div>'; return;
+    }
+
     list.innerHTML = productos.map(p => `
       <div class="product-item">
         ${p.imagen_url ? `<img src="${p.imagen_url}" alt="${p.nombre}" />` : `<div class="product-item-placeholder">📦</div>`}
-        <div class="product-item-info"><div class="product-item-name">${p.nombre}</div><div class="product-item-cat">${p.categoria} › ${p.subcategoria}</div></div>
-        <div class="product-item-actions"><button class="btn-edit" onclick="editarProducto(${p.id})">✏️</button><button class="btn btn-danger" onclick="eliminarProducto(${p.id})">🗑</button></div>
-      </div>`).join('');
+        <div class="product-item-info">
+          <div class="product-item-name">${p.nombre}</div>
+          <div class="product-item-cat">${p.categoria} › ${p.subcategoria}</div>
+        </div>
+        <div class="product-item-actions">
+          <button class="btn-edit" onclick="editarProducto(${p.id})">✏️</button>
+          <button class="btn btn-danger" onclick="eliminarProducto(${p.id})">🗑</button>
+        </div>
+      </div>
+    `).join('');
   }
 
+  // ── EDITAR ──
   async function editarProducto(id) {
-    const [resP, resF] = await Promise.all([
-      fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${id}`, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }),
-      fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes?producto_id=eq.${id}&order=orden.asc`, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } })
-    ]);
-    const [p] = await resP.json(); const fotos = await resF.json();
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${id}`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+    const [p] = await res.json();
+
     document.getElementById('inputNombre').value = p.nombre;
     document.getElementById('inputDescripcion').value = p.descripcion;
     document.getElementById('inputCategoria').value = p.categoria;
     updateSubcategorias();
     document.getElementById('inputSubcategoria').value = p.subcategoria;
     document.getElementById('editingId').value = p.id;
-    fotosExistentes = fotos;
-    fotosProducto = fotos.length > 0 ? fotos.map(f => ({ url: f.imagen_url, esLocal: false, file: null, orden: f.orden })) : (p.imagen_url ? [{ url: p.imagen_url, esLocal: false, file: null, orden: 0 }] : []);
-    renderFotosPreview();
+    uploadedImageUrl = p.imagen_url;
+
+    if (p.imagen_url) {
+      const img = document.getElementById('previewImg');
+      img.src = p.imagen_url; img.style.display = 'block';
+    }
+
     document.getElementById('formTitle').textContent = 'Editar Producto';
     document.getElementById('submitBtn').textContent = 'Guardar Cambios';
     document.getElementById('cancelBtn').style.display = 'block';
-    switchTab('productos');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  // ── ELIMINAR ──
   async function eliminarProducto(id) {
-    if (!confirm('¿Eliminar este producto?')) return;
-    await fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes?producto_id=eq.${id}`, { method: 'DELETE', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${id}`, { method: 'DELETE', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
-    if (res.ok) { showToast('✓ Eliminado'); cargarProductos(); } else showToast('Error al eliminar', true);
+    if (!confirm('¿Seguro que querés eliminar este producto?')) return;
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${id}`, {
+      method: 'DELETE',
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+    if (res.ok) { showToast('✓ Producto eliminado'); cargarProductos(); }
+    else showToast('Error al eliminar', true);
   }
 
+  // ── RESET ──
   function resetForm() {
-    ['inputNombre','inputDescripcion','inputCategoria','editingId','fileInput'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+    document.getElementById('inputNombre').value = '';
+    document.getElementById('inputDescripcion').value = '';
+    document.getElementById('inputCategoria').value = '';
     document.getElementById('inputSubcategoria').innerHTML = '<option value="">Primero elegí una categoría</option>';
-    document.getElementById('fotosPreview').innerHTML = '';
-    document.getElementById('uploadProgressWrap').style.display = 'none';
+    document.getElementById('editingId').value = '';
+    document.getElementById('fileInput').value = '';
+    document.getElementById('previewImg').style.display = 'none';
+    document.getElementById('uploadProgress').style.display = 'none';
     document.getElementById('progressFill').style.width = '0%';
     document.getElementById('formTitle').textContent = 'Agregar Producto';
     document.getElementById('submitBtn').textContent = 'Agregar Producto';
     document.getElementById('cancelBtn').style.display = 'none';
-    fotosProducto = []; fotosExistentes = []; uploadedImageUrl = '';
+    uploadedImageUrl = '';
   }
 
   function cancelarEdicion() { resetForm(); }
 
-  function renderCategorias() {
-    const manager = document.getElementById('catManager');
-    const cats = Object.keys(SUBCATEGORIAS);
-    document.getElementById('catCount').textContent = `(${cats.length})`;
-    manager.innerHTML = cats.map((cat, idx) => `
-      <div class="cat-row-admin" draggable="true" data-cat="${cat.replace(/"/g,'&quot;')}"
-           ondragstart="dragStartCat(event)" ondragover="dragOverCat(event)" ondrop="dropCat(event)" ondragleave="dragLeaveCat(event)">
-        <div class="cat-header-admin">
-          <span class="drag-handle">⠿</span>
-          <span class="cat-name-display">${cat}</span>
-          <span class="cat-count">${SUBCATEGORIAS[cat].length} subcats</span>
-          <div class="cat-actions">
-            <button class="btn-sm btn-sm-gray" onclick="toggleSubs('subs-${idx}')">▼ Ver</button>
-            <button class="btn-sm btn-sm-teal" onclick="toggleEditCat('edit-${idx}')">✏️</button>
-            <button class="btn-sm btn-sm-red" onclick="eliminarCategoria('${cat.replace(/'/g,"\\'")}')">🗑</button>
-          </div>
-        </div>
-        <div class="cat-edit-form" id="edit-${idx}">
-          <div style="display:flex;gap:0.5rem;align-items:center;">
-            <input type="text" id="editCatName-${idx}" value="${cat}" style="flex:1;padding:0.5rem 0.75rem;border:1px solid var(--border);border-radius:6px;font-size:0.84rem;outline:none;" />
-            <button class="btn-sm btn-sm-teal" onclick="renombrarCategoria('${cat.replace(/'/g,"\\'")}','editCatName-${idx}')">Guardar</button>
-          </div>
-        </div>
-        <div class="sub-list" id="subs-${idx}">
-          ${SUBCATEGORIAS[cat].map((sub, si) => `
-            <div class="sub-item" draggable="true" data-cat="${cat.replace(/"/g,'&quot;')}" data-sub-idx="${si}"
-                 ondragstart="dragStartSub(event)" ondragover="dragOverSub(event)" ondrop="dropSub(event)">
-              <span class="sub-drag">⠿</span>
-              <span class="sub-name" id="subname-${idx}-${si}">${sub}</span>
-              <button class="btn-sm btn-sm-teal" onclick="editarSubcat('${cat.replace(/'/g,"\\'")}',${si},'subname-${idx}-${si}',this)" style="font-size:0.62rem;">✏️</button>
-              <button class="btn-sm btn-sm-red" onclick="eliminarSubcat('${cat.replace(/'/g,"\\'")}',${si})" style="font-size:0.62rem;">🗑</button>
-            </div>`).join('')}
-          <div class="add-sub-row">
-            <input type="text" id="newSub-${idx}" placeholder="Nueva subcategoría..." onkeydown="if(event.key==='Enter') agregarSubcat('${cat.replace(/'/g,"\\'")}','newSub-${idx}')" />
-            <button class="btn-sm btn-sm-teal" onclick="agregarSubcat('${cat.replace(/'/g,"\\'")}','newSub-${idx}')">+ Agregar</button>
-          </div>
-        </div>
-      </div>`).join('');
-  }
+  // ── TOAST ──
+  // ══════════════════════════════════════════
+  // TESTIMONIOS
+  // ══════════════════════════════════════════
+  let testiFotoFile = null;
+  let testiFotoUrl = '';
 
-  function toggleSubs(id) { document.getElementById(id)?.classList.toggle('open'); }
-  function toggleEditCat(id) { document.getElementById(id)?.classList.toggle('open'); }
-
-  async function agregarCategoria() {
-    const nombre = document.getElementById('nuevaCatNombre').value.trim();
-    const subsRaw = document.getElementById('nuevaCatSubs').value.trim();
-    if (!nombre) { showToast('Ingresá el nombre', true); return; }
-    if (SUBCATEGORIAS[nombre]) { showToast('Ya existe', true); return; }
-    const subs = subsRaw ? subsRaw.split('\n').map(s => s.trim()).filter(Boolean) : [];
-    const orden = Object.keys(SUBCATEGORIAS).length + 1;
-    SUBCATEGORIAS[nombre] = subs; guardarCatsLocal();
-    await sbCreate(nombre, subs, orden);
-    populateCatSelect(); renderCategorias();
-    document.getElementById('nuevaCatNombre').value = '';
-    document.getElementById('nuevaCatSubs').value = '';
-    showToast(`✓ Categoría "${nombre}" creada`);
-  }
-
-  async function renombrarCategoria(catVieja, inputId) {
-    const nuevo = document.getElementById(inputId).value.trim();
-    if (!nuevo || nuevo === catVieja) return;
-    if (SUBCATEGORIAS[nuevo]) { showToast('Ya existe', true); return; }
-    const subs = SUBCATEGORIAS[catVieja];
-    const cats = Object.keys(SUBCATEGORIAS); const idx = cats.indexOf(catVieja);
-    const newObj = {}; cats.forEach((c, i) => { newObj[i === idx ? nuevo : c] = SUBCATEGORIAS[c]; });
-    SUBCATEGORIAS = newObj; guardarCatsLocal();
-    await sbCreate(nuevo, subs, idx + 1); await sbDelete(catVieja);
-    populateCatSelect(); renderCategorias(); showToast(`✓ Renombrada a "${nuevo}"`);
-  }
-
-  async function eliminarCategoria(cat) {
-    if (!confirm(`¿Eliminar "${cat}"?`)) return;
-    delete SUBCATEGORIAS[cat]; guardarCatsLocal();
-    await sbDelete(cat); populateCatSelect(); renderCategorias(); showToast('✓ Eliminada');
-  }
-
-  async function agregarSubcat(cat, inputId) {
-    const val = document.getElementById(inputId)?.value.trim();
-    if (!val) return;
-    if (SUBCATEGORIAS[cat].includes(val)) { showToast('Ya existe', true); return; }
-    SUBCATEGORIAS[cat].push(val); guardarCatsLocal();
-    await sbPatch(cat, SUBCATEGORIAS[cat]); renderCategorias(); showToast(`✓ "${val}" agregada`);
-  }
-
-  async function eliminarSubcat(cat, idx) {
-    SUBCATEGORIAS[cat].splice(idx, 1); guardarCatsLocal();
-    await sbPatch(cat, SUBCATEGORIAS[cat]); renderCategorias(); showToast('✓ Eliminada');
-  }
-
-  function editarSubcat(cat, idx, spanId, btn) {
-    const span = document.getElementById(spanId);
-    const input = document.createElement('input');
-    input.value = span.textContent;
-    input.style.cssText = 'flex:1;padding:0.25rem 0.5rem;border:1px solid var(--teal);border-radius:4px;font-size:0.8rem;outline:none;';
-    span.replaceWith(input); btn.textContent = '✅';
-    btn.onclick = async () => {
-      const nuevo = input.value.trim();
-      if (nuevo) SUBCATEGORIAS[cat][idx] = nuevo; guardarCatsLocal();
-      await sbPatch(cat, SUBCATEGORIAS[cat]); renderCategorias(); showToast('✓ Actualizada');
+  function previewTestiFoto(input) {
+    const file = input.files[0];
+    if (!file) return;
+    testiFotoFile = file;
+    const reader = new FileReader();
+    reader.onload = e => {
+      document.getElementById('testiPhotoImg').src = e.target.result;
+      document.getElementById('testiPhotoPreview').style.display = 'block';
+      document.getElementById('testiUploadArea').style.display = 'none';
     };
-    input.focus();
+    reader.readAsDataURL(file);
   }
 
-  let dragCat = null;
-  function dragStartCat(e) { dragCat = e.currentTarget.dataset.cat; e.currentTarget.classList.add('dragging'); }
-  function dragOverCat(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
-  function dragLeaveCat(e) { e.currentTarget.classList.remove('drag-over'); }
-  async function dropCat(e) {
-    e.preventDefault(); e.currentTarget.classList.remove('drag-over');
-    const targetCat = e.currentTarget.dataset.cat;
-    if (!dragCat || dragCat === targetCat) return;
-    const cats = Object.keys(SUBCATEGORIAS);
-    const from = cats.indexOf(dragCat); const to = cats.indexOf(targetCat);
-    cats.splice(from, 1); cats.splice(to, 0, dragCat);
-    const newObj = {}; cats.forEach(c => newObj[c] = SUBCATEGORIAS[c]);
-    SUBCATEGORIAS = newObj; guardarCatsLocal();
-    await sbReorder(); populateCatSelect(); renderCategorias(); dragCat = null;
+  function quitarTestiFoto() {
+    testiFotoFile = null; testiFotoUrl = '';
+    document.getElementById('testiPhotoPreview').style.display = 'none';
+    document.getElementById('testiUploadArea').style.display = 'block';
+    document.getElementById('testiFileInput').value = '';
   }
 
-  let dragSubCat = null, dragSubIdx = null;
-  function dragStartSub(e) { dragSubCat = e.currentTarget.dataset.cat; dragSubIdx = parseInt(e.currentTarget.dataset.subIdx); e.stopPropagation(); }
-  function dragOverSub(e) { e.preventDefault(); e.stopPropagation(); }
-  async function dropSub(e) {
-    e.preventDefault(); e.stopPropagation();
-    const tCat = e.currentTarget.dataset.cat; const tIdx = parseInt(e.currentTarget.dataset.subIdx);
-    if (dragSubCat !== tCat || dragSubIdx === tIdx) return;
-    const [moved] = SUBCATEGORIAS[dragSubCat].splice(dragSubIdx, 1);
-    SUBCATEGORIAS[dragSubCat].splice(tIdx, 0, moved); guardarCatsLocal();
-    await sbPatch(dragSubCat, SUBCATEGORIAS[dragSubCat]); renderCategorias();
-    dragSubCat = null; dragSubIdx = null;
+  async function guardarTestimonio() {
+    const nombre = document.getElementById('testiNombre').value.trim();
+    const cargo = document.getElementById('testiCargo').value.trim();
+    const texto = document.getElementById('testiTexto').value.trim();
+    const estrellas = parseInt(document.getElementById('testiEstrellas').value);
+    const editingId = document.getElementById('testiEditingId').value;
+    if (!nombre || !cargo || !texto) { showToast('Completá nombre, cargo y testimonio', true); return; }
+    const btn = document.getElementById('testiSubmitBtn');
+    btn.textContent = 'Guardando...'; btn.disabled = true;
+    let fotoFinal = testiFotoUrl;
+    if (testiFotoFile) {
+      try { fotoFinal = await uploadImage(testiFotoFile); }
+      catch(e) { showToast('Error al subir foto', true); btn.disabled = false; btn.textContent = editingId ? 'Guardar Cambios' : 'Agregar Testimonio'; return; }
+    }
+    const data = { nombre, cargo, texto, estrellas, foto_url: fotoFinal || null };
+    let res;
+    if (editingId) {
+      res = await fetch(`${SUPABASE_URL}/rest/v1/testimonios?id=eq.${editingId}`, {
+        method: 'PATCH', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify(data)
+      });
+    } else {
+      res = await fetch(`${SUPABASE_URL}/rest/v1/testimonios`, {
+        method: 'POST', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify(data)
+      });
+    }
+    btn.disabled = false; btn.textContent = editingId ? 'Guardar Cambios' : 'Agregar Testimonio';
+    if (res.ok) { showToast(editingId ? '✓ Testimonio actualizado' : '✓ Testimonio agregado'); resetTestimonio(); cargarTestimonios(); }
+    else showToast('Error al guardar. ¿Existe la tabla testimonios?', true);
   }
+
+  async function cargarTestimonios() {
+    const list = document.getElementById('testiList');
+    list.innerHTML = '<div class="loading">Cargando...</div>';
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/testimonios?order=created_at.desc`, {
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+      });
+      const testimonios = await res.json();
+      document.getElementById('testiCount').textContent = `(${testimonios.length})`;
+      if (!testimonios.length) { list.innerHTML = '<div class="empty">No hay testimonios todavía.</div>'; return; }
+      list.innerHTML = testimonios.map(t => `
+        <div style="display:flex;align-items:center;gap:1rem;padding:0.85rem 1rem;border:1px solid var(--border);border-radius:10px;background:var(--dark);">
+          ${t.foto_url 
+            ? `<img src="${t.foto_url}" style="width:48px;height:48px;border-radius:50%;object-fit:cover;flex-shrink:0;" />`
+            : `<div style="width:48px;height:48px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;color:white;font-family:'Montserrat',sans-serif;font-weight:700;font-size:1rem;flex-shrink:0;">${t.nombre.charAt(0)}</div>`
+          }
+          <div style="flex:1;min-width:0;">
+            <div style="font-family:'Montserrat',sans-serif;font-size:0.82rem;font-weight:700;color:var(--text);">${t.nombre}</div>
+            <div style="font-size:0.72rem;color:var(--muted);margin-top:0.1rem;">${t.cargo}</div>
+            <div style="font-size:0.72rem;color:#f59e0b;margin-top:0.2rem;">${'★'.repeat(t.estrellas || 5)}</div>
+            <div style="font-size:0.76rem;color:var(--muted);margin-top:0.25rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${t.texto.substring(0,80)}${t.texto.length>80?'...':''}</div>
+          </div>
+          <div style="display:flex;gap:0.4rem;flex-shrink:0;">
+            <button class="btn-edit" onclick="editarTestimonio(${t.id})">✏️</button>
+            <button class="btn btn-danger" onclick="eliminarTestimonio(${t.id})">🗑</button>
+          </div>
+        </div>`).join('');
+    } catch(e) {
+      list.innerHTML = '<div class="empty" style="color:var(--red);">Error al cargar. Verificá que existe la tabla <strong>testimonios</strong> en Supabase.</div>';
+    }
+  }
+
+  async function editarTestimonio(id) {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/testimonios?id=eq.${id}`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+    const [t] = await res.json();
+    document.getElementById('testiNombre').value = t.nombre;
+    document.getElementById('testiCargo').value = t.cargo;
+    document.getElementById('testiTexto').value = t.texto;
+    document.getElementById('testiEstrellas').value = t.estrellas || 5;
+    document.getElementById('testiEditingId').value = t.id;
+    testiFotoUrl = t.foto_url || '';
+    if (t.foto_url) {
+      document.getElementById('testiPhotoImg').src = t.foto_url;
+      document.getElementById('testiPhotoPreview').style.display = 'block';
+      document.getElementById('testiUploadArea').style.display = 'none';
+    }
+    document.getElementById('testiFormTitle').textContent = 'Editar Testimonio';
+    document.getElementById('testiSubmitBtn').textContent = 'Guardar Cambios';
+    document.getElementById('testiCancelBtn').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  async function eliminarTestimonio(id) {
+    if (!confirm('¿Eliminar este testimonio?')) return;
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/testimonios?id=eq.${id}`, {
+      method: 'DELETE', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+    if (res.ok) { showToast('✓ Eliminado'); cargarTestimonios(); }
+    else showToast('Error al eliminar', true);
+  }
+
+  function resetTestimonio() {
+    document.getElementById('testiNombre').value = '';
+    document.getElementById('testiCargo').value = '';
+    document.getElementById('testiTexto').value = '';
+    document.getElementById('testiEstrellas').value = '5';
+    document.getElementById('testiEditingId').value = '';
+    document.getElementById('testiFormTitle').textContent = '➕ Nuevo Testimonio';
+    document.getElementById('testiSubmitBtn').textContent = 'Agregar Testimonio';
+    document.getElementById('testiCancelBtn').style.display = 'none';
+    quitarTestiFoto();
+    testiFotoFile = null; testiFotoUrl = '';
+  }
+
+  function cancelarTestimonio() { resetTestimonio(); }
+
+  // ══════════════════════════════════════════
 
   function showToast(msg, error = false) {
-    const t = document.getElementById('toast'); t.textContent = msg;
-    t.className = error ? 'show error' : 'show'; setTimeout(() => t.className = '', 3000);
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = error ? 'show error' : 'show';
+    setTimeout(() => t.className = '', 3000);
   }
 </script>
 </body>
