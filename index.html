@@ -560,7 +560,11 @@
   <div class="catalog-header">
     <p class="section-eyebrow">Lo que ofrecemos</p>
     <h2 class="section-title">Nuestro Catálogo</h2>
-    <button onclick="exportarExcel()" style="margin-top:0.75rem; background:var(--teal); color:white; border:none; border-radius:8px; padding:0.6rem 1.2rem; font-family:'Montserrat',sans-serif; font-size:0.76rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:0.4rem;">📥 Exportar catálogo Excel</button>
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.75rem;">
+      <button onclick="exportarExcel()" style="background:var(--teal); color:white; border:none; border-radius:8px; padding:0.6rem 1.2rem; font-family:'Montserrat',sans-serif; font-size:0.76rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:0.4rem;">📥 Exportar Excel</button>
+      <button onclick="exportarPDF()" style="background:#a67c2e; color:white; border:none; border-radius:8px; padding:0.6rem 1.2rem; font-family:'Montserrat',sans-serif; font-size:0.76rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:0.4rem;" id="btnPDF">📄 Catálogo PDF</button>
+      <button onclick="document.getElementById('compat-modal').style.display='flex'" style="background:white; color:var(--teal); border:1.5px solid var(--teal); border-radius:8px; padding:0.6rem 1.2rem; font-family:'Montserrat',sans-serif; font-size:0.76rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:0.4rem;">🔗 Compatibilidad Dispensers</button>
+    </div>
   </div>
   <div style="display:flex; gap:0.75rem; margin-bottom:1rem; flex-wrap:wrap;">
     <button class="mobile-filter-btn" style="flex:0 0 auto; width:auto; padding:0.85rem 1.2rem;" onclick="openSidebar()">☰ Categorías</button>
@@ -1687,8 +1691,8 @@
     const loader = document.getElementById('page-loader');
     if (loader) loader.classList.add('hidden');
   }
-  window.addEventListener('load', () => setTimeout(ocultarLoader, 1000));
-  setTimeout(ocultarLoader, 3000); // fallback por si load no dispara
+  window.addEventListener('load', () => setTimeout(ocultarLoader, 500));
+  setTimeout(ocultarLoader, 1500); // fallback rápido
 
   // ── DARK MODE ──
   function toggleDark() {
@@ -1815,5 +1819,278 @@
     window.open(`https://wa.me/5491144402807?text=${msg}`, '_blank');
   }
 </script>
+<!-- MODAL DIAGRAMA COMPATIBILIDAD DISPENSERS -->
+<div id="compat-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:1000;align-items:center;justify-content:center;padding:1rem;overflow-y:auto;">
+  <div style="background:white;border-radius:16px;padding:2rem;max-width:800px;width:100%;position:relative;max-height:90vh;overflow-y:auto;">
+    <button onclick="document.getElementById('compat-modal').style.display='none'" style="position:absolute;top:0.75rem;right:0.75rem;background:none;border:none;font-size:1.3rem;cursor:pointer;">✕</button>
+    <p style="font-family:'Montserrat',sans-serif;font-size:0.7rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--teal);margin-bottom:0.3rem;">Guía de compra</p>
+    <h2 style="font-family:'Montserrat',sans-serif;font-size:1.3rem;font-weight:700;color:var(--teal);margin-bottom:0.5rem;">🔗 Compatibilidad Dispensers — Insumos</h2>
+    <p style="font-size:0.84rem;color:var(--muted);margin-bottom:1.75rem;">Hacé clic en un dispenser para ver qué insumos son compatibles.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:2rem;">
+
+      <!-- Dispenser Toallas -->
+      <div class="compat-card" onclick="mostrarInsumos('toallas')" style="border:2px solid var(--border);border-radius:12px;padding:1.25rem;text-align:center;cursor:pointer;transition:all 0.2s;" id="card-toallas">
+        <div style="font-size:2.5rem;margin-bottom:0.5rem;">🧻</div>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:0.84rem;font-weight:700;color:var(--teal);">Dispenser Toallas</h3>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:0.3rem;">Ver insumos compatibles →</p>
+      </div>
+
+      <!-- Dispenser Jabón -->
+      <div class="compat-card" onclick="mostrarInsumos('jabon')" style="border:2px solid var(--border);border-radius:12px;padding:1.25rem;text-align:center;cursor:pointer;transition:all 0.2s;" id="card-jabon">
+        <div style="font-size:2.5rem;margin-bottom:0.5rem;">🧴</div>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:0.84rem;font-weight:700;color:var(--teal);">Dispenser Jabón</h3>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:0.3rem;">Ver insumos compatibles →</p>
+      </div>
+
+      <!-- Dispenser Papel Higiénico -->
+      <div class="compat-card" onclick="mostrarInsumos('papel')" style="border:2px solid var(--border);border-radius:12px;padding:1.25rem;text-align:center;cursor:pointer;transition:all 0.2s;" id="card-papel">
+        <div style="font-size:2.5rem;margin-bottom:0.5rem;">🚿</div>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:0.84rem;font-weight:700;color:var(--teal);">Dispenser Papel Higiénico</h3>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:0.3rem;">Ver insumos compatibles →</p>
+      </div>
+
+      <!-- Dispenser Alcohol -->
+      <div class="compat-card" onclick="mostrarInsumos('alcohol')" style="border:2px solid var(--border);border-radius:12px;padding:1.25rem;text-align:center;cursor:pointer;transition:all 0.2s;" id="card-alcohol">
+        <div style="font-size:2.5rem;margin-bottom:0.5rem;">🧪</div>
+        <h3 style="font-family:'Montserrat',sans-serif;font-size:0.84rem;font-weight:700;color:var(--teal);">Dispenser Alcohol en Gel</h3>
+        <p style="font-size:0.72rem;color:var(--muted);margin-top:0.3rem;">Ver insumos compatibles →</p>
+      </div>
+
+    </div>
+
+    <!-- Resultado de compatibilidad -->
+    <div id="compat-result" style="display:none;background:var(--dark);border-radius:12px;padding:1.5rem;border-left:4px solid var(--teal);">
+      <h3 id="compat-title" style="font-family:'Montserrat',sans-serif;font-size:0.9rem;font-weight:700;color:var(--teal);margin-bottom:1rem;"></h3>
+      <div id="compat-items" style="display:flex;flex-direction:column;gap:0.75rem;"></div>
+      <a id="compat-wa" href="#" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;margin-top:1.25rem;background:#25D366;color:white;padding:0.7rem 1.25rem;border-radius:8px;text-decoration:none;font-family:'Montserrat',sans-serif;font-size:0.78rem;font-weight:700;">
+        💬 Cotizar estos insumos por WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script>
+// ── COMPATIBILIDAD DISPENSERS ──
+const compatData = {
+  toallas: {
+    title: '🧻 Insumos compatibles con Dispenser de Toallas',
+    items: [
+      { nombre: 'Toallas Intercaladas Z', detalle: 'Hoja simple o doble. Dimensión estándar 20x25 cm.', icono: '✅' },
+      { nombre: 'Toallas Intercaladas V', detalle: 'Doblado en V. Ideal para dispensers de apertura frontal.', icono: '✅' },
+      { nombre: 'Toallas Intercaladas C', detalle: 'Doblado en C o multifold. Máxima capacidad por carga.', icono: '✅' },
+      { nombre: 'Toallas en Bobina', detalle: 'Solo compatibles con dispensers de bobina. Verificar modelo.', icono: '⚠️' },
+    ],
+    wa: 'Hola! Quiero cotizar toallas para dispenser.'
+  },
+  jabon: {
+    title: '🧴 Insumos compatibles con Dispenser de Jabón',
+    items: [
+      { nombre: 'Jabón Líquido 1 Litro', detalle: 'Compatible con dispensers de tapa a rosca estándar.', icono: '✅' },
+      { nombre: 'Jabón Líquido Antibacterial 5L', detalle: 'Refill de alta capacidad para dispensers de carga trasera.', icono: '✅' },
+      { nombre: 'Jabón Espuma 800ml', detalle: 'Solo compatible con dispensers de espuma. No funciona en dispensers de gel.', icono: '⚠️' },
+      { nombre: 'Alcohol en Gel 500ml', detalle: 'Compatible con dispensers de jabón de viscosidad media.', icono: '✅' },
+    ],
+    wa: 'Hola! Quiero cotizar jabón líquido para dispenser.'
+  },
+  papel: {
+    title: '🚿 Insumos compatibles con Dispenser de Papel Higiénico',
+    items: [
+      { nombre: 'Papel Higiénico Rollo Grande (400 m)', detalle: 'Compatible con dispensers de rollo jumbo. Núcleo 45mm.', icono: '✅' },
+      { nombre: 'Papel Higiénico Doble Hoja Institucional', detalle: 'Rollo estándar. Compatible con dispensers domésticos e institucionales básicos.', icono: '✅' },
+      { nombre: 'Papel Higiénico Rollo Jumbo (600 m)', detalle: 'Solo compatible con dispensers jumbo de alta capacidad.', icono: '⚠️' },
+    ],
+    wa: 'Hola! Quiero cotizar papel higiénico para dispenser.'
+  },
+  alcohol: {
+    title: '🧪 Insumos compatibles con Dispenser de Alcohol en Gel',
+    items: [
+      { nombre: 'Alcohol en Gel 500ml', detalle: 'Compatible con dispensers de palanca o sensor automático.', icono: '✅' },
+      { nombre: 'Alcohol en Gel 1 Litro', detalle: 'Refill para dispensers de carga superior. Consultar modelo.', icono: '✅' },
+      { nombre: 'Alcohol en Gel 5 Litros', detalle: 'Bidón de refill para dispensers institucionales de alta rotación.', icono: '✅' },
+      { nombre: 'Alcohol al 70% Líquido', detalle: 'No compatible con dispensers de gel. Requiere dispenser de líquido.', icono: '❌' },
+    ],
+    wa: 'Hola! Quiero cotizar alcohol en gel para dispenser.'
+  }
+};
+
+function mostrarInsumos(tipo) {
+  // Resetear cards
+  document.querySelectorAll('.compat-card').forEach(c => {
+    c.style.border = '2px solid var(--border)';
+    c.style.background = 'white';
+  });
+  // Destacar card seleccionada
+  const card = document.getElementById('card-' + tipo);
+  if (card) { card.style.border = '2px solid var(--teal)'; card.style.background = '#f0f6f5'; }
+
+  const data = compatData[tipo];
+  document.getElementById('compat-title').textContent = data.title;
+  document.getElementById('compat-items').innerHTML = data.items.map(item => `
+    <div style="display:flex;align-items:flex-start;gap:0.75rem;background:white;padding:0.85rem;border-radius:8px;border:1px solid rgba(0,0,0,0.06);">
+      <span style="font-size:1.2rem;flex-shrink:0;">${item.icono}</span>
+      <div>
+        <p style="font-family:'Montserrat',sans-serif;font-size:0.84rem;font-weight:700;color:var(--text);margin-bottom:0.2rem;">${item.nombre}</p>
+        <p style="font-size:0.76rem;color:var(--muted);line-height:1.5;">${item.detalle}</p>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('compat-wa').href = `https://wa.me/5491144402807?text=${encodeURIComponent(data.wa)}`;
+  document.getElementById('compat-result').style.display = 'block';
+}
+
+// ── EXPORTAR PDF CON FOTOS ──
+async function exportarPDF() {
+  const btn = document.getElementById('btnPDF');
+  btn.textContent = '⏳ Generando PDF...';
+  btn.disabled = true;
+
+  try {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+    const pageW = 210; const pageH = 297;
+    const margin = 15;
+    let y = margin;
+
+    // ── PORTADA ──
+    doc.setFillColor(26, 74, 68);
+    doc.rect(0, 0, pageW, pageH, 'F');
+    doc.setTextColor(245, 240, 232);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(28);
+    doc.text('IBARRA INSUMOS', pageW/2, 100, { align: 'center' });
+    doc.setFontSize(13);
+    doc.setFont('helvetica', 'normal');
+    doc.text('Catálogo de Productos', pageW/2, 115, { align: 'center' });
+    doc.setFontSize(10);
+    doc.setTextColor(166, 124, 46);
+    doc.text('Distribuidora mayorista de limpieza e higiene institucional', pageW/2, 130, { align: 'center' });
+    doc.setTextColor(200, 200, 200);
+    doc.setFontSize(9);
+    doc.text(`Generado: ${new Date().toLocaleDateString('es-AR')}`, pageW/2, 260, { align: 'center' });
+    doc.text('ibs-delta.vercel.app  |  +54 11 4440-2807', pageW/2, 268, { align: 'center' });
+
+    // ── PÁGINA DE PRODUCTOS ──
+    doc.addPage();
+    y = margin;
+
+    // Header de página
+    doc.setFillColor(26, 74, 68);
+    doc.rect(0, 0, pageW, 20, 'F');
+    doc.setTextColor(245, 240, 232);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.text('IBARRA INSUMOS — Catálogo de Productos', margin, 13);
+    y = 28;
+
+    const cards = document.querySelectorAll('.product-card');
+    let col = 0;
+    const colW = (pageW - margin*2 - 10) / 2;
+    const cardH = 52;
+
+    for (let i = 0; i < Math.min(cards.length, 40); i++) {
+      const card = cards[i];
+      const nombre = card.querySelector('.product-name')?.textContent || '';
+      const cat = card.querySelector('.product-badge')?.textContent || '';
+      const desc = card.querySelector('.product-desc')?.textContent?.substring(0, 80) || '';
+      const imgEl = card.querySelector('.product-image img');
+
+      const x = margin + col * (colW + 10);
+
+      // Fondo card
+      doc.setFillColor(248, 246, 242);
+      doc.roundedRect(x, y, colW, cardH, 3, 3, 'F');
+      doc.setDrawColor(220, 215, 205);
+      doc.roundedRect(x, y, colW, cardH, 3, 3, 'S');
+
+      // Imagen del producto
+      if (imgEl && imgEl.src && imgEl.complete) {
+        try {
+          const canvas = document.createElement('canvas');
+          canvas.width = 60; canvas.height = 60;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(imgEl, 0, 0, 60, 60);
+          const imgData = canvas.toDataURL('image/jpeg', 0.8);
+          doc.addImage(imgData, 'JPEG', x + 2, y + 2, 28, 28);
+        } catch(e) {
+          doc.setFillColor(200, 200, 200);
+          doc.rect(x + 2, y + 2, 28, 28, 'F');
+        }
+      } else {
+        doc.setFillColor(220, 215, 205);
+        doc.rect(x + 2, y + 2, 28, 28, 'F');
+      }
+
+      // Badge categoría
+      doc.setFillColor(22, 163, 74);
+      doc.roundedRect(x + 32, y + 3, colW - 35, 6, 1, 1, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(6);
+      doc.text(cat.toUpperCase(), x + 34, y + 7.5);
+
+      // Nombre
+      doc.setTextColor(26, 36, 32);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      const nombreLines = doc.splitTextToSize(nombre, colW - 35);
+      doc.text(nombreLines.slice(0,2), x + 32, y + 14);
+
+      // Descripción
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(6.5);
+      doc.setTextColor(74, 107, 101);
+      const descLines = doc.splitTextToSize(desc, colW - 35);
+      doc.text(descLines.slice(0,3), x + 32, y + 23);
+
+      // Línea inferior con WA
+      doc.setFillColor(26, 74, 68);
+      doc.roundedRect(x + 32, y + cardH - 10, colW - 35, 8, 1, 1, 'F');
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(6.5);
+      doc.text('Consultar: wa.me/5491144402807', x + 34, y + cardH - 5);
+
+      col++;
+      if (col === 2) {
+        col = 0;
+        y += cardH + 6;
+        if (y + cardH > pageH - 20) {
+          doc.addPage();
+          // Header mini
+          doc.setFillColor(26, 74, 68);
+          doc.rect(0, 0, pageW, 14, 'F');
+          doc.setTextColor(245, 240, 232);
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(9);
+          doc.text('IBARRA INSUMOS — Catálogo', margin, 10);
+          y = 22;
+        }
+      }
+    }
+
+    // ── PIE DE ÚLTIMA PÁGINA ──
+    doc.setFillColor(26, 74, 68);
+    doc.rect(0, pageH - 18, pageW, 18, 'F');
+    doc.setTextColor(245, 240, 232);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.text('Ibarra Insumos  |  info@ibarrainsumos.com.ar  |  +54 11 4440-2807  |  ibs-delta.vercel.app', pageW/2, pageH - 7, { align: 'center' });
+
+    doc.save(`catalogo-ibarra-insumos-${new Date().toLocaleDateString('es-AR').replace(/\//g,'-')}.pdf`);
+
+  } catch(e) {
+    alert('Error al generar PDF: ' + e.message);
+    console.error(e);
+  }
+
+  btn.textContent = '📄 Catálogo PDF';
+  btn.disabled = false;
+}
+</script>
+
 </body>
 </html>
