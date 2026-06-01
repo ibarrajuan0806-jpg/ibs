@@ -1512,7 +1512,7 @@ async function exportarPDF() {
       if (imgEl && imgEl.src && imgEl.complete) {
 try {
   const canvas = document.createElement('canvas');
-  canvas.width = 60; canvas.height = 60;
+canvas.width = 120; canvas.height = 120;
   const ctx2 = canvas.getContext('2d');
   const proxyImg = new Image();
   proxyImg.crossOrigin = 'anonymous';
