@@ -1455,7 +1455,7 @@
     <div id="cartel-preview" style="border:2px solid var(--teal);border-radius:12px;padding:2rem;text-align:center;background:linear-gradient(135deg,#1a4a44,#2a6b62);margin-bottom:1.25rem;">
       <div style="font-size:2.5rem;margin-bottom:0.75rem;">🧼</div>
       <p id="cartel-msg-preview" style="font-family:'Montserrat',sans-serif;font-size:1.1rem;font-weight:700;color:white;margin-bottom:0.5rem;">Por favor lavá tus manos</p>
-      <p style="font-size:0.72rem;color:rgba(255,255,255,0.6);">— Provisto por Ibarra Insumos —</p>
+      <p style="font-size:0.72rem;color:rgba(255,255,255,0.6);">— provee Ibarra Insumos —</p>
       <p id="cartel-empresa-preview" style="font-size:0.8rem;color:rgba(255,255,255,0.8);margin-top:0.3rem;"></p>
     </div>
     <button onclick="imprimirCartel()" style="width:100%;background:var(--teal);color:white;border:none;border-radius:8px;padding:0.85rem;font-family:'Montserrat',sans-serif;font-size:0.82rem;font-weight:700;cursor:pointer;">🖨️ Imprimir / Descargar</button>
@@ -1748,7 +1748,7 @@
     const empresa = document.getElementById('cartel-empresa').value;
     const mensaje = document.getElementById('cartel-mensaje').value;
     const w = window.open('', '_blank');
-    w.document.write(`<!DOCTYPE html><html><head><title>Cartel Baño - Ibarra Insumos</title><style>body{margin:0;display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f5f2ec;font-family:'Arial',sans-serif;} .cartel{background:linear-gradient(135deg,#1a4a44,#2a6b62);color:white;padding:3rem 2.5rem;text-align:center;border-radius:16px;max-width:400px;width:90%;} .icono{font-size:4rem;margin-bottom:1rem;} .msg{font-size:1.6rem;font-weight:700;margin-bottom:0.75rem;} .sub{font-size:0.9rem;opacity:0.7;} .empresa{font-size:1rem;opacity:0.85;margin-top:0.5rem;font-weight:600;} @media print{body{background:white;}}</style></head><body><div class="cartel"><div class="icono">🧼</div><div class="msg">${mensaje}</div><div class="sub">— Provisto por Ibarra Insumos —</div>${empresa ? `<div class="empresa">${empresa}</div>` : ''}</div></body></html>`);
+    w.document.write(`<!DOCTYPE html><html><head><title>Cartel Baño - Ibarra Insumos</title><style>body{margin:0;display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f5f2ec;font-family:'Arial',sans-serif;} .cartel{background:linear-gradient(135deg,#1a4a44,#2a6b62);color:white;padding:3rem 2.5rem;text-align:center;border-radius:16px;max-width:400px;width:90%;} .icono{font-size:4rem;margin-bottom:1rem;} .msg{font-size:1.6rem;font-weight:700;margin-bottom:0.75rem;} .sub{font-size:0.9rem;opacity:0.7;} .empresa{font-size:1rem;opacity:0.85;margin-top:0.5rem;font-weight:600;} @media print{body{background:white;}}</style></head><body><div class="cartel"><div class="icono">🧼</div><div class="msg">${mensaje}</div><div class="sub">— Provee Ibarra Insumos —</div>${empresa ? `<div class="empresa">${empresa}</div>` : ''}</div></body></html>`);
     w.document.close();
     w.print();
   }
