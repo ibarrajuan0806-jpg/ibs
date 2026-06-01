@@ -51,7 +51,7 @@
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Ibarra Insumos",
-    "description": "Distribuidora mayorista de productos de limpieza, higiene institucional y descartables en CABA y GBA. Más de 40 años de experiencia. Proveedor del Gobierno de la Ciudad de Buenos Aires.",
+    "description": "Distribuidora mayorista de productos de limpieza, higiene institucional y descartables en CABA y GBA. Más de 40 años de experiencia. Proveedor del Gobierno de la Ciudad de Buenos Aires. Dispensers en comodato sin costo.",
     "url": "https://www.ibarrainsumos.com.ar",
     "telephone": "+5491144402807",
     "email": "info@ibarrainsumos.com.ar",
@@ -108,7 +108,7 @@
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Ibarra Insumos",
-    "description": "Distribuidora mayorista de productos de limpieza, higiene institucional y descartables",
+    "description": "Distribuidora mayorista de productos de limpieza, higiene institucional y descartables. Proveedor del Gobierno de la Ciudad de Buenos Aires. Más de 40 años de experiencia en CABA y GBA.",
     "url": "https://www.ibarrainsumos.com.ar",
     "telephone": "+5491144402807",
     "email": "info@ibarrainsumos.com.ar",
@@ -509,9 +509,9 @@
 </div>
 
 <section class="hero" id="inicio">
-  <div class="hero-badge">🏆 Desde 1985</div>
+  <div class="hero-badge">🏆 Proveedor del Gobierno de la Ciudad de Buenos Aires desde 1985</div>
   <h1 class="hero-title">IBARRA<br><span>INSUMOS</span></h1>
-  <p class="hero-subtitle">Distribuidora mayorista de productos de limpieza, higiene institucional y descartables en <strong style="color:var(--accent);">CABA y todo el Gran Buenos Aires</strong>. Más de 40 años de trayectoria.</p>
+  <p class="hero-subtitle">Distribuidora mayorista de productos de limpieza, higiene institucional y descartables en <strong style="color:var(--accent);">CABA y todo el Gran Buenos Aires</strong>. Más de 40 años de trayectoria. Dispensers en comodato sin costo.</p>
   <div class="hero-buttons">
     <button class="btn-primary" onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">Ver catálogo completo</button>
     <button class="btn-outline" onclick="window.open('https://wa.me/5491144402807?text=Hola!%20Quiero%20cotizar%20insumos%20para%20mi%20empresa.','_blank')">💬 Cotizá gratis por WhatsApp</button>
@@ -1418,7 +1418,7 @@
       <span class="ssl-badge">✅ Empresa verificada</span>
       <button onclick="document.getElementById('cartel-modal').style.display='flex'" style="background:none;border:1px solid rgba(240,236,228,0.3);color:rgba(240,236,228,0.6);border-radius:20px;padding:0.3rem 0.75rem;font-size:0.68rem;font-family:'Montserrat',sans-serif;font-weight:700;cursor:pointer;">🖨️ Generador de carteles</button>
       <button onclick="document.getElementById('etiqueta-modal').style.display='flex'" style="background:none;border:1px solid rgba(240,236,228,0.3);color:rgba(240,236,228,0.6);border-radius:20px;padding:0.3rem 0.75rem;font-size:0.68rem;font-family:'Montserrat',sans-serif;font-weight:700;cursor:pointer;">🏷️ Etiquetas personalizadas</button>
-      <span style="color:rgba(240,236,228,0.5);"></span>
+      <span style="color:rgba(240,236,228,0.5);">Proveedor del Gobierno de la Ciudad de Buenos Aires</span>
     </div>
   </div>
 </footer>
@@ -1745,7 +1745,7 @@
     document.getElementById('darkBtn').textContent = '☀️ Claro';
   }
 
-  // ── FAVICON ANIMADO (71) — cada 10 segundos hace algo llamativo ──
+  // ── FAVICON ANIMADO (71) — cada 1 minuto cambia por 2 segundos ──
   const faviconFrames = [
     { emoji: '📦', label: 'Insumos' },
     { emoji: '🧴', label: 'Higiene' },
@@ -1775,14 +1775,14 @@
     if (fav) fav.href = emojiToFavicon(frame.emoji);
     document.title = `${frame.emoji} Ibarra Insumos — ${frame.label}`;
     faviconIdx++;
-    // Volver al original después de 3 segundos
+    // Volver al original después de 2 segundos
     setTimeout(() => {
       if (fav && faviconOrig) fav.href = faviconOrig;
       document.title = titleOriginal;
-    }, 3000);
+    }, 2000);
   }
 
-  setInterval(animarFavicon, 10000);
+  setInterval(animarFavicon, 60000); // cada 1 minuto
   function exportarExcel() {
     const cards = document.querySelectorAll('.product-card');
     let csv = 'Nombre,Categoría,Subcategoría,Descripción\n';
