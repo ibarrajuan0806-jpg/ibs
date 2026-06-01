@@ -7,16 +7,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --teal: #1a4a44; --teal2: #2a6b62;
-      --green: #16a34a; --red: #ef4444;
-      --dark: #f5f2ec; --dark2: #ede9e0;
-      --text: #1a2420; --muted: #4a6b65;
-      --border: rgba(0,0,0,0.1);
-    }
+    :root { --teal: #1a4a44; --teal2: #2a6b62; --green: #16a34a; --red: #ef4444; --dark: #f5f2ec; --dark2: #ede9e0; --text: #1a2420; --muted: #4a6b65; --border: rgba(0,0,0,0.1); }
     body { font-family: 'Lato', sans-serif; background: #f0f4f8; color: var(--text); min-height: 100vh; }
-
-    /* LOGIN */
     #loginScreen { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: var(--teal); }
     .login-box { background: white; border-radius: 16px; padding: 2.5rem; width: 100%; max-width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
     .login-logo { text-align: center; margin-bottom: 2rem; }
@@ -32,40 +24,28 @@
     .btn-primary:hover { background: var(--teal2); }
     .btn-danger { background: var(--red); color: white; width: auto; padding: 0.45rem 0.9rem; font-size: 0.72rem; }
     .error-msg { color: var(--red); font-size: 0.82rem; text-align: center; margin-top: 0.75rem; display: none; }
-
-    /* ADMIN PANEL */
     #adminPanel { display: none; }
     .admin-header { background: var(--teal); padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
     .admin-header h1 { font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; color: white; }
     .btn-logout { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; padding: 0.45rem 1rem; font-family: 'Montserrat', sans-serif; font-size: 0.72rem; font-weight: 600; cursor: pointer; }
     .admin-body { max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem; display: grid; grid-template-columns: 380px 1fr; gap: 2rem; align-items: start; }
-
-    /* FORM PANEL */
+    .admin-tabs-wrapper { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1.5rem 0; }
+    .admin-tabs { display: flex; border-bottom: 2px solid var(--dark2); }
+    .admin-tab { padding: 0.6rem 1.25rem; font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 700; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; background: none; border-top: none; border-left: none; border-right: none; transition: all 0.2s; }
+    .admin-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
     .panel { background: white; border-radius: 12px; padding: 1.75rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
     .panel-title { font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--dark2); }
-
-    /* IMAGE UPLOAD */
-    .upload-area { border: 2px dashed var(--border); border-radius: 8px; padding: 1.5rem; text-align: center; cursor: pointer; transition: border-color 0.2s; margin-bottom: 1rem; }
-    .upload-area:hover { border-color: var(--teal); }
-    .upload-area p { font-size: 0.82rem; color: var(--muted); }
-    .upload-area input { display: none; }
-    #previewImg { max-width: 100%; max-height: 150px; border-radius: 8px; margin-top: 0.75rem; display: none; }
-    .upload-progress { display: none; margin-top: 0.5rem; }
-    .progress-bar { height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--teal); width: 0%; transition: width 0.3s; }
-
-    /* GALERÍA MÚLTIPLE */
-    .multi-upload-area { border: 2px dashed var(--border); border-radius: 8px; padding: 1.25rem; text-align: center; cursor: pointer; transition: border-color 0.2s; margin-bottom: 0.75rem; }
+    .multi-upload-area { border: 2px dashed var(--border); border-radius: 8px; padding: 1.25rem; text-align: center; cursor: pointer; margin-bottom: 0.75rem; }
     .multi-upload-area:hover { border-color: var(--teal); }
     .fotos-preview { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-top: 0.75rem; }
     .foto-thumb { position: relative; aspect-ratio: 1; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); }
     .foto-thumb img { width: 100%; height: 100%; object-fit: cover; }
-    .foto-thumb .foto-principal { position: absolute; top: 0; left: 0; background: var(--teal); color: white; font-size: 0.6rem; font-family: 'Montserrat', sans-serif; font-weight: 700; padding: 0.2rem 0.4rem; }
-    .foto-thumb .foto-del { position: absolute; top: 0; right: 0; background: var(--red); color: white; border: none; width: 22px; height: 22px; border-radius: 0 0 0 6px; cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; }
-    .foto-thumb .foto-set-principal { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.6); color: white; border: none; font-size: 0.6rem; font-family: 'Montserrat', sans-serif; padding: 0.2rem; cursor: pointer; text-align: center; opacity: 0; transition: opacity 0.2s; }
+    .foto-principal { position: absolute; top: 0; left: 0; background: var(--teal); color: white; font-size: 0.6rem; font-family: 'Montserrat', sans-serif; font-weight: 700; padding: 0.2rem 0.4rem; }
+    .foto-del { position: absolute; top: 0; right: 0; background: var(--red); color: white; border: none; width: 22px; height: 22px; cursor: pointer; font-size: 0.8rem; }
+    .foto-set-principal { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.6); color: white; border: none; font-size: 0.6rem; font-family: 'Montserrat', sans-serif; padding: 0.2rem; cursor: pointer; opacity: 0; transition: opacity 0.2s; }
     .foto-thumb:hover .foto-set-principal { opacity: 1; }
-    .upload-progress-multi { margin-top: 0.5rem; }
-
+    .progress-bar { height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; margin-top: 0.5rem; }
+    .progress-fill { height: 100%; background: var(--teal); width: 0%; transition: width 0.3s; }
     .products-list { display: flex; flex-direction: column; gap: 0.75rem; max-height: 600px; overflow-y: auto; }
     .product-item { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1rem; border: 1px solid var(--border); border-radius: 10px; background: var(--dark); }
     .product-item img { width: 52px; height: 52px; object-fit: contain; border-radius: 6px; background: white; padding: 4px; flex-shrink: 0; }
@@ -75,27 +55,9 @@
     .product-item-cat { font-size: 0.72rem; color: var(--muted); margin-top: 0.1rem; }
     .product-item-actions { display: flex; gap: 0.4rem; }
     .btn-edit { background: var(--teal); color: white; border: none; border-radius: 6px; padding: 0.4rem 0.75rem; font-size: 0.72rem; font-family: 'Montserrat', sans-serif; font-weight: 600; cursor: pointer; }
-
-    /* TOAST */
-    #toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--teal); color: white; padding: 0.75rem 1.5rem; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 600; z-index: 9999; opacity: 0; transition: all 0.3s; pointer-events: none; }
-    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-    #toast.error { background: var(--red); }
-
-    .loading { text-align: center; color: var(--muted); font-size: 0.84rem; padding: 2rem; }
-    .empty { text-align: center; color: var(--muted); font-size: 0.84rem; padding: 2rem; }
-
-    @media (max-width: 768px) { .admin-body { grid-template-columns: 1fr; } }
-
-    /* TABS */
-    .admin-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--dark2); margin-bottom: 1.5rem; }
-    .admin-tab { padding: 0.6rem 1.25rem; font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 700; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; }
-    .admin-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
-
-    /* GESTOR CATEGORÍAS */
     .cat-manager { display: flex; flex-direction: column; gap: 0.75rem; }
-    .cat-row { background: var(--dark); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-    .cat-header { display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1rem; cursor: grab; user-select: none; }
-    .cat-header:active { cursor: grabbing; }
+    .cat-row-admin { background: var(--dark); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .cat-header-admin { display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1rem; user-select: none; }
     .drag-handle { color: var(--muted); font-size: 1rem; cursor: grab; flex-shrink: 0; }
     .cat-name-display { flex: 1; font-family: 'Montserrat', sans-serif; font-size: 0.88rem; font-weight: 700; color: var(--text); }
     .cat-count { font-size: 0.72rem; color: var(--muted); }
@@ -113,13 +75,18 @@
     .sub-drag { color: var(--muted); font-size: 0.8rem; cursor: grab; }
     .sub-name { flex: 1; font-size: 0.82rem; color: var(--text); }
     .add-sub-row { display: flex; gap: 0.5rem; margin-top: 0.75rem; }
-    .add-sub-row input { flex: 1; padding: 0.5rem 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.82rem; font-family: 'Lato', sans-serif; outline: none; }
+    .add-sub-row input { flex: 1; padding: 0.5rem 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 0.82rem; outline: none; }
     .dragging { opacity: 0.4; }
-    .drag-over { border: 2px dashed var(--teal); }
+    .drag-over { border: 2px dashed var(--teal) !important; }
+    #toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--teal); color: white; padding: 0.75rem 1.5rem; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 600; z-index: 9999; opacity: 0; transition: all 0.3s; pointer-events: none; }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    #toast.error { background: var(--red); }
+    .loading { text-align: center; color: var(--muted); font-size: 0.84rem; padding: 2rem; }
+    .empty { text-align: center; color: var(--muted); font-size: 0.84rem; padding: 2rem; }
+    @media (max-width: 768px) { .admin-body { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
-
 <div id="toast"></div>
 
 <!-- LOGIN -->
@@ -144,9 +111,7 @@
     <h1>📦 Panel de Administración — Ibarra Insumos</h1>
     <button class="btn-logout" onclick="logout()">Cerrar sesión</button>
   </div>
-
-  <!-- TABS -->
-  <div style="max-width:1100px;margin:0 auto;padding:1.5rem 1.5rem 0;">
+  <div class="admin-tabs-wrapper">
     <div class="admin-tabs">
       <button class="admin-tab active" onclick="switchTab('productos')">📦 Productos</button>
       <button class="admin-tab" onclick="switchTab('categorias')">🗂️ Categorías</button>
@@ -155,20 +120,19 @@
 
   <!-- TAB PRODUCTOS -->
   <div id="tab-productos" class="admin-body">
-    <!-- FORMULARIO -->
     <div class="panel">
       <div class="panel-title" id="formTitle">Agregar Producto</div>
       <div class="form-group">
         <label>Fotos del producto (hasta 6)</label>
         <div class="multi-upload-area" onclick="document.getElementById('fileInput').click()">
-          <p>📷 Hacé clic para agregar fotos</p>
-          <p style="font-size:0.72rem; margin-top:0.3rem;">JPG, PNG, WEBP — máx 2MB cada una — Podés subir varias</p>
+          <p style="font-size:0.82rem;color:var(--muted);">📷 Hacé clic para agregar fotos</p>
+          <p style="font-size:0.72rem;color:var(--muted);margin-top:0.3rem;">JPG, PNG, WEBP — podés subir varias a la vez</p>
           <input type="file" id="fileInput" accept="image/*" multiple onchange="agregarFotos(this)" style="display:none;" />
         </div>
         <div class="fotos-preview" id="fotosPreview"></div>
-        <div class="upload-progress-multi" id="uploadProgressMulti" style="display:none;">
+        <div id="uploadProgressWrap" style="display:none;">
           <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-          <p style="font-size:0.72rem; color:var(--muted); margin-top:0.3rem;" id="uploadStatus">Subiendo...</p>
+          <p style="font-size:0.72rem;color:var(--muted);margin-top:0.3rem;" id="uploadStatus">Subiendo...</p>
         </div>
       </div>
       <div class="form-group">
@@ -193,12 +157,10 @@
       </div>
       <input type="hidden" id="editingId" value="" />
       <button class="btn btn-primary" id="submitBtn" onclick="guardarProducto()">Agregar Producto</button>
-      <button class="btn" id="cancelBtn" style="display:none; margin-top:0.5rem; background:var(--dark2); color:var(--text);" onclick="cancelarEdicion()">Cancelar</button>
+      <button class="btn" id="cancelBtn" style="display:none;margin-top:0.5rem;background:var(--dark2);color:var(--text);" onclick="cancelarEdicion()">Cancelar</button>
     </div>
-
-    <!-- LISTA DE PRODUCTOS -->
     <div class="panel">
-      <div class="panel-title">Productos cargados <span id="productCount" style="font-weight:400; color:var(--muted);"></span></div>
+      <div class="panel-title">Productos cargados <span id="productCount" style="font-weight:400;color:var(--muted);"></span></div>
       <div class="products-list" id="productsList">
         <div class="loading">Cargando productos...</div>
       </div>
@@ -206,33 +168,27 @@
   </div>
 
   <!-- TAB CATEGORÍAS -->
-  <div id="tab-categorias" style="display:none; max-width:1100px; margin:0 auto; padding:0 1.5rem 2rem;">
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:start;">
-
-      <!-- AGREGAR CATEGORÍA -->
+  <div id="tab-categorias" style="display:none;max-width:1100px;margin:0 auto;padding:1.5rem;">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;">
       <div class="panel">
         <div class="panel-title">➕ Nueva Categoría</div>
         <div class="form-group">
-          <label>Nombre de la categoría</label>
+          <label>Nombre</label>
           <input type="text" id="nuevaCatNombre" placeholder="Ej: Descartables" />
         </div>
         <div class="form-group">
           <label>Subcategorías (una por línea)</label>
-          <textarea id="nuevaCatSubs" placeholder="Vasos descartables&#10;Platos descartables&#10;Cubiertos descartables" style="min-height:120px;"></textarea>
+          <textarea id="nuevaCatSubs" placeholder="Vasos descartables&#10;Platos descartables" style="min-height:100px;"></textarea>
         </div>
         <button class="btn btn-primary" onclick="agregarCategoria()">Agregar Categoría</button>
       </div>
-
-      <!-- LISTA Y EDITOR DE CATEGORÍAS -->
       <div class="panel">
         <div class="panel-title">🗂️ Categorías actuales <span id="catCount" style="font-weight:400;color:var(--muted);"></span></div>
-        <p style="font-size:0.76rem;color:var(--muted);margin-bottom:1rem;">Arrastrá para reordenar. Hacé clic en ✏️ para editar o en ▼ para ver subcategorías.</p>
+        <p style="font-size:0.76rem;color:var(--muted);margin-bottom:1rem;">Arrastrá para reordenar. ✏️ para editar, ▼ para ver subcategorías.</p>
         <div class="cat-manager" id="catManager"></div>
       </div>
-
     </div>
   </div>
-
 </div>
 
 <script>
@@ -241,282 +197,71 @@
   const ADMIN_PASSWORD = 'Choco2026ok';
   const BUCKET = 'productos';
 
-  // SUBCATEGORIAS guardadas en localStorage para persistencia
-  let SUBCATEGORIAS = JSON.parse(localStorage.getItem('ibarra_cats') || 'null') || {
-    'Dispensers': ['Dispenser Toallas', 'Dispenser Jabón', 'Dispenser Papel', 'Dispenser Alcohol'],
-    'Papeles': ['Toallas Intercaladas', 'Toallas en Bobina', 'Toallas en Rollo', 'Papel Higiénico'],
-    'Limpieza': ['Lavandinas', 'Limpiadores Multiusos', 'Limpiavidrios', 'Desodorantes Ambientes', 'Alcoholes en Gel', 'Alcoholes al 70%', 'Baldes de Plástico', 'Blanqueadores para Ropa', 'Bolsas Camiseta', 'Cepillos de Mano', 'Escobas de Plástico', 'Esponjas y Fibras', 'Guantes Domésticos', 'Insecticidas', 'Jabones en Pan', 'Limpiabaños', 'Trapos de Piso'],
-    'Limpieza Institucional': ['Toallas de Papel', 'Jabones Líquidos Dispenser', 'Papeles Higiénicos Inst.', 'Detergentes Profesionales', 'Desengrasantes Profesionales', 'Guantes Industriales', 'Señales Piso Mojado'],
-    'Higiene': ['Higiene General'],
-    'Descartables': ['Descartables General']
-  };
-
+  let SUBCATEGORIAS = {};
   let uploadedImageUrl = '';
-  let fotosProducto = []; // [{url, esLocal, file, orden}]
-  let fotosExistentes = []; // fotos ya guardadas en Supabase al editar
+  let fotosProducto = [];
+  let fotosExistentes = [];
 
-  // ── FOTOS MÚLTIPLES ──
-  function agregarFotos(input) {
-    const files = Array.from(input.files);
-    const disponibles = 6 - fotosProducto.length;
-    if (disponibles <= 0) { showToast('Máximo 6 fotos por producto', true); return; }
-    files.slice(0, disponibles).forEach(file => {
-      const reader = new FileReader();
-      reader.onload = e => {
-        fotosProducto.push({ url: e.target.result, esLocal: true, file, orden: fotosProducto.length });
-        renderFotosPreview();
-      };
-      reader.readAsDataURL(file);
-    });
-    input.value = '';
-  }
+  function guardarCatsLocal() { localStorage.setItem('ibarra_cats', JSON.stringify(SUBCATEGORIAS)); }
 
-  function renderFotosPreview() {
-    const container = document.getElementById('fotosPreview');
-    container.innerHTML = fotosProducto.map((f, i) => `
-      <div class="foto-thumb" draggable="true" data-idx="${i}"
-           ondragstart="dragStartFoto(event)" ondragover="dragOverFoto(event)" ondrop="dropFoto(event)">
-        <img src="${f.url}" alt="Foto ${i+1}" />
-        ${i === 0 ? '<span class="foto-principal">★ Principal</span>' : ''}
-        <button class="foto-del" onclick="eliminarFotoLocal(${i})">✕</button>
-        ${i > 0 ? `<button class="foto-set-principal" onclick="setPrincipal(${i})">★ Hacer principal</button>` : ''}
-      </div>
-    `).join('');
-  }
-
-  function eliminarFotoLocal(idx) {
-    fotosProducto.splice(idx, 1);
-    fotosProducto.forEach((f, i) => f.orden = i);
-    renderFotosPreview();
-  }
-
-  function setPrincipal(idx) {
-    const [foto] = fotosProducto.splice(idx, 1);
-    fotosProducto.unshift(foto);
-    fotosProducto.forEach((f, i) => f.orden = i);
-    renderFotosPreview();
-  }
-
-  // ── DRAG & DROP FOTOS ──
-  let dragFotoIdx = null;
-  function dragStartFoto(e) { dragFotoIdx = parseInt(e.currentTarget.dataset.idx); e.currentTarget.style.opacity = '0.4'; }
-  function dragOverFoto(e) { e.preventDefault(); }
-  function dropFoto(e) {
-    e.preventDefault();
-    const targetIdx = parseInt(e.currentTarget.dataset.idx);
-    if (dragFotoIdx === null || dragFotoIdx === targetIdx) return;
-    const [moved] = fotosProducto.splice(dragFotoIdx, 1);
-    fotosProducto.splice(targetIdx, 0, moved);
-    fotosProducto.forEach((f, i) => f.orden = i);
-    renderFotosPreview();
-    dragFotoIdx = null;
-  }
-
-  async function uploadImage(file) {
-    const ext = file.name.split('.').pop();
-    const fileName = `producto_${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
-    const formData = new FormData();
-    formData.append('', file);
-    const res = await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET}/${fileName}`, {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${SUPABASE_KEY}`, 'apikey': SUPABASE_KEY, 'x-upsert': 'true' },
-      body: formData
-    });
-    if (!res.ok) throw new Error(await res.text());
-    return `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${fileName}`;
-  }
-
-  // ── GUARDAR PRODUCTO ──
-  async function guardarProducto() {
-    const nombre = document.getElementById('inputNombre').value.trim();
-    const descripcion = document.getElementById('inputDescripcion').value.trim();
-    const categoria = document.getElementById('inputCategoria').value;
-    const subcategoria = document.getElementById('inputSubcategoria').value;
-    const editingId = document.getElementById('editingId').value;
-
-    if (!nombre || !descripcion || !categoria || !subcategoria) { showToast('Completá todos los campos', true); return; }
-    if (fotosProducto.length === 0 && fotosExistentes.length === 0) { showToast('Agregá al menos una foto', true); return; }
-
-    const btn = document.getElementById('submitBtn');
-    btn.textContent = 'Guardando...'; btn.disabled = true;
-
-    // Subir fotos locales
-    document.getElementById('uploadProgressMulti').style.display = 'block';
-    document.getElementById('uploadStatus').textContent = 'Subiendo fotos...';
-
-    const urlsSubidas = [];
-    for (let i = 0; i < fotosProducto.length; i++) {
-      const f = fotosProducto[i];
-      document.getElementById('progressFill').style.width = `${((i+1)/fotosProducto.length)*100}%`;
-      if (f.esLocal && f.file) {
-        try { urlsSubidas.push({ url: await uploadImage(f.file), orden: f.orden }); }
-        catch(e) { showToast('Error al subir foto ' + (i+1), true); btn.textContent = editingId ? 'Guardar Cambios' : 'Agregar Producto'; btn.disabled = false; return; }
+  async function cargarCats() {
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/categorias?order=orden.asc`, {
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+      });
+      const cats = await res.json();
+      if (cats && cats.length > 0) {
+        SUBCATEGORIAS = {};
+        cats.forEach(c => { SUBCATEGORIAS[c.nombre] = c.subcategorias || []; });
+        guardarCatsLocal();
       } else {
-        urlsSubidas.push({ url: f.url, orden: f.orden });
+        SUBCATEGORIAS = JSON.parse(localStorage.getItem('ibarra_cats') || '{}');
       }
-    }
-
-    document.getElementById('uploadStatus').textContent = '✓ Fotos subidas';
-
-    // Imagen principal = primera foto
-    const imagen_url = urlsSubidas[0]?.url || fotosExistentes[0]?.imagen_url || '';
-    const data = { nombre, descripcion, categoria, subcategoria, imagen_url };
-
-    let res, productoId = editingId;
-    if (editingId) {
-      res = await fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${editingId}`, {
-        method: 'PATCH',
-        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-        body: JSON.stringify(data)
-      });
-    } else {
-      res = await fetch(`${SUPABASE_URL}/rest/v1/productos`, {
-        method: 'POST',
-        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
-        body: JSON.stringify(data)
-      });
-      const newProd = await res.json();
-      productoId = newProd[0]?.id;
-    }
-
-    // Guardar fotos en producto_imagenes
-    if (productoId && urlsSubidas.length > 0) {
-      // Si editando, borrar las fotos viejas que ya no están
-      if (editingId) {
-        await fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes?producto_id=eq.${editingId}`, {
-          method: 'DELETE',
-          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-        });
-      }
-      // Insertar todas las fotos nuevas
-      const fotosData = urlsSubidas.map(f => ({ producto_id: parseInt(productoId), imagen_url: f.url, orden: f.orden }));
-      await fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes`, {
-        method: 'POST',
-        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-        body: JSON.stringify(fotosData)
-      });
-    }
-
-    btn.textContent = editingId ? 'Guardar Cambios' : 'Agregar Producto';
-    btn.disabled = false;
-
-    if (res.ok || res.status === 201) {
-      showToast(editingId ? '✓ Producto actualizado' : '✓ Producto agregado');
-      resetForm(); cargarProductos();
-    } else {
-      showToast('Error al guardar', true);
+    } catch(e) {
+      SUBCATEGORIAS = JSON.parse(localStorage.getItem('ibarra_cats') || '{}');
     }
   }
 
-  // ── CARGAR PRODUCTOS ──
-  async function cargarProductos() {
-    const list = document.getElementById('productsList');
-    list.innerHTML = '<div class="loading">Cargando...</div>';
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?order=created_at.desc`, {
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+  async function sbPatch(nombre, subcategorias) {
+    await fetch(`${SUPABASE_URL}/rest/v1/categorias?nombre=eq.${encodeURIComponent(nombre)}`, {
+      method: 'PATCH', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ subcategorias })
     });
-    const productos = await res.json();
-    document.getElementById('productCount').textContent = `(${productos.length})`;
-    if (!productos.length) { list.innerHTML = '<div class="empty">No hay productos todavía.</div>'; return; }
-    list.innerHTML = productos.map(p => `
-      <div class="product-item">
-        ${p.imagen_url ? `<img src="${p.imagen_url}" alt="${p.nombre}" />` : `<div class="product-item-placeholder">📦</div>`}
-        <div class="product-item-info">
-          <div class="product-item-name">${p.nombre}</div>
-          <div class="product-item-cat">${p.categoria} › ${p.subcategoria}</div>
-        </div>
-        <div class="product-item-actions">
-          <button class="btn-edit" onclick="editarProducto(${p.id})">✏️</button>
-          <button class="btn btn-danger" onclick="eliminarProducto(${p.id})">🗑</button>
-        </div>
-      </div>
-    `).join('');
+    guardarCatsLocal();
   }
 
-  // ── EDITAR ──
-  async function editarProducto(id) {
-    const [resP, resF] = await Promise.all([
-      fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${id}`, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }),
-      fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes?producto_id=eq.${id}&order=orden.asc`, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } })
-    ]);
-    const [p] = await resP.json();
-    const fotos = await resF.json();
-
-    document.getElementById('inputNombre').value = p.nombre;
-    document.getElementById('inputDescripcion').value = p.descripcion;
-    document.getElementById('inputCategoria').value = p.categoria;
-    updateSubcategorias();
-    document.getElementById('inputSubcategoria').value = p.subcategoria;
-    document.getElementById('editingId').value = p.id;
-
-    // Cargar fotos existentes
-    fotosExistentes = fotos;
-    if (fotos.length > 0) {
-      fotosProducto = fotos.map(f => ({ url: f.imagen_url, esLocal: false, file: null, orden: f.orden }));
-    } else if (p.imagen_url) {
-      fotosProducto = [{ url: p.imagen_url, esLocal: false, file: null, orden: 0 }];
-    }
-    renderFotosPreview();
-
-    document.getElementById('formTitle').textContent = 'Editar Producto';
-    document.getElementById('submitBtn').textContent = 'Guardar Cambios';
-    document.getElementById('cancelBtn').style.display = 'block';
-    switchTab('productos');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  async function sbCreate(nombre, subcategorias, orden) {
+    await fetch(`${SUPABASE_URL}/rest/v1/categorias`, {
+      method: 'POST', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ nombre, subcategorias, orden })
+    });
+    guardarCatsLocal();
   }
 
-  async function eliminarProducto(id) {
-    if (!confirm('¿Eliminar este producto?')) return;
-    await fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes?producto_id=eq.${id}`, {
+  async function sbDelete(nombre) {
+    await fetch(`${SUPABASE_URL}/rest/v1/categorias?nombre=eq.${encodeURIComponent(nombre)}`, {
       method: 'DELETE', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
     });
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${id}`, {
-      method: 'DELETE', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-    });
-    if (res.ok) { showToast('✓ Eliminado'); cargarProductos(); }
-    else showToast('Error al eliminar', true);
+    guardarCatsLocal();
   }
 
-  function resetForm() {
-    document.getElementById('inputNombre').value = '';
-    document.getElementById('inputDescripcion').value = '';
-    document.getElementById('inputCategoria').value = '';
-    document.getElementById('inputSubcategoria').innerHTML = '<option value="">Primero elegí una categoría</option>';
-    document.getElementById('editingId').value = '';
-    document.getElementById('fileInput').value = '';
-    document.getElementById('fotosPreview').innerHTML = '';
-    document.getElementById('uploadProgressMulti').style.display = 'none';
-    document.getElementById('progressFill').style.width = '0%';
-    document.getElementById('formTitle').textContent = 'Agregar Producto';
-    document.getElementById('submitBtn').textContent = 'Agregar Producto';
-    document.getElementById('cancelBtn').style.display = 'none';
-    fotosProducto = [];
-    fotosExistentes = [];
-    uploadedImageUrl = '';
+  async function sbReorder() {
+    const cats = Object.keys(SUBCATEGORIAS);
+    for (let i = 0; i < cats.length; i++) {
+      await fetch(`${SUPABASE_URL}/rest/v1/categorias?nombre=eq.${encodeURIComponent(cats[i])}`, {
+        method: 'PATCH', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ orden: i + 1 })
+      });
+    }
+    guardarCatsLocal();
   }
 
-  function cancelarEdicion() { resetForm(); }
-    localStorage.setItem('ibarra_cats', JSON.stringify(SUBCATEGORIAS));
-  }
-
-  // ── TABS ──
-  function switchTab(tab) {
-    document.getElementById('tab-productos').style.display = tab === 'productos' ? 'grid' : 'none';
-    document.getElementById('tab-categorias').style.display = tab === 'categorias' ? 'block' : 'none';
-    document.querySelectorAll('.admin-tab').forEach((t, i) => {
-      t.classList.toggle('active', (tab === 'productos' && i === 0) || (tab === 'categorias' && i === 1));
-    });
-    if (tab === 'categorias') renderCategorias();
-  }
-
-  // ── AUTH ──
   function login() {
     const pw = document.getElementById('passwordInput').value;
     if (pw === ADMIN_PASSWORD) {
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('adminPanel').style.display = 'block';
-      cargarProductos();
-      populateCatSelect();
+      cargarCats().then(() => { populateCatSelect(); cargarProductos(); });
     } else {
       document.getElementById('loginError').style.display = 'block';
     }
@@ -528,315 +273,150 @@
     document.getElementById('passwordInput').value = '';
   }
 
-  // ── POBLAR SELECT DE CATEGORÍAS ──
+  function switchTab(tab) {
+    document.getElementById('tab-productos').style.display = tab === 'productos' ? 'grid' : 'none';
+    document.getElementById('tab-categorias').style.display = tab === 'categorias' ? 'block' : 'none';
+    document.querySelectorAll('.admin-tab').forEach((t, i) => t.classList.toggle('active', (tab === 'productos' && i === 0) || (tab === 'categorias' && i === 1)));
+    if (tab === 'categorias') renderCategorias();
+  }
+
   function populateCatSelect() {
     const sel = document.getElementById('inputCategoria');
     sel.innerHTML = '<option value="">Seleccioná una categoría</option>';
-    Object.keys(SUBCATEGORIAS).forEach(cat => {
-      const opt = document.createElement('option');
-      opt.value = cat; opt.textContent = cat;
-      sel.appendChild(opt);
-    });
+    Object.keys(SUBCATEGORIAS).forEach(cat => { const o = document.createElement('option'); o.value = cat; o.textContent = cat; sel.appendChild(o); });
   }
 
-  // ── SUBCATEGORIAS ──
   function updateSubcategorias() {
     const cat = document.getElementById('inputCategoria').value;
     const sel = document.getElementById('inputSubcategoria');
     sel.innerHTML = '<option value="">Seleccioná una subcategoría</option>';
-    if (cat && SUBCATEGORIAS[cat]) {
-      SUBCATEGORIAS[cat].forEach(s => {
-        const opt = document.createElement('option');
-        opt.value = s; opt.textContent = s;
-        sel.appendChild(opt);
-      });
-    }
+    if (cat && SUBCATEGORIAS[cat]) { SUBCATEGORIAS[cat].forEach(s => { const o = document.createElement('option'); o.value = s; o.textContent = s; sel.appendChild(o); }); }
   }
 
-  // ── GESTOR DE CATEGORÍAS ──
-  function renderCategorias() {
-    const manager = document.getElementById('catManager');
-    const cats = Object.keys(SUBCATEGORIAS);
-    document.getElementById('catCount').textContent = `(${cats.length})`;
-
-    manager.innerHTML = cats.map((cat, idx) => `
-      <div class="cat-row" draggable="true" data-cat="${cat}" 
-           ondragstart="dragStartCat(event)" ondragover="dragOverCat(event)" ondrop="dropCat(event)" ondragleave="dragLeaveCat(event)">
-        <div class="cat-header">
-          <span class="drag-handle">⠿</span>
-          <span class="cat-name-display">${cat}</span>
-          <span class="cat-count">${SUBCATEGORIAS[cat].length} subcategorías</span>
-          <div class="cat-actions">
-            <button class="btn-sm btn-sm-gray" onclick="toggleSubs('subs-${idx}')">▼ Subcats</button>
-            <button class="btn-sm btn-sm-teal" onclick="toggleEditCat('edit-${idx}', '${cat}')">✏️ Editar</button>
-            <button class="btn-sm btn-sm-red" onclick="eliminarCategoria('${cat}')">🗑</button>
-          </div>
-        </div>
-
-        <!-- EDIT FORM -->
-        <div class="cat-edit-form" id="edit-${idx}">
-          <div style="display:flex;gap:0.5rem;align-items:center;margin-bottom:0.5rem;">
-            <input type="text" id="editCatName-${idx}" value="${cat}" style="flex:1;padding:0.5rem 0.75rem;border:1px solid var(--border);border-radius:6px;font-size:0.84rem;font-family:'Lato',sans-serif;outline:none;" />
-            <button class="btn-sm btn-sm-teal" onclick="renombrarCategoria('${cat}', 'editCatName-${idx}')">Guardar</button>
-          </div>
-        </div>
-
-        <!-- SUBCATS -->
-        <div class="sub-list" id="subs-${idx}">
-          ${SUBCATEGORIAS[cat].map((sub, si) => `
-            <div class="sub-item" draggable="true" data-cat="${cat}" data-sub-idx="${si}"
-                 ondragstart="dragStartSub(event)" ondragover="dragOverSub(event)" ondrop="dropSub(event)">
-              <span class="sub-drag">⠿</span>
-              <span class="sub-name" id="subname-${idx}-${si}">${sub}</span>
-              <button class="btn-sm btn-sm-teal" onclick="editarSubcat('${cat}', ${si}, 'subname-${idx}-${si}', this)" style="font-size:0.62rem;">✏️</button>
-              <button class="btn-sm btn-sm-red" onclick="eliminarSubcat('${cat}', ${si})" style="font-size:0.62rem;">🗑</button>
-            </div>
-          `).join('')}
-          <div class="add-sub-row">
-            <input type="text" id="newSub-${idx}" placeholder="Nueva subcategoría..." onkeydown="if(event.key==='Enter') agregarSubcat('${cat}', 'newSub-${idx}')" />
-            <button class="btn-sm btn-sm-teal" onclick="agregarSubcat('${cat}', 'newSub-${idx}')">+ Agregar</button>
-          </div>
-        </div>
-      </div>
-    `).join('');
+  function agregarFotos(input) {
+    const files = Array.from(input.files);
+    const disponibles = 6 - fotosProducto.length;
+    if (disponibles <= 0) { showToast('Máximo 6 fotos', true); return; }
+    files.slice(0, disponibles).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = e => { fotosProducto.push({ url: e.target.result, esLocal: true, file, orden: fotosProducto.length }); renderFotosPreview(); };
+      reader.readAsDataURL(file);
+    });
+    input.value = '';
   }
 
-  function toggleSubs(id) {
-    const el = document.getElementById(id);
-    el.classList.toggle('open');
+  function renderFotosPreview() {
+    document.getElementById('fotosPreview').innerHTML = fotosProducto.map((f, i) => `
+      <div class="foto-thumb" draggable="true" data-idx="${i}" ondragstart="dragStartFoto(event)" ondragover="dragOverFoto(event)" ondrop="dropFoto(event)">
+        <img src="${f.url}" />
+        ${i === 0 ? '<span class="foto-principal">★ Principal</span>' : ''}
+        <button class="foto-del" onclick="eliminarFotoLocal(${i})">✕</button>
+        ${i > 0 ? `<button class="foto-set-principal" onclick="setPrincipal(${i})">★ Hacer principal</button>` : ''}
+      </div>`).join('');
   }
 
-  function toggleEditCat(id, cat) {
-    const el = document.getElementById(id);
-    el.classList.toggle('open');
-  }
+  function eliminarFotoLocal(idx) { fotosProducto.splice(idx, 1); renderFotosPreview(); }
+  function setPrincipal(idx) { const [f] = fotosProducto.splice(idx, 1); fotosProducto.unshift(f); renderFotosPreview(); }
 
-  function agregarCategoria() {
-    const nombre = document.getElementById('nuevaCatNombre').value.trim();
-    const subsRaw = document.getElementById('nuevaCatSubs').value.trim();
-    if (!nombre) { showToast('Ingresá el nombre de la categoría', true); return; }
-    if (SUBCATEGORIAS[nombre]) { showToast('Esa categoría ya existe', true); return; }
-    const subs = subsRaw ? subsRaw.split('\n').map(s => s.trim()).filter(Boolean) : [];
-    SUBCATEGORIAS[nombre] = subs;
-    guardarCats();
-    populateCatSelect();
-    renderCategorias();
-    document.getElementById('nuevaCatNombre').value = '';
-    document.getElementById('nuevaCatSubs').value = '';
-    showToast(`✓ Categoría "${nombre}" creada`);
-  }
-
-  function renombrarCategoria(catVieja, inputId) {
-    const nuevaNombre = document.getElementById(inputId).value.trim();
-    if (!nuevaNombre || nuevaNombre === catVieja) return;
-    if (SUBCATEGORIAS[nuevaNombre]) { showToast('Ese nombre ya existe', true); return; }
-    const subs = SUBCATEGORIAS[catVieja];
-    const cats = Object.keys(SUBCATEGORIAS);
-    const idx = cats.indexOf(catVieja);
-    const newObj = {};
-    cats.forEach((c, i) => { newObj[i === idx ? nuevaNombre : c] = SUBCATEGORIAS[c]; });
-    SUBCATEGORIAS = newObj;
-    guardarCats();
-    populateCatSelect();
-    renderCategorias();
-    showToast(`✓ Renombrada a "${nuevaNombre}"`);
-  }
-
-  function eliminarCategoria(cat) {
-    if (!confirm(`¿Eliminar la categoría "${cat}" y todas sus subcategorías?`)) return;
-    delete SUBCATEGORIAS[cat];
-    guardarCats();
-    populateCatSelect();
-    renderCategorias();
-    showToast(`✓ Categoría eliminada`);
-  }
-
-  function agregarSubcat(cat, inputId) {
-    const val = document.getElementById(inputId).value.trim();
-    if (!val) return;
-    if (SUBCATEGORIAS[cat].includes(val)) { showToast('Esa subcategoría ya existe', true); return; }
-    SUBCATEGORIAS[cat].push(val);
-    guardarCats();
-    renderCategorias();
-    showToast(`✓ "${val}" agregada`);
-  }
-
-  function eliminarSubcat(cat, idx) {
-    SUBCATEGORIAS[cat].splice(idx, 1);
-    guardarCats();
-    renderCategorias();
-    showToast('✓ Subcategoría eliminada');
-  }
-
-  function editarSubcat(cat, idx, spanId, btn) {
-    const span = document.getElementById(spanId);
-    const actual = span.textContent;
-    const input = document.createElement('input');
-    input.value = actual;
-    input.style.cssText = 'flex:1;padding:0.25rem 0.5rem;border:1px solid var(--teal);border-radius:4px;font-size:0.8rem;font-family:Lato,sans-serif;outline:none;';
-    span.replaceWith(input);
-    btn.textContent = '✅';
-    btn.onclick = () => {
-      const nuevo = input.value.trim();
-      if (nuevo) SUBCATEGORIAS[cat][idx] = nuevo;
-      guardarCats();
-      renderCategorias();
-      showToast('✓ Subcategoría actualizada');
-    };
-    input.focus();
-  }
-
-  // ── DRAG & DROP CATEGORÍAS ──
-  let dragCat = null;
-  function dragStartCat(e) { dragCat = e.currentTarget.dataset.cat; e.currentTarget.classList.add('dragging'); }
-  function dragOverCat(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
-  function dragLeaveCat(e) { e.currentTarget.classList.remove('drag-over'); }
-  function dropCat(e) {
+  let dragFotoIdx = null;
+  function dragStartFoto(e) { dragFotoIdx = parseInt(e.currentTarget.dataset.idx); }
+  function dragOverFoto(e) { e.preventDefault(); }
+  function dropFoto(e) {
     e.preventDefault();
-    e.currentTarget.classList.remove('drag-over');
-    const targetCat = e.currentTarget.dataset.cat;
-    if (!dragCat || dragCat === targetCat) return;
-    const cats = Object.keys(SUBCATEGORIAS);
-    const fromIdx = cats.indexOf(dragCat);
-    const toIdx = cats.indexOf(targetCat);
-    cats.splice(fromIdx, 1); cats.splice(toIdx, 0, dragCat);
-    const newObj = {};
-    cats.forEach(c => newObj[c] = SUBCATEGORIAS[c]);
-    SUBCATEGORIAS = newObj;
-    guardarCats();
-    populateCatSelect();
-    renderCategorias();
-    dragCat = null;
-  }
-
-  // ── DRAG & DROP SUBCATEGORÍAS ──
-  let dragSubCat = null, dragSubIdx = null;
-  function dragStartSub(e) {
-    dragSubCat = e.currentTarget.dataset.cat;
-    dragSubIdx = parseInt(e.currentTarget.dataset.subIdx);
-    e.currentTarget.classList.add('dragging');
-    e.stopPropagation();
-  }
-  function dragOverSub(e) { e.preventDefault(); e.stopPropagation(); }
-  function dropSub(e) {
-    e.preventDefault(); e.stopPropagation();
-    const targetCat = e.currentTarget.dataset.cat;
-    const targetIdx = parseInt(e.currentTarget.dataset.subIdx);
-    if (dragSubCat !== targetCat || dragSubIdx === targetIdx) return;
-    const subs = SUBCATEGORIAS[dragSubCat];
-    const [moved] = subs.splice(dragSubIdx, 1);
-    subs.splice(targetIdx, 0, moved);
-    guardarCats();
-    renderCategorias();
-    dragSubCat = null; dragSubIdx = null;
-  }
-
-  // ── IMAGE ──
-  function previewImage(input) {
-    const file = input.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-      const img = document.getElementById('previewImg');
-      img.src = e.target.result; img.style.display = 'block';
-    };
-    reader.readAsDataURL(file);
+    const to = parseInt(e.currentTarget.dataset.idx);
+    if (dragFotoIdx === null || dragFotoIdx === to) return;
+    const [m] = fotosProducto.splice(dragFotoIdx, 1); fotosProducto.splice(to, 0, m);
+    renderFotosPreview(); dragFotoIdx = null;
   }
 
   async function uploadImage(file) {
     const ext = file.name.split('.').pop();
-    const fileName = `producto_${Date.now()}.${ext}`;
-    document.getElementById('uploadProgress').style.display = 'block';
-    document.getElementById('progressFill').style.width = '30%';
-    document.getElementById('uploadStatus').textContent = 'Subiendo imagen...';
-    const formData = new FormData();
-    formData.append('', file);
+    const fileName = `producto_${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+    const formData = new FormData(); formData.append('', file);
     const res = await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET}/${fileName}`, {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${SUPABASE_KEY}`, 'apikey': SUPABASE_KEY, 'x-upsert': 'true' },
-      body: formData
+      method: 'POST', headers: { 'Authorization': `Bearer ${SUPABASE_KEY}`, 'apikey': SUPABASE_KEY, 'x-upsert': 'true' }, body: formData
     });
-    document.getElementById('progressFill').style.width = '100%';
-    if (!res.ok) { const err = await res.text(); document.getElementById('uploadStatus').textContent = '❌ Error'; throw new Error(err); }
-    document.getElementById('uploadStatus').textContent = '✓ Imagen subida';
+    if (!res.ok) throw new Error(await res.text());
     return `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${fileName}`;
   }
 
-  // ── GUARDAR PRODUCTO ──
   async function guardarProducto() {
     const nombre = document.getElementById('inputNombre').value.trim();
     const descripcion = document.getElementById('inputDescripcion').value.trim();
     const categoria = document.getElementById('inputCategoria').value;
     const subcategoria = document.getElementById('inputSubcategoria').value;
     const editingId = document.getElementById('editingId').value;
-    const fileInput = document.getElementById('fileInput');
     if (!nombre || !descripcion || !categoria || !subcategoria) { showToast('Completá todos los campos', true); return; }
-    let imagen_url = uploadedImageUrl;
-    if (fileInput.files[0]) {
-      try { imagen_url = await uploadImage(fileInput.files[0]); }
-      catch (e) { showToast('Error al subir la imagen', true); return; }
-    }
-    const data = { nombre, descripcion, categoria, subcategoria, imagen_url };
+    if (fotosProducto.length === 0 && fotosExistentes.length === 0) { showToast('Agregá al menos una foto', true); return; }
     const btn = document.getElementById('submitBtn');
     btn.textContent = 'Guardando...'; btn.disabled = true;
-    let res;
+    document.getElementById('uploadProgressWrap').style.display = 'block';
+    document.getElementById('uploadStatus').textContent = 'Subiendo fotos...';
+    const urlsSubidas = [];
+    for (let i = 0; i < fotosProducto.length; i++) {
+      const f = fotosProducto[i];
+      document.getElementById('progressFill').style.width = `${((i+1)/fotosProducto.length)*100}%`;
+      if (f.esLocal && f.file) {
+        try { urlsSubidas.push({ url: await uploadImage(f.file), orden: i }); }
+        catch(e) { showToast('Error al subir foto ' + (i+1), true); btn.textContent = editingId ? 'Guardar Cambios' : 'Agregar Producto'; btn.disabled = false; return; }
+      } else { urlsSubidas.push({ url: f.url, orden: i }); }
+    }
+    document.getElementById('uploadStatus').textContent = '✓ Listo';
+    const imagen_url = urlsSubidas[0]?.url || fotosExistentes[0]?.imagen_url || '';
+    const data = { nombre, descripcion, categoria, subcategoria, imagen_url };
+    let res, productoId = editingId;
     if (editingId) {
       res = await fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${editingId}`, {
-        method: 'PATCH',
-        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-        body: JSON.stringify(data)
+        method: 'PATCH', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' }, body: JSON.stringify(data)
       });
     } else {
       res = await fetch(`${SUPABASE_URL}/rest/v1/productos`, {
-        method: 'POST',
-        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-        body: JSON.stringify(data)
+        method: 'POST', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' }, body: JSON.stringify(data)
+      });
+      const newProd = await res.json(); productoId = newProd[0]?.id;
+    }
+    if (productoId && urlsSubidas.length > 0) {
+      if (editingId) await fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes?producto_id=eq.${editingId}`, { method: 'DELETE', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+      await fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes`, {
+        method: 'POST', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify(urlsSubidas.map(f => ({ producto_id: parseInt(productoId), imagen_url: f.url, orden: f.orden })))
       });
     }
-    btn.textContent = editingId ? 'Guardar Cambios' : 'Agregar Producto';
-    btn.disabled = false;
-    if (res.ok) { showToast(editingId ? '✓ Producto actualizado' : '✓ Producto agregado'); resetForm(); cargarProductos(); }
+    btn.textContent = editingId ? 'Guardar Cambios' : 'Agregar Producto'; btn.disabled = false;
+    if (res.ok || res.status === 201) { showToast(editingId ? '✓ Producto actualizado' : '✓ Producto agregado'); resetForm(); cargarProductos(); }
     else showToast('Error al guardar', true);
   }
 
-  // ── CARGAR PRODUCTOS ──
   async function cargarProductos() {
     const list = document.getElementById('productsList');
     list.innerHTML = '<div class="loading">Cargando...</div>';
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?order=created_at.desc`, {
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-    });
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?order=created_at.desc`, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
     const productos = await res.json();
     document.getElementById('productCount').textContent = `(${productos.length})`;
     if (!productos.length) { list.innerHTML = '<div class="empty">No hay productos todavía.</div>'; return; }
     list.innerHTML = productos.map(p => `
       <div class="product-item">
         ${p.imagen_url ? `<img src="${p.imagen_url}" alt="${p.nombre}" />` : `<div class="product-item-placeholder">📦</div>`}
-        <div class="product-item-info">
-          <div class="product-item-name">${p.nombre}</div>
-          <div class="product-item-cat">${p.categoria} › ${p.subcategoria}</div>
-        </div>
-        <div class="product-item-actions">
-          <button class="btn-edit" onclick="editarProducto(${p.id})">✏️</button>
-          <button class="btn btn-danger" onclick="eliminarProducto(${p.id})">🗑</button>
-        </div>
-      </div>
-    `).join('');
+        <div class="product-item-info"><div class="product-item-name">${p.nombre}</div><div class="product-item-cat">${p.categoria} › ${p.subcategoria}</div></div>
+        <div class="product-item-actions"><button class="btn-edit" onclick="editarProducto(${p.id})">✏️</button><button class="btn btn-danger" onclick="eliminarProducto(${p.id})">🗑</button></div>
+      </div>`).join('');
   }
 
   async function editarProducto(id) {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${id}`, {
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-    });
-    const [p] = await res.json();
+    const [resP, resF] = await Promise.all([
+      fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${id}`, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }),
+      fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes?producto_id=eq.${id}&order=orden.asc`, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } })
+    ]);
+    const [p] = await resP.json(); const fotos = await resF.json();
     document.getElementById('inputNombre').value = p.nombre;
     document.getElementById('inputDescripcion').value = p.descripcion;
     document.getElementById('inputCategoria').value = p.categoria;
     updateSubcategorias();
     document.getElementById('inputSubcategoria').value = p.subcategoria;
     document.getElementById('editingId').value = p.id;
-    uploadedImageUrl = p.imagen_url;
-    if (p.imagen_url) { const img = document.getElementById('previewImg'); img.src = p.imagen_url; img.style.display = 'block'; }
+    fotosExistentes = fotos;
+    fotosProducto = fotos.length > 0 ? fotos.map(f => ({ url: f.imagen_url, esLocal: false, file: null, orden: f.orden })) : (p.imagen_url ? [{ url: p.imagen_url, esLocal: false, file: null, orden: 0 }] : []);
+    renderFotosPreview();
     document.getElementById('formTitle').textContent = 'Editar Producto';
     document.getElementById('submitBtn').textContent = 'Guardar Cambios';
     document.getElementById('cancelBtn').style.display = 'block';
@@ -846,37 +426,160 @@
 
   async function eliminarProducto(id) {
     if (!confirm('¿Eliminar este producto?')) return;
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${id}`, {
-      method: 'DELETE',
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-    });
-    if (res.ok) { showToast('✓ Eliminado'); cargarProductos(); }
-    else showToast('Error al eliminar', true);
+    await fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes?producto_id=eq.${id}`, { method: 'DELETE', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${id}`, { method: 'DELETE', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } });
+    if (res.ok) { showToast('✓ Eliminado'); cargarProductos(); } else showToast('Error al eliminar', true);
   }
 
   function resetForm() {
-    document.getElementById('inputNombre').value = '';
-    document.getElementById('inputDescripcion').value = '';
-    document.getElementById('inputCategoria').value = '';
+    ['inputNombre','inputDescripcion','inputCategoria','editingId','fileInput'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
     document.getElementById('inputSubcategoria').innerHTML = '<option value="">Primero elegí una categoría</option>';
-    document.getElementById('editingId').value = '';
-    document.getElementById('fileInput').value = '';
-    document.getElementById('previewImg').style.display = 'none';
-    document.getElementById('uploadProgress').style.display = 'none';
+    document.getElementById('fotosPreview').innerHTML = '';
+    document.getElementById('uploadProgressWrap').style.display = 'none';
     document.getElementById('progressFill').style.width = '0%';
     document.getElementById('formTitle').textContent = 'Agregar Producto';
     document.getElementById('submitBtn').textContent = 'Agregar Producto';
     document.getElementById('cancelBtn').style.display = 'none';
-    uploadedImageUrl = '';
+    fotosProducto = []; fotosExistentes = []; uploadedImageUrl = '';
   }
 
   function cancelarEdicion() { resetForm(); }
 
+  function renderCategorias() {
+    const manager = document.getElementById('catManager');
+    const cats = Object.keys(SUBCATEGORIAS);
+    document.getElementById('catCount').textContent = `(${cats.length})`;
+    manager.innerHTML = cats.map((cat, idx) => `
+      <div class="cat-row-admin" draggable="true" data-cat="${cat.replace(/"/g,'&quot;')}"
+           ondragstart="dragStartCat(event)" ondragover="dragOverCat(event)" ondrop="dropCat(event)" ondragleave="dragLeaveCat(event)">
+        <div class="cat-header-admin">
+          <span class="drag-handle">⠿</span>
+          <span class="cat-name-display">${cat}</span>
+          <span class="cat-count">${SUBCATEGORIAS[cat].length} subcats</span>
+          <div class="cat-actions">
+            <button class="btn-sm btn-sm-gray" onclick="toggleSubs('subs-${idx}')">▼ Ver</button>
+            <button class="btn-sm btn-sm-teal" onclick="toggleEditCat('edit-${idx}')">✏️</button>
+            <button class="btn-sm btn-sm-red" onclick="eliminarCategoria('${cat.replace(/'/g,"\\'")}')">🗑</button>
+          </div>
+        </div>
+        <div class="cat-edit-form" id="edit-${idx}">
+          <div style="display:flex;gap:0.5rem;align-items:center;">
+            <input type="text" id="editCatName-${idx}" value="${cat}" style="flex:1;padding:0.5rem 0.75rem;border:1px solid var(--border);border-radius:6px;font-size:0.84rem;outline:none;" />
+            <button class="btn-sm btn-sm-teal" onclick="renombrarCategoria('${cat.replace(/'/g,"\\'")}','editCatName-${idx}')">Guardar</button>
+          </div>
+        </div>
+        <div class="sub-list" id="subs-${idx}">
+          ${SUBCATEGORIAS[cat].map((sub, si) => `
+            <div class="sub-item" draggable="true" data-cat="${cat.replace(/"/g,'&quot;')}" data-sub-idx="${si}"
+                 ondragstart="dragStartSub(event)" ondragover="dragOverSub(event)" ondrop="dropSub(event)">
+              <span class="sub-drag">⠿</span>
+              <span class="sub-name" id="subname-${idx}-${si}">${sub}</span>
+              <button class="btn-sm btn-sm-teal" onclick="editarSubcat('${cat.replace(/'/g,"\\'")}',${si},'subname-${idx}-${si}',this)" style="font-size:0.62rem;">✏️</button>
+              <button class="btn-sm btn-sm-red" onclick="eliminarSubcat('${cat.replace(/'/g,"\\'")}',${si})" style="font-size:0.62rem;">🗑</button>
+            </div>`).join('')}
+          <div class="add-sub-row">
+            <input type="text" id="newSub-${idx}" placeholder="Nueva subcategoría..." onkeydown="if(event.key==='Enter') agregarSubcat('${cat.replace(/'/g,"\\'")}','newSub-${idx}')" />
+            <button class="btn-sm btn-sm-teal" onclick="agregarSubcat('${cat.replace(/'/g,"\\'")}','newSub-${idx}')">+ Agregar</button>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+
+  function toggleSubs(id) { document.getElementById(id)?.classList.toggle('open'); }
+  function toggleEditCat(id) { document.getElementById(id)?.classList.toggle('open'); }
+
+  async function agregarCategoria() {
+    const nombre = document.getElementById('nuevaCatNombre').value.trim();
+    const subsRaw = document.getElementById('nuevaCatSubs').value.trim();
+    if (!nombre) { showToast('Ingresá el nombre', true); return; }
+    if (SUBCATEGORIAS[nombre]) { showToast('Ya existe', true); return; }
+    const subs = subsRaw ? subsRaw.split('\n').map(s => s.trim()).filter(Boolean) : [];
+    const orden = Object.keys(SUBCATEGORIAS).length + 1;
+    SUBCATEGORIAS[nombre] = subs; guardarCatsLocal();
+    await sbCreate(nombre, subs, orden);
+    populateCatSelect(); renderCategorias();
+    document.getElementById('nuevaCatNombre').value = '';
+    document.getElementById('nuevaCatSubs').value = '';
+    showToast(`✓ Categoría "${nombre}" creada`);
+  }
+
+  async function renombrarCategoria(catVieja, inputId) {
+    const nuevo = document.getElementById(inputId).value.trim();
+    if (!nuevo || nuevo === catVieja) return;
+    if (SUBCATEGORIAS[nuevo]) { showToast('Ya existe', true); return; }
+    const subs = SUBCATEGORIAS[catVieja];
+    const cats = Object.keys(SUBCATEGORIAS); const idx = cats.indexOf(catVieja);
+    const newObj = {}; cats.forEach((c, i) => { newObj[i === idx ? nuevo : c] = SUBCATEGORIAS[c]; });
+    SUBCATEGORIAS = newObj; guardarCatsLocal();
+    await sbCreate(nuevo, subs, idx + 1); await sbDelete(catVieja);
+    populateCatSelect(); renderCategorias(); showToast(`✓ Renombrada a "${nuevo}"`);
+  }
+
+  async function eliminarCategoria(cat) {
+    if (!confirm(`¿Eliminar "${cat}"?`)) return;
+    delete SUBCATEGORIAS[cat]; guardarCatsLocal();
+    await sbDelete(cat); populateCatSelect(); renderCategorias(); showToast('✓ Eliminada');
+  }
+
+  async function agregarSubcat(cat, inputId) {
+    const val = document.getElementById(inputId)?.value.trim();
+    if (!val) return;
+    if (SUBCATEGORIAS[cat].includes(val)) { showToast('Ya existe', true); return; }
+    SUBCATEGORIAS[cat].push(val); guardarCatsLocal();
+    await sbPatch(cat, SUBCATEGORIAS[cat]); renderCategorias(); showToast(`✓ "${val}" agregada`);
+  }
+
+  async function eliminarSubcat(cat, idx) {
+    SUBCATEGORIAS[cat].splice(idx, 1); guardarCatsLocal();
+    await sbPatch(cat, SUBCATEGORIAS[cat]); renderCategorias(); showToast('✓ Eliminada');
+  }
+
+  function editarSubcat(cat, idx, spanId, btn) {
+    const span = document.getElementById(spanId);
+    const input = document.createElement('input');
+    input.value = span.textContent;
+    input.style.cssText = 'flex:1;padding:0.25rem 0.5rem;border:1px solid var(--teal);border-radius:4px;font-size:0.8rem;outline:none;';
+    span.replaceWith(input); btn.textContent = '✅';
+    btn.onclick = async () => {
+      const nuevo = input.value.trim();
+      if (nuevo) SUBCATEGORIAS[cat][idx] = nuevo; guardarCatsLocal();
+      await sbPatch(cat, SUBCATEGORIAS[cat]); renderCategorias(); showToast('✓ Actualizada');
+    };
+    input.focus();
+  }
+
+  let dragCat = null;
+  function dragStartCat(e) { dragCat = e.currentTarget.dataset.cat; e.currentTarget.classList.add('dragging'); }
+  function dragOverCat(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+  function dragLeaveCat(e) { e.currentTarget.classList.remove('drag-over'); }
+  async function dropCat(e) {
+    e.preventDefault(); e.currentTarget.classList.remove('drag-over');
+    const targetCat = e.currentTarget.dataset.cat;
+    if (!dragCat || dragCat === targetCat) return;
+    const cats = Object.keys(SUBCATEGORIAS);
+    const from = cats.indexOf(dragCat); const to = cats.indexOf(targetCat);
+    cats.splice(from, 1); cats.splice(to, 0, dragCat);
+    const newObj = {}; cats.forEach(c => newObj[c] = SUBCATEGORIAS[c]);
+    SUBCATEGORIAS = newObj; guardarCatsLocal();
+    await sbReorder(); populateCatSelect(); renderCategorias(); dragCat = null;
+  }
+
+  let dragSubCat = null, dragSubIdx = null;
+  function dragStartSub(e) { dragSubCat = e.currentTarget.dataset.cat; dragSubIdx = parseInt(e.currentTarget.dataset.subIdx); e.stopPropagation(); }
+  function dragOverSub(e) { e.preventDefault(); e.stopPropagation(); }
+  async function dropSub(e) {
+    e.preventDefault(); e.stopPropagation();
+    const tCat = e.currentTarget.dataset.cat; const tIdx = parseInt(e.currentTarget.dataset.subIdx);
+    if (dragSubCat !== tCat || dragSubIdx === tIdx) return;
+    const [moved] = SUBCATEGORIAS[dragSubCat].splice(dragSubIdx, 1);
+    SUBCATEGORIAS[dragSubCat].splice(tIdx, 0, moved); guardarCatsLocal();
+    await sbPatch(dragSubCat, SUBCATEGORIAS[dragSubCat]); renderCategorias();
+    dragSubCat = null; dragSubIdx = null;
+  }
+
   function showToast(msg, error = false) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className = error ? 'show error' : 'show';
-    setTimeout(() => t.className = '', 3000);
+    const t = document.getElementById('toast'); t.textContent = msg;
+    t.className = error ? 'show error' : 'show'; setTimeout(() => t.className = '', 3000);
   }
 </script>
 </body>
