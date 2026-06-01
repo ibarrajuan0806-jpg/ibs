@@ -87,12 +87,34 @@
       <h1>🛡️ Ibarra Insumos</h1>
       <p>Panel de Administración</p>
     </div>
-    <div class="form-group">
-      <label>Contraseña</label>
-      <input type="password" id="passwordInput" placeholder="Ingresá la contraseña" onkeydown="if(event.key==='Enter') login()" />
+
+    <!-- PASO 1: Contraseña -->
+    <div id="step1">
+      <div class="form-group">
+        <label>Contraseña</label>
+        <input type="password" id="passwordInput" placeholder="Ingresá la contraseña" onkeydown="if(event.key==='Enter') verificarPassword()" />
+      </div>
+      <button class="btn btn-primary" onclick="verificarPassword()">Continuar</button>
+      <p class="error-msg" id="loginError">Contraseña incorrecta</p>
     </div>
-    <button class="btn btn-primary" onclick="login()">Ingresar</button>
-    <p class="error-msg" id="loginError">Contraseña incorrecta</p>
+
+    <!-- PASO 2: Código 2FA -->
+    <div id="step2" style="display:none;">
+      <div style="text-align:center; margin-bottom:1.25rem;">
+        <div style="font-size:2rem; margin-bottom:0.5rem;">🔐</div>
+        <p style="font-size:0.84rem; color:var(--muted); line-height:1.5;">Ingresá el código de verificación de <strong>6 dígitos</strong> que generó el sistema.</p>
+        <div id="codigo2FA" style="font-family:'Montserrat',sans-serif; font-size:2rem; font-weight:700; color:var(--teal); background:var(--dark); border-radius:10px; padding:0.75rem; margin:1rem 0; letter-spacing:0.3em; text-align:center;"></div>
+        <p style="font-size:0.72rem; color:var(--muted);">⏱ Este código expira en <span id="countdown">30</span> segundos</p>
+      </div>
+      <div class="form-group">
+        <label>Código de verificación</label>
+        <input type="text" id="codigoInput" placeholder="Ej: 482951" maxlength="6" style="letter-spacing:0.2em; font-size:1.2rem; text-align:center;" onkeydown="if(event.key==='Enter') verificarCodigo()" />
+      </div>
+      <button class="btn btn-primary" onclick="verificarCodigo()">Verificar y entrar</button>
+      <button onclick="volverStep1()" style="width:100%;margin-top:0.5rem;background:none;border:none;color:var(--muted);font-size:0.82rem;cursor:pointer;">← Volver</button>
+      <p class="error-msg" id="codigoError">Código incorrecto o expirado</p>
+    </div>
+
   </div>
 </div>
 
@@ -187,17 +209,71 @@
 
   let uploadedImageUrl = '';
 
-  // ── AUTH ──
-  function login() {
+  // ── AUTH CON 2FA ──
+  let codigo2FAActual = '';
+  let codigoExpira = 0;
+  let countdownInterval = null;
+
+  function generarCodigo() {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  }
+
+  function verificarPassword() {
     const pw = document.getElementById('passwordInput').value;
     if (pw === ADMIN_PASSWORD) {
-      document.getElementById('loginScreen').style.display = 'none';
-      document.getElementById('adminPanel').style.display = 'block';
-      cargarProductos();
+      document.getElementById('loginError').style.display = 'none';
+      // Generar código 2FA
+      codigo2FAActual = generarCodigo();
+      codigoExpira = Date.now() + 30000;
+      document.getElementById('codigo2FA').textContent = codigo2FAActual;
+      document.getElementById('step1').style.display = 'none';
+      document.getElementById('step2').style.display = 'block';
+      document.getElementById('codigoInput').value = '';
+      document.getElementById('codigoError').style.display = 'none';
+      // Countdown
+      let secs = 30;
+      document.getElementById('countdown').textContent = secs;
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        secs--;
+        document.getElementById('countdown').textContent = secs;
+        if (secs <= 0) {
+          clearInterval(countdownInterval);
+          codigo2FAActual = '';
+          document.getElementById('codigo2FA').textContent = 'EXPIRADO';
+        }
+      }, 1000);
     } else {
       document.getElementById('loginError').style.display = 'block';
     }
   }
+
+  function verificarCodigo() {
+    const input = document.getElementById('codigoInput').value.trim();
+    if (Date.now() > codigoExpira) {
+      document.getElementById('codigoError').style.display = 'block';
+      document.getElementById('codigoError').textContent = 'El código expiró. Volvé a intentar.';
+      return;
+    }
+    if (input === codigo2FAActual) {
+      clearInterval(countdownInterval);
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('adminPanel').style.display = 'block';
+      cargarProductos();
+    } else {
+      document.getElementById('codigoError').style.display = 'block';
+      document.getElementById('codigoError').textContent = 'Código incorrecto';
+    }
+  }
+
+  function volverStep1() {
+    clearInterval(countdownInterval);
+    document.getElementById('step1').style.display = 'block';
+    document.getElementById('step2').style.display = 'none';
+    document.getElementById('passwordInput').value = '';
+  }
+
+  function login() { verificarPassword(); }
 
   function logout() {
     document.getElementById('loginScreen').style.display = 'flex';
