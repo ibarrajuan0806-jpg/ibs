@@ -54,7 +54,18 @@
     .progress-bar { height: 6px; background: #e5e7eb; border-radius: 3px; overflow: hidden; }
     .progress-fill { height: 100%; background: var(--teal); width: 0%; transition: width 0.3s; }
 
-    /* PRODUCTS LIST */
+    /* GALERÍA MÚLTIPLE */
+    .multi-upload-area { border: 2px dashed var(--border); border-radius: 8px; padding: 1.25rem; text-align: center; cursor: pointer; transition: border-color 0.2s; margin-bottom: 0.75rem; }
+    .multi-upload-area:hover { border-color: var(--teal); }
+    .fotos-preview { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-top: 0.75rem; }
+    .foto-thumb { position: relative; aspect-ratio: 1; border-radius: 6px; overflow: hidden; border: 1px solid var(--border); }
+    .foto-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .foto-thumb .foto-principal { position: absolute; top: 0; left: 0; background: var(--teal); color: white; font-size: 0.6rem; font-family: 'Montserrat', sans-serif; font-weight: 700; padding: 0.2rem 0.4rem; }
+    .foto-thumb .foto-del { position: absolute; top: 0; right: 0; background: var(--red); color: white; border: none; width: 22px; height: 22px; border-radius: 0 0 0 6px; cursor: pointer; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; }
+    .foto-thumb .foto-set-principal { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.6); color: white; border: none; font-size: 0.6rem; font-family: 'Montserrat', sans-serif; padding: 0.2rem; cursor: pointer; text-align: center; opacity: 0; transition: opacity 0.2s; }
+    .foto-thumb:hover .foto-set-principal { opacity: 1; }
+    .upload-progress-multi { margin-top: 0.5rem; }
+
     .products-list { display: flex; flex-direction: column; gap: 0.75rem; max-height: 600px; overflow-y: auto; }
     .product-item { display: flex; align-items: center; gap: 1rem; padding: 0.85rem 1rem; border: 1px solid var(--border); border-radius: 10px; background: var(--dark); }
     .product-item img { width: 52px; height: 52px; object-fit: contain; border-radius: 6px; background: white; padding: 4px; flex-shrink: 0; }
@@ -148,14 +159,14 @@
     <div class="panel">
       <div class="panel-title" id="formTitle">Agregar Producto</div>
       <div class="form-group">
-        <label>Foto del producto</label>
-        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
-          <p>📷 Hacé clic para subir una foto</p>
-          <p style="font-size:0.72rem; margin-top:0.3rem;">JPG, PNG, WEBP — máx 2MB</p>
-          <img id="previewImg" src="" alt="Preview" />
-          <input type="file" id="fileInput" accept="image/*" onchange="previewImage(this)" />
+        <label>Fotos del producto (hasta 6)</label>
+        <div class="multi-upload-area" onclick="document.getElementById('fileInput').click()">
+          <p>📷 Hacé clic para agregar fotos</p>
+          <p style="font-size:0.72rem; margin-top:0.3rem;">JPG, PNG, WEBP — máx 2MB cada una — Podés subir varias</p>
+          <input type="file" id="fileInput" accept="image/*" multiple onchange="agregarFotos(this)" style="display:none;" />
         </div>
-        <div class="upload-progress" id="uploadProgress">
+        <div class="fotos-preview" id="fotosPreview"></div>
+        <div class="upload-progress-multi" id="uploadProgressMulti" style="display:none;">
           <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
           <p style="font-size:0.72rem; color:var(--muted); margin-top:0.3rem;" id="uploadStatus">Subiendo...</p>
         </div>
@@ -241,8 +252,250 @@
   };
 
   let uploadedImageUrl = '';
+  let fotosProducto = []; // [{url, esLocal, file, orden}]
+  let fotosExistentes = []; // fotos ya guardadas en Supabase al editar
 
-  function guardarCats() {
+  // ── FOTOS MÚLTIPLES ──
+  function agregarFotos(input) {
+    const files = Array.from(input.files);
+    const disponibles = 6 - fotosProducto.length;
+    if (disponibles <= 0) { showToast('Máximo 6 fotos por producto', true); return; }
+    files.slice(0, disponibles).forEach(file => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        fotosProducto.push({ url: e.target.result, esLocal: true, file, orden: fotosProducto.length });
+        renderFotosPreview();
+      };
+      reader.readAsDataURL(file);
+    });
+    input.value = '';
+  }
+
+  function renderFotosPreview() {
+    const container = document.getElementById('fotosPreview');
+    container.innerHTML = fotosProducto.map((f, i) => `
+      <div class="foto-thumb" draggable="true" data-idx="${i}"
+           ondragstart="dragStartFoto(event)" ondragover="dragOverFoto(event)" ondrop="dropFoto(event)">
+        <img src="${f.url}" alt="Foto ${i+1}" />
+        ${i === 0 ? '<span class="foto-principal">★ Principal</span>' : ''}
+        <button class="foto-del" onclick="eliminarFotoLocal(${i})">✕</button>
+        ${i > 0 ? `<button class="foto-set-principal" onclick="setPrincipal(${i})">★ Hacer principal</button>` : ''}
+      </div>
+    `).join('');
+  }
+
+  function eliminarFotoLocal(idx) {
+    fotosProducto.splice(idx, 1);
+    fotosProducto.forEach((f, i) => f.orden = i);
+    renderFotosPreview();
+  }
+
+  function setPrincipal(idx) {
+    const [foto] = fotosProducto.splice(idx, 1);
+    fotosProducto.unshift(foto);
+    fotosProducto.forEach((f, i) => f.orden = i);
+    renderFotosPreview();
+  }
+
+  // ── DRAG & DROP FOTOS ──
+  let dragFotoIdx = null;
+  function dragStartFoto(e) { dragFotoIdx = parseInt(e.currentTarget.dataset.idx); e.currentTarget.style.opacity = '0.4'; }
+  function dragOverFoto(e) { e.preventDefault(); }
+  function dropFoto(e) {
+    e.preventDefault();
+    const targetIdx = parseInt(e.currentTarget.dataset.idx);
+    if (dragFotoIdx === null || dragFotoIdx === targetIdx) return;
+    const [moved] = fotosProducto.splice(dragFotoIdx, 1);
+    fotosProducto.splice(targetIdx, 0, moved);
+    fotosProducto.forEach((f, i) => f.orden = i);
+    renderFotosPreview();
+    dragFotoIdx = null;
+  }
+
+  async function uploadImage(file) {
+    const ext = file.name.split('.').pop();
+    const fileName = `producto_${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+    const formData = new FormData();
+    formData.append('', file);
+    const res = await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET}/${fileName}`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${SUPABASE_KEY}`, 'apikey': SUPABASE_KEY, 'x-upsert': 'true' },
+      body: formData
+    });
+    if (!res.ok) throw new Error(await res.text());
+    return `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${fileName}`;
+  }
+
+  // ── GUARDAR PRODUCTO ──
+  async function guardarProducto() {
+    const nombre = document.getElementById('inputNombre').value.trim();
+    const descripcion = document.getElementById('inputDescripcion').value.trim();
+    const categoria = document.getElementById('inputCategoria').value;
+    const subcategoria = document.getElementById('inputSubcategoria').value;
+    const editingId = document.getElementById('editingId').value;
+
+    if (!nombre || !descripcion || !categoria || !subcategoria) { showToast('Completá todos los campos', true); return; }
+    if (fotosProducto.length === 0 && fotosExistentes.length === 0) { showToast('Agregá al menos una foto', true); return; }
+
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = 'Guardando...'; btn.disabled = true;
+
+    // Subir fotos locales
+    document.getElementById('uploadProgressMulti').style.display = 'block';
+    document.getElementById('uploadStatus').textContent = 'Subiendo fotos...';
+
+    const urlsSubidas = [];
+    for (let i = 0; i < fotosProducto.length; i++) {
+      const f = fotosProducto[i];
+      document.getElementById('progressFill').style.width = `${((i+1)/fotosProducto.length)*100}%`;
+      if (f.esLocal && f.file) {
+        try { urlsSubidas.push({ url: await uploadImage(f.file), orden: f.orden }); }
+        catch(e) { showToast('Error al subir foto ' + (i+1), true); btn.textContent = editingId ? 'Guardar Cambios' : 'Agregar Producto'; btn.disabled = false; return; }
+      } else {
+        urlsSubidas.push({ url: f.url, orden: f.orden });
+      }
+    }
+
+    document.getElementById('uploadStatus').textContent = '✓ Fotos subidas';
+
+    // Imagen principal = primera foto
+    const imagen_url = urlsSubidas[0]?.url || fotosExistentes[0]?.imagen_url || '';
+    const data = { nombre, descripcion, categoria, subcategoria, imagen_url };
+
+    let res, productoId = editingId;
+    if (editingId) {
+      res = await fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${editingId}`, {
+        method: 'PATCH',
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify(data)
+      });
+    } else {
+      res = await fetch(`${SUPABASE_URL}/rest/v1/productos`, {
+        method: 'POST',
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' },
+        body: JSON.stringify(data)
+      });
+      const newProd = await res.json();
+      productoId = newProd[0]?.id;
+    }
+
+    // Guardar fotos en producto_imagenes
+    if (productoId && urlsSubidas.length > 0) {
+      // Si editando, borrar las fotos viejas que ya no están
+      if (editingId) {
+        await fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes?producto_id=eq.${editingId}`, {
+          method: 'DELETE',
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+        });
+      }
+      // Insertar todas las fotos nuevas
+      const fotosData = urlsSubidas.map(f => ({ producto_id: parseInt(productoId), imagen_url: f.url, orden: f.orden }));
+      await fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes`, {
+        method: 'POST',
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify(fotosData)
+      });
+    }
+
+    btn.textContent = editingId ? 'Guardar Cambios' : 'Agregar Producto';
+    btn.disabled = false;
+
+    if (res.ok || res.status === 201) {
+      showToast(editingId ? '✓ Producto actualizado' : '✓ Producto agregado');
+      resetForm(); cargarProductos();
+    } else {
+      showToast('Error al guardar', true);
+    }
+  }
+
+  // ── CARGAR PRODUCTOS ──
+  async function cargarProductos() {
+    const list = document.getElementById('productsList');
+    list.innerHTML = '<div class="loading">Cargando...</div>';
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?order=created_at.desc`, {
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+    const productos = await res.json();
+    document.getElementById('productCount').textContent = `(${productos.length})`;
+    if (!productos.length) { list.innerHTML = '<div class="empty">No hay productos todavía.</div>'; return; }
+    list.innerHTML = productos.map(p => `
+      <div class="product-item">
+        ${p.imagen_url ? `<img src="${p.imagen_url}" alt="${p.nombre}" />` : `<div class="product-item-placeholder">📦</div>`}
+        <div class="product-item-info">
+          <div class="product-item-name">${p.nombre}</div>
+          <div class="product-item-cat">${p.categoria} › ${p.subcategoria}</div>
+        </div>
+        <div class="product-item-actions">
+          <button class="btn-edit" onclick="editarProducto(${p.id})">✏️</button>
+          <button class="btn btn-danger" onclick="eliminarProducto(${p.id})">🗑</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ── EDITAR ──
+  async function editarProducto(id) {
+    const [resP, resF] = await Promise.all([
+      fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${id}`, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } }),
+      fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes?producto_id=eq.${id}&order=orden.asc`, { headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` } })
+    ]);
+    const [p] = await resP.json();
+    const fotos = await resF.json();
+
+    document.getElementById('inputNombre').value = p.nombre;
+    document.getElementById('inputDescripcion').value = p.descripcion;
+    document.getElementById('inputCategoria').value = p.categoria;
+    updateSubcategorias();
+    document.getElementById('inputSubcategoria').value = p.subcategoria;
+    document.getElementById('editingId').value = p.id;
+
+    // Cargar fotos existentes
+    fotosExistentes = fotos;
+    if (fotos.length > 0) {
+      fotosProducto = fotos.map(f => ({ url: f.imagen_url, esLocal: false, file: null, orden: f.orden }));
+    } else if (p.imagen_url) {
+      fotosProducto = [{ url: p.imagen_url, esLocal: false, file: null, orden: 0 }];
+    }
+    renderFotosPreview();
+
+    document.getElementById('formTitle').textContent = 'Editar Producto';
+    document.getElementById('submitBtn').textContent = 'Guardar Cambios';
+    document.getElementById('cancelBtn').style.display = 'block';
+    switchTab('productos');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  async function eliminarProducto(id) {
+    if (!confirm('¿Eliminar este producto?')) return;
+    await fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes?producto_id=eq.${id}`, {
+      method: 'DELETE', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${id}`, {
+      method: 'DELETE', headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+    });
+    if (res.ok) { showToast('✓ Eliminado'); cargarProductos(); }
+    else showToast('Error al eliminar', true);
+  }
+
+  function resetForm() {
+    document.getElementById('inputNombre').value = '';
+    document.getElementById('inputDescripcion').value = '';
+    document.getElementById('inputCategoria').value = '';
+    document.getElementById('inputSubcategoria').innerHTML = '<option value="">Primero elegí una categoría</option>';
+    document.getElementById('editingId').value = '';
+    document.getElementById('fileInput').value = '';
+    document.getElementById('fotosPreview').innerHTML = '';
+    document.getElementById('uploadProgressMulti').style.display = 'none';
+    document.getElementById('progressFill').style.width = '0%';
+    document.getElementById('formTitle').textContent = 'Agregar Producto';
+    document.getElementById('submitBtn').textContent = 'Agregar Producto';
+    document.getElementById('cancelBtn').style.display = 'none';
+    fotosProducto = [];
+    fotosExistentes = [];
+    uploadedImageUrl = '';
+  }
+
+  function cancelarEdicion() { resetForm(); }
     localStorage.setItem('ibarra_cats', JSON.stringify(SUBCATEGORIAS));
   }
 

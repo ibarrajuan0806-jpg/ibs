@@ -58,7 +58,7 @@
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Ibarra Insumos",
-    "description": "Distribuidora mayorista de productos de limpieza, higiene institucional y descartables en CABA y GBA. Más de 40 años de experiencia. Proveedor del Gobierno de la Ciudad de Buenos Aires. Dispensers en comodato sin costo.",
+    "description": "Distribuidora mayorista de productos de limpieza, higiene institucional y descartables en CABA y GBA. Más de 40 años de experiencia. Proveedor del Gobierno de la Ciudad de Buenos Aires.",
     "url": "https://www.ibarrainsumos.com.ar",
     "telephone": "+5491144402807",
     "email": "info@ibarrainsumos.com.ar",
@@ -351,8 +351,15 @@
     .cart-overlay.open { display: block; }
     #modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 999; align-items: center; justify-content: center; padding: 1rem; }
     #modal-box { background: white; border-radius: 16px; max-width: 480px; width: 100%; overflow: hidden; position: relative; max-height: 90vh; overflow-y: auto; }
-    #modal-img-wrap { background: #f8f9fa; display: flex; align-items: center; justify-content: center; padding: 1.5rem; height: 180px; }
-    #modal-img { max-height: 140px; max-width: 100%; object-fit: contain; display: none; }
+    #modal-img-wrap { background: #f8f9fa; display: flex; align-items: center; justify-content: center; padding: 1.5rem; height: 220px; position: relative; }
+    #modal-img { max-height: 180px; max-width: 100%; object-fit: contain; display: none; transition: opacity 0.2s; }
+    .modal-gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.35); color: white; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; }
+    .modal-gallery-nav.prev { left: 0.5rem; }
+    .modal-gallery-nav.next { right: 0.5rem; }
+    .modal-gallery-dots { display: flex; gap: 0.35rem; justify-content: center; padding: 0.5rem 0; }
+    .modal-gallery-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--border); cursor: pointer; transition: background 0.2s; }
+    .modal-gallery-dot.active { background: var(--teal); }
+    .modal-gallery-thumbs { display: flex; gap: 0.4rem; justify-content: center; padding: 0.3rem 1rem 0.75rem; flex-wrap: wrap; }
     #modal-body { padding: 1.25rem; }
     #modal-badge { font-family: 'Montserrat', sans-serif; font-size: 0.68rem; font-weight: 600; color: var(--green); margin-bottom: 0.4rem; }
     #modal-name { font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.75rem; }
@@ -515,10 +522,10 @@
   </div>
 </div>
 
-<section class="hero" id="inicio">
-  <div class="hero-badge">Desde 1985</div>
+<section class="hero" id="inicio">  
+  <div class="hero-badge">🏆 DESDE 1985 </div>
   <h1 class="hero-title">IBARRA<br><span>INSUMOS</span></h1>
-  <p class="hero-subtitle">Distribuidora mayorista de productos de limpieza, higiene institucional y descartables en CABA y todo el Gran Buenos Aires. Más de 40 años de trayectoria.</p>
+  <p class="hero-subtitle">Distribuidora mayorista de productos de limpieza, higiene institucional y descartables en <strong style="color:var(--accent);">CABA y todo el Gran Buenos Aires</strong>. Más de 40 años de trayectoria.</p>
   <div class="hero-buttons">
     <button class="btn-primary" onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">Ver catálogo completo</button>
     <button class="btn-outline" onclick="window.open('https://wa.me/5491144402807?text=Hola!%20Quiero%20cotizar%20insumos%20para%20mi%20empresa.','_blank')">💬 Cotizá gratis por WhatsApp</button>
@@ -526,6 +533,7 @@
   <div style="display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;margin-top:2rem;">
     <span style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:0.35rem 1rem;font-family:'Montserrat',sans-serif;font-size:0.7rem;font-weight:600;color:rgba(240,236,228,0.9);">✓ Entrega en 24-48hs</span>
     <span style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:0.35rem 1rem;font-family:'Montserrat',sans-serif;font-size:0.7rem;font-weight:600;color:rgba(240,236,228,0.9);">✓ Factura A y B</span>
+    <span style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:0.35rem 1rem;font-family:'Montserrat',sans-serif;font-size:0.7rem;font-weight:600;color:rgba(240,236,228,0.9);">✓ Dispensers en comodato</span>
     <span style="background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:0.35rem 1rem;font-family:'Montserrat',sans-serif;font-size:0.7rem;font-weight:600;color:rgba(240,236,228,0.9);">✓ Precio mayorista real</span>
   </div>
 </section>
@@ -834,7 +842,7 @@
       if (!productos.length) return;
 
       container.innerHTML = productos.map(p => `
-        <div class="product-card" data-category="${p.categoria}" data-sub="${p.subcategoria}" onclick="openModal(this)">
+        <div class="product-card" data-category="${p.categoria}" data-sub="${p.subcategoria}" data-id="${p.id}" onclick="openModal(this)">
           <div class="product-image">
             ${p.imagen_url ? `<img src="${p.imagen_url}" alt="${p.nombre}" />` : ''}
             <div class="hover-overlay">Ver Detalle</div>
@@ -1145,11 +1153,6 @@
     <h2 style="font-family:'Montserrat',sans-serif; font-size:clamp(1.4rem,3vw,2.2rem); font-weight:700; color:var(--teal); margin-bottom:3rem; text-align:center;">Empresa habilitada y certificada</h2>
     <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:1.5rem;">
       <div style="background:var(--dark); border:1px solid var(--border); border-radius:12px; padding:1.75rem 1.5rem; text-align:center;">
-        <div style="font-size:2.5rem; margin-bottom:0.75rem;">🏛️</div>
-        <h3 style="font-family:'Montserrat',sans-serif; font-size:0.88rem; font-weight:700; color:var(--teal); margin-bottom:0.5rem;">Proveedor GCBA</h3>
-        <p style="font-size:0.76rem; color:var(--muted); line-height:1.5;">Habilitados como proveedores del Gobierno de la Ciudad de Buenos Aires. Participamos en licitaciones públicas.</p>
-      </div>
-      <div style="background:var(--dark); border:1px solid var(--border); border-radius:12px; padding:1.75rem 1.5rem; text-align:center;">
         <div style="font-size:2.5rem; margin-bottom:0.75rem;">📋</div>
         <h3 style="font-family:'Montserrat',sans-serif; font-size:0.88rem; font-weight:700; color:var(--teal); margin-bottom:0.5rem;">Inscriptos en AFIP</h3>
         <p style="font-size:0.76rem; color:var(--muted); line-height:1.5;">Empresa regularmente inscripta ante AFIP. Emitimos factura A y B. Operamos bajo todas las normativas fiscales vigentes.</p>
@@ -1267,10 +1270,6 @@
         <p style="font-size:0.88rem; color:var(--muted); margin-top:0.75rem; line-height:1.7;">Sí, somos una empresa regularmente inscripta en AFIP. Emitimos factura A para responsables inscriptos y factura B para consumidores finales y monotributistas.</p>
       </details>
       <details style="background:var(--dark); border:1px solid var(--border); border-radius:10px; padding:1.25rem 1.5rem; cursor:pointer;">
-        <summary style="font-family:'Montserrat',sans-serif; font-size:0.92rem; font-weight:700; color:var(--teal); list-style:none; display:flex; justify-content:space-between; align-items:center;">¿Proveen al Gobierno de la Ciudad de Buenos Aires? <span>▾</span></summary>
-        <p style="font-size:0.88rem; color:var(--muted); margin-top:0.75rem; line-height:1.7;">Sí, somos proveedores habilitados del Gobierno de la Ciudad de Buenos Aires. Participamos en licitaciones públicas y contamos con toda la documentación necesaria para operar con organismos públicos.</p>
-      </details>
-      <details style="background:var(--dark); border:1px solid var(--border); border-radius:10px; padding:1.25rem 1.5rem; cursor:pointer;">
         <summary style="font-family:'Montserrat',sans-serif; font-size:0.92rem; font-weight:700; color:var(--teal); list-style:none; display:flex; justify-content:space-between; align-items:center;">¿Cuál es el pedido mínimo? <span>▾</span></summary>
         <p style="font-size:0.88rem; color:var(--muted); margin-top:0.75rem; line-height:1.7;">No exigimos un pedido mínimo fijo. Para acceder a precios mayoristas y envío sin cargo te asesoramos según el volumen. Consultanos por WhatsApp y te armamos la propuesta ideal.</p>
       </details>
@@ -1369,6 +1368,9 @@
     <p style="font-size:0.88rem; color:var(--muted); line-height:1.8; margin-bottom:1rem;">
       <strong>Ibarra Insumos</strong> es una empresa familiar con más de 40 años de trayectoria en la distribución mayorista de productos de limpieza institucional, higiene y descartables en la <strong>Ciudad Autónoma de Buenos Aires y el Gran Buenos Aires</strong>. Somos proveedores habilitados del <strong>Gobierno de la Ciudad de Buenos Aires</strong> y proveemos a hospitales, clínicas, oficinas, consorcios, industrias y comercios de toda la región.
     </p>
+    <p style="font-size:0.88rem; color:var(--muted); line-height:1.8; margin-bottom:1rem;">
+      Contamos con un amplio catálogo de <strong>dispensers de higiene en comodato</strong>, toallas intercaladas, papel higiénico institucional, jabones líquidos, lavandinas concentradas, desengrasantes industriales y productos descartables. Ofrecemos <strong>entrega programada en 24 a 48 horas hábiles</strong> en CABA, Zona Norte, Zona Sur y Zona Oeste del GBA, y en toda la Provincia de Buenos Aires.
+    </p>
     <p style="font-size:0.88rem; color:var(--muted); line-height:1.8; margin-bottom:1.5rem;">
       Trabajamos con <strong>precios mayoristas reales</strong>, emitimos factura A y B, y ofrecemos asesoramiento personalizado sin cargo. Si buscás una distribuidora de insumos de limpieza confiable en Buenos Aires con años de experiencia, <strong>Ibarra Insumos</strong> es tu proveedor ideal.
     </p>
@@ -1428,7 +1430,13 @@
 <div id="modal-overlay" onclick="closeModal()">
   <div id="modal-box" onclick="event.stopPropagation()">
     <button id="modal-close" onclick="closeModal()">✕</button>
-    <div id="modal-img-wrap"><img id="modal-img" src="" alt="" /></div>
+    <div id="modal-img-wrap">
+      <button class="modal-gallery-nav prev" id="galPrev" onclick="galNav(-1)" style="display:none;">‹</button>
+      <img id="modal-img" src="" alt="" />
+      <button class="modal-gallery-nav next" id="galNext" onclick="galNav(1)" style="display:none;">›</button>
+    </div>
+    <div class="modal-gallery-dots" id="galDots"></div>
+    <div class="modal-gallery-thumbs" id="galThumbs"></div>
     <div id="modal-body">
       <div id="modal-badge"></div>
       <h2 id="modal-name"></h2>
@@ -1645,19 +1653,59 @@
     document.querySelectorAll('.product-card').forEach(card => { card.style.display = card.dataset.sub === sub ? 'flex' : 'none'; });
   }
 
-  function openModal(card) {
+  let galFotos = [], galIdx = 0;
+
+  async function openModal(card) {
     currentModalCard = card;
-    document.getElementById('modal-name').textContent = card.querySelector('.product-name').textContent;
-    document.getElementById('modal-desc').textContent = card.querySelector('.product-desc').textContent;
-    document.getElementById('modal-badge').textContent = card.querySelector('.product-badge').textContent;
+    const nombre = card.querySelector('.product-name')?.textContent || '';
+    const desc = card.querySelector('.product-desc')?.textContent || '';
+    const badge = card.querySelector('.product-badge')?.textContent || '';
+    const productoId = card.dataset.id;
     const img = card.querySelector('.product-image img');
-    const modalImg = document.getElementById('modal-img');
-    if (img && img.src) { modalImg.src = img.src; modalImg.style.display = 'block'; } else { modalImg.style.display = 'none'; }
+
+    document.getElementById('modal-name').textContent = nombre;
+    document.getElementById('modal-desc').textContent = desc;
+    document.getElementById('modal-badge').textContent = badge;
     document.getElementById('modal-add-btn').textContent = '+ Agregar a Cotización';
     document.getElementById('modal-add-btn').classList.remove('added');
+
+    // Cargar fotos múltiples desde Supabase
+    galFotos = []; galIdx = 0;
+    if (productoId) {
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes?producto_id=eq.${productoId}&order=orden.asc`, {
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+        });
+        const fotos = await res.json();
+        if (fotos.length > 0) galFotos = fotos.map(f => f.imagen_url);
+      } catch(e) {}
+    }
+    if (galFotos.length === 0 && img?.src) galFotos = [img.src];
+
+    renderGaleria();
     document.getElementById('modal-overlay').style.display = 'flex';
     document.body.style.overflow = 'hidden';
   }
+
+  function renderGaleria() {
+    const modalImg = document.getElementById('modal-img');
+    const dots = document.getElementById('galDots');
+    const thumbs = document.getElementById('galThumbs');
+    const prev = document.getElementById('galPrev');
+    const next = document.getElementById('galNext');
+    if (galFotos.length === 0) { modalImg.style.display = 'none'; return; }
+    modalImg.src = galFotos[galIdx];
+    modalImg.style.display = 'block';
+    prev.style.display = galFotos.length > 1 ? 'flex' : 'none';
+    next.style.display = galFotos.length > 1 ? 'flex' : 'none';
+    dots.innerHTML = galFotos.map((_, i) => `<div class="modal-gallery-dot ${i === galIdx ? 'active' : ''}" onclick="galGoTo(${i})"></div>`).join('');
+    thumbs.innerHTML = galFotos.length > 1 ? galFotos.map((url, i) => `
+      <img src="${url}" onclick="galGoTo(${i})" style="width:44px;height:44px;object-fit:cover;border-radius:6px;cursor:pointer;border:2px solid ${i === galIdx ? 'var(--teal)' : 'transparent'};transition:border 0.2s;" />
+    `).join('') : '';
+  }
+
+  function galNav(dir) { galIdx = (galIdx + dir + galFotos.length) % galFotos.length; renderGaleria(); }
+  function galGoTo(idx) { galIdx = idx; renderGaleria(); }
 
   function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; document.body.style.overflow = ''; currentModalCard = null; }
 
