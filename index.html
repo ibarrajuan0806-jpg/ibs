@@ -1334,11 +1334,17 @@
   let galFotos = [], galIdx = 0;
 
   async function openModal(card) {
+    const productoId = card.dataset.id;
+    // Si tiene ID de Supabase → abrir página propia
+    if (productoId) {
+      window.location.href = `producto.html?id=${productoId}`;
+      return;
+    }
+    // Productos fijos → modal normal
     currentModalCard = card;
     const nombre = card.querySelector('.product-name')?.textContent || '';
     const desc = card.querySelector('.product-desc')?.textContent || '';
     const badge = card.querySelector('.product-badge')?.textContent || '';
-    const productoId = card.dataset.id;
     const img = card.querySelector('.product-image img');
     document.getElementById('modal-name').textContent = nombre;
     document.getElementById('modal-desc').textContent = desc;
