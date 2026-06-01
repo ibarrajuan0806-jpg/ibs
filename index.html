@@ -1499,7 +1499,7 @@ async function exportarPDF() {
     doc.text('IBARRA INSUMOS — Catálogo de Productos', margin, 13);
     const cards = document.querySelectorAll('.product-card');
     let col = 0;
-    const colW = (pageW - margin*2 - 10) / 2, cardH = 52;
+    const colW = (pageW - margin*2 - 10) / 2, cardH = 65;
     for (let i = 0; i < Math.min(cards.length, 40); i++) {
       const card = cards[i];
       const nombre = card.querySelector('.product-name')?.textContent || '';
