@@ -693,9 +693,9 @@
   <div class="product-info"><div class="product-badge">Limpieza</div><h3 class="product-name">Alcohol al 70% x 5 lts.</h3><p class="product-desc">Desinfectante de uso profesional. Eficaz contra bacterias y virus en superficies de alto contacto.</p><div class="product-actions"><a class="btn-cotizar" href="https://wa.me/5491144402807" target="_blank" onclick="event.stopPropagation()">✓ Consultar</a><button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(this)">+ Cotizar</button></div></div>
 </div>
       <!-- PRODUCTOS DINÁMICOS DESDE SUPABASE -->
-      <div id="dynamicProducts"></div>
+      <!-- PRODUCTOS DINÁMICOS SE INSERTAN AQUÍ VÍA JS -->
 
-      </div><!-- /products-grid -->
+    </div><!-- /products-grid -->
     </div><!-- /columna derecha -->
   </div><!-- /catalog-layout -->
 </section>
@@ -711,10 +711,13 @@
         headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
       });
       const productos = await res.json();
-      const container = document.getElementById('dynamicProducts');
+      const container = document.getElementById('productsGrid');
       if (!productos.length) return;
 
-      container.innerHTML = productos.map(p => `
+      const div = document.createElement('div');
+      div.id = 'dynamicProducts';
+      div.style.display = 'contents'; // no rompe el grid
+      div.innerHTML = productos.map(p => `
         <div class="product-card" data-category="${p.categoria}" data-sub="${p.subcategoria}" onclick="openModal(this)">
           <div class="product-image">
             ${p.imagen_url ? `<img src="${p.imagen_url}" alt="${p.nombre}" />` : ''}
@@ -731,6 +734,7 @@
           </div>
         </div>
       `).join('');
+      container.appendChild(div);
     } catch(e) {
       console.log('Error cargando productos dinámicos:', e);
     }
