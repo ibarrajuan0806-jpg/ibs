@@ -1510,8 +1510,17 @@ async function exportarPDF() {
       doc.setFillColor(248, 246, 242); doc.roundedRect(x, y, colW, cardH, 3, 3, 'F');
       doc.setDrawColor(220, 215, 205); doc.roundedRect(x, y, colW, cardH, 3, 3, 'S');
       if (imgEl && imgEl.src && imgEl.complete) {
-        try { const canvas = document.createElement('canvas'); canvas.width = 60; canvas.height = 60; canvas.getContext('2d').drawImage(imgEl, 0, 0, 60, 60); doc.addImage(canvas.toDataURL('image/jpeg', 0.8), 'JPEG', x+2, y+2, 28, 28); } catch(e) {}
-      }
+try {
+  const canvas = document.createElement('canvas');
+  canvas.width = 60; canvas.height = 60;
+  const ctx2 = canvas.getContext('2d');
+  const proxyImg = new Image();
+  proxyImg.crossOrigin = 'anonymous';
+  proxyImg.src = imgEl.src;
+  await new Promise(r => { proxyImg.onload = r; proxyImg.onerror = r; });
+  ctx2.drawImage(proxyImg, 0, 0, 60, 60);
+  doc.addImage(canvas.toDataURL('image/jpeg', 0.8), 'JPEG', x+2, y+2, 28, 28);
+} catch(e) {}      }
       doc.setFillColor(22, 163, 74); doc.roundedRect(x+32, y+3, colW-35, 6, 1, 1, 'F');
       doc.setTextColor(255,255,255); doc.setFont('helvetica','bold'); doc.setFontSize(6);
       doc.text(cat.toUpperCase(), x+34, y+7.5);
