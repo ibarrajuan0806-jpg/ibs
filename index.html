@@ -718,7 +718,7 @@
       div.id = 'dynamicProducts';
       div.style.display = 'contents'; // no rompe el grid
       div.innerHTML = productos.map(p => `
-        <div class="product-card" data-category="${p.categoria}" data-sub="${p.subcategoria}" onclick="openModal(this)">
+        <div class="product-card" data-category="${p.categoria}" data-sub="${p.subcategoria}" data-id="${p.id}" onclick="openModal(this)">
           <div class="product-image">
             ${p.imagen_url ? `<img src="${p.imagen_url}" alt="${p.nombre}" />` : ''}
             <div class="hover-overlay">Ver Detalle</div>
