@@ -1676,11 +1676,12 @@
 
 <script>
   // ── LOADER ──
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      document.getElementById('page-loader').classList.add('hidden');
-    }, 1300);
-  });
+  function ocultarLoader() {
+    const loader = document.getElementById('page-loader');
+    if (loader) loader.classList.add('hidden');
+  }
+  window.addEventListener('load', () => setTimeout(ocultarLoader, 1000));
+  setTimeout(ocultarLoader, 3000); // fallback por si load no dispara
 
   // ── DARK MODE ──
   function toggleDark() {
