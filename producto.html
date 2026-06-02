@@ -48,19 +48,31 @@
 
     /* LAYOUT */
     .product-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
-    @media (max-width: 768px) { .product-layout { grid-template-columns: 1fr; gap: 2rem; } }
+    @media (max-width: 768px) {
+      .product-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+      .gallery { position: static; }
+      .gallery-main { height: 260px; }
+      .gallery-thumb { width: 54px; height: 54px; }
+      .product-name { font-size: 1.3rem; }
+      main { padding: 4rem 1rem 3rem; }
+      .breadcrumb { font-size: 0.72rem; }
+      .meta-label { width: 100px; font-size: 0.68rem; }
+      nav { padding: 0 1rem; height: 56px; }
+      .nav-logo img { height: 30px; }
+      .nav-back span { display: none; }
+    }
 
     /* GALERÍA */
     .gallery { position: sticky; top: 80px; }
-    .gallery-main { background: white; border: 1px solid rgba(0,0,0,0.08); border-radius: 16px; aspect-ratio: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; margin-bottom: 0.75rem; }
-    .gallery-main img { max-width: 80%; max-height: 80%; object-fit: contain; transition: opacity 0.2s; }
+    .gallery-main { background: white; border: 1px solid rgba(0,0,0,0.08); border-radius: 16px; height: 320px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; margin-bottom: 0.75rem; }
+    .gallery-main img { max-width: 85%; max-height: 85%; object-fit: contain; transition: opacity 0.2s; }
     .gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.3); color: white; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
     .gallery-nav:hover { background: rgba(0,0,0,0.5); }
     .gallery-nav.prev { left: 0.75rem; }
     .gallery-nav.next { right: 0.75rem; }
-    .gallery-thumbs { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .gallery-thumb { width: 64px; height: 64px; border-radius: 8px; object-fit: contain; cursor: pointer; border: 2px solid transparent; background: white; padding: 4px; transition: border-color 0.2s; }
-    .gallery-thumb.active { border-color: var(--teal); }
+    .gallery-thumbs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.75rem; clear: both; }
+    .gallery-thumb { width: 64px; height: 64px; border-radius: 8px; object-fit: contain; cursor: pointer; border: 2px solid transparent; background: white; padding: 4px; transition: border-color 0.2s; flex-shrink: 0; }
+    .gallery-thumb.active { border-color: var(--teal); box-shadow: 0 0 0 2px var(--teal); }
     .gallery-no-img { font-size: 4rem; color: var(--muted); opacity: 0.3; }
 
     /* INFO */
