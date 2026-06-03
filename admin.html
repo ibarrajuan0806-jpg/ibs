@@ -84,6 +84,23 @@
     .loading { text-align: center; color: var(--muted); font-size: 0.84rem; padding: 2rem; }
     .empty { text-align: center; color: var(--muted); font-size: 0.84rem; padding: 2rem; }
     @media (max-width: 768px) { .admin-body { grid-template-columns: 1fr; } }
+    /* ── ORDEN DE PRODUCTOS ── */
+    .orden-grid { display: flex; flex-direction: column; gap: 0.5rem; }
+    .orden-item { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 10px; background: var(--dark); cursor: grab; user-select: none; transition: box-shadow 0.2s; }
+    .orden-item:active { cursor: grabbing; }
+    .orden-item.dragging { opacity: 0.4; box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+    .orden-item.drag-over { border: 2px dashed var(--teal); background: #f0f6f5; }
+    .orden-handle { color: var(--muted); font-size: 1.2rem; flex-shrink: 0; }
+    .orden-num { font-family: 'Montserrat', sans-serif; font-size: 0.72rem; font-weight: 700; color: white; background: var(--teal); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .orden-img { width: 44px; height: 44px; object-fit: contain; border-radius: 6px; background: white; padding: 3px; flex-shrink: 0; }
+    .orden-img-placeholder { width: 44px; height: 44px; border-radius: 6px; background: var(--dark2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .orden-info { flex: 1; min-width: 0; }
+    .orden-name { font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .orden-cat { font-size: 0.72rem; color: var(--muted); margin-top: 0.1rem; }
+    .btn-guardar-orden { background: var(--teal); color: white; border: none; border-radius: 8px; padding: 0.75rem 1.5rem; font-family: 'Montserrat', sans-serif; font-size: 0.82rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: background 0.2s; }
+    .btn-guardar-orden:hover { background: var(--teal2); }
+    .btn-guardar-orden:disabled { opacity: 0.6; cursor: not-allowed; }
+
   </style>
 </head>
 <body>
@@ -115,6 +132,7 @@
     <div class="admin-tabs">
       <button class="admin-tab active" onclick="switchTab('productos')">📦 Productos</button>
       <button class="admin-tab" onclick="switchTab('categorias')">🗂️ Categorías</button>
+      <button class="admin-tab" onclick="switchTab('orden')">🔀 Orden</button>
     </div>
   </div>
 
@@ -186,6 +204,20 @@
         <div class="panel-title">🗂️ Categorías actuales <span id="catCount" style="font-weight:400;color:var(--muted);"></span></div>
         <p style="font-size:0.76rem;color:var(--muted);margin-bottom:1rem;">Arrastrá para reordenar. ✏️ para editar, ▼ para ver subcategorías.</p>
         <div class="cat-manager" id="catManager"></div>
+      </div>
+    </div>
+  </div>
+  <!-- TAB ORDEN -->
+  <div id="tab-orden" style="display:none;max-width:800px;margin:0 auto;padding:1.5rem;">
+    <div class="panel">
+      <div class="panel-title">🔀 Orden de productos en el catálogo</div>
+      <p style="font-size:0.82rem;color:var(--muted);margin-bottom:1.25rem;">Arrastrá los productos para cambiar el orden en que aparecen en el catálogo. Después hacé clic en <strong>Guardar orden</strong>.</p>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.75rem;">
+        <span id="ordenCount" style="font-size:0.8rem;color:var(--muted);"></span>
+        <button class="btn-guardar-orden" id="btnGuardarOrden" onclick="guardarOrden()">💾 Guardar orden</button>
+      </div>
+      <div class="orden-grid" id="ordenGrid">
+        <div class="loading">Cargando productos...</div>
       </div>
     </div>
   </div>
@@ -276,8 +308,16 @@
   function switchTab(tab) {
     document.getElementById('tab-productos').style.display = tab === 'productos' ? 'grid' : 'none';
     document.getElementById('tab-categorias').style.display = tab === 'categorias' ? 'block' : 'none';
-    document.querySelectorAll('.admin-tab').forEach((t, i) => t.classList.toggle('active', (tab === 'productos' && i === 0) || (tab === 'categorias' && i === 1)));
+    document.getElementById('tab-orden').style.display = tab === 'orden' ? 'block' : 'none';
+    document.querySelectorAll('.admin-tab').forEach((t, i) => {
+      t.classList.toggle('active',
+        (tab === 'productos' && i === 0) ||
+        (tab === 'categorias' && i === 1) ||
+        (tab === 'orden' && i === 2)
+      );
+    });
     if (tab === 'categorias') renderCategorias();
+    if (tab === 'orden') cargarOrden();
   }
 
   function populateCatSelect() {
@@ -576,6 +616,94 @@
     await sbPatch(dragSubCat, SUBCATEGORIAS[dragSubCat]); renderCategorias();
     dragSubCat = null; dragSubIdx = null;
   }
+
+  // ══════════════════════════════════════════
+  // ORDEN DE PRODUCTOS
+  // ══════════════════════════════════════════
+  let ordenProductos = [];
+  let dragOrdenIdx = null;
+
+  async function cargarOrden() {
+    const grid = document.getElementById('ordenGrid');
+    grid.innerHTML = '<div class="loading">Cargando...</div>';
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?order=orden.asc,created_at.asc&select=id,nombre,categoria,subcategoria,imagen_url,orden`, {
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+      });
+      ordenProductos = await res.json();
+      document.getElementById('ordenCount').textContent = `${ordenProductos.length} productos`;
+      renderOrden();
+    } catch(e) {
+      grid.innerHTML = '<div class="empty" style="color:var(--red);">Error al cargar productos.</div>';
+    }
+  }
+
+  function renderOrden() {
+    const grid = document.getElementById('ordenGrid');
+    grid.innerHTML = ordenProductos.map((p, i) => `
+      <div class="orden-item" draggable="true" data-idx="${i}"
+           ondragstart="dragStartOrden(event)"
+           ondragover="dragOverOrden(event)"
+           ondrop="dropOrden(event)"
+           ondragleave="dragLeaveOrden(event)">
+        <span class="orden-handle">⠿</span>
+        <span class="orden-num">${i + 1}</span>
+        ${p.imagen_url
+          ? `<img class="orden-img" src="${p.imagen_url}" alt="${p.nombre}" />`
+          : `<div class="orden-img-placeholder">📦</div>`
+        }
+        <div class="orden-info">
+          <div class="orden-name">${p.nombre}</div>
+          <div class="orden-cat">${p.categoria} › ${p.subcategoria}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function dragStartOrden(e) {
+    dragOrdenIdx = parseInt(e.currentTarget.dataset.idx);
+    e.currentTarget.classList.add('dragging');
+  }
+
+  function dragOverOrden(e) {
+    e.preventDefault();
+    e.currentTarget.classList.add('drag-over');
+  }
+
+  function dragLeaveOrden(e) {
+    e.currentTarget.classList.remove('drag-over');
+  }
+
+  function dropOrden(e) {
+    e.preventDefault();
+    e.currentTarget.classList.remove('drag-over');
+    const toIdx = parseInt(e.currentTarget.dataset.idx);
+    if (dragOrdenIdx === null || dragOrdenIdx === toIdx) return;
+    const [moved] = ordenProductos.splice(dragOrdenIdx, 1);
+    ordenProductos.splice(toIdx, 0, moved);
+    dragOrdenIdx = null;
+    renderOrden();
+  }
+
+  async function guardarOrden() {
+    const btn = document.getElementById('btnGuardarOrden');
+    btn.textContent = '⏳ Guardando...'; btn.disabled = true;
+    try {
+      for (let i = 0; i < ordenProductos.length; i++) {
+        await fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${ordenProductos[i].id}`, {
+          method: 'PATCH',
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+          body: JSON.stringify({ orden: i + 1 })
+        });
+      }
+      showToast('✓ Orden guardado correctamente');
+    } catch(e) {
+      showToast('Error al guardar orden', true);
+    }
+    btn.textContent = '💾 Guardar orden'; btn.disabled = false;
+  }
+
+  // ══════════════════════════════════════════
 
   function showToast(msg, error = false) {
     const t = document.getElementById('toast'); t.textContent = msg;
