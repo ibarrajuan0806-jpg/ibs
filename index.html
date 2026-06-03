@@ -40,7 +40,7 @@
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Ibarra Insumos",
-    "description": "Distribuidora de productos de limpieza, higiene institucional y descartables con más de 40 años de experiencia en Buenos Aires.",
+    "description": "Distribuidora de productos de limpieza, higiene institucional y descartables con más de 40 años de experiencia en Buenos Aires. Proveedor del Gobierno de la Ciudad de Buenos Aires.",
     "url": "https://www.ibarrainsumos.com.ar",
     "telephone": "+5491144402807",
     "email": "info@ibarrainsumos.com.ar",
@@ -87,7 +87,7 @@
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Ibarra Insumos",
-    "description": "Distribuidora mayorista de productos de limpieza, higiene institucional y descartables. Más de 40 años de experiencia en CABA y GBA.",
+    "description": "Distribuidora mayorista de productos de limpieza, higiene institucional y descartables. Proveedor del Gobierno de la Ciudad de Buenos Aires. Más de 40 años de experiencia en CABA y GBA.",
     "url": "https://www.ibarrainsumos.com.ar",
     "telephone": "+5491144402807",
     "email": "info@ibarrainsumos.com.ar",
@@ -257,7 +257,7 @@
     .product-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
     .product-image { height: 160px; background: white; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; border-bottom: 1px solid rgba(0,0,0,0.05); }
     .product-image img { max-height: 130px; max-width: 85%; object-fit: contain; }
-.hover-overlay { display: none; }
+    .hover-overlay { position: absolute; inset: 0; background: rgba(255,255,255,0.88); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; font-family: 'Montserrat', sans-serif; font-size: 0.75rem; font-weight: 600; color: var(--teal); border: 1px solid var(--teal); border-radius: 6px; margin: 1rem; }
     .product-card:hover .hover-overlay { opacity: 1; }
     .product-info { padding: 0.85rem 1rem 1rem; flex: 1; display: flex; flex-direction: column; }
     .product-badge { font-family: 'Montserrat', sans-serif; font-size: 0.68rem; font-weight: 600; color: var(--green); margin-bottom: 0.35rem; }
@@ -349,7 +349,7 @@
     #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .product-badge-hot { position: absolute; top: 0.5rem; left: 0.5rem; background: #ef4444; color: white; font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 4px; letter-spacing: 0.05em; text-transform: uppercase; z-index: 1; }
     .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 20px; padding: 0.35rem 1rem; font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: 600; color: rgba(240,236,228,0.9); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1.5rem; }
-    @media (max-width: 768px) {.hover-overlay { display: none; }
+    @media (max-width: 768px) {
       .nav-links { display: none; } .nav-cta { display: none; } .hamburger { display: flex; }
       .catalog-layout { grid-template-columns: 1fr; } .sidebar-wrapper { display: none; } .mobile-filter-btn { display: block; }
       .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; } .footer-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
@@ -359,7 +359,44 @@
       #cart-panel { width: 100%; }
     }
     @media (max-width: 480px) { .products-grid { grid-template-columns: 1fr; } .stat-item { min-width: 50%; } .footer-grid { grid-template-columns: 1fr; } }
-  </style>
+
+    /* ── DESCUBRIR PRODUCTOS ── */
+    #descubrir-btn-wrap { text-align:center; padding: 2rem 0 1rem; }
+    .btn-descubrir { display: inline-flex; align-items: center; gap: 0.75rem; background: var(--teal); color: white; border: none; border-radius: 50px; padding: 1rem 2rem; font-family: 'Montserrat', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer; letter-spacing: 0.05em; box-shadow: 0 4px 16px rgba(26,74,68,0.3); transition: all 0.3s; }
+    .btn-descubrir:hover { background: var(--teal2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,74,68,0.35); }
+    .btn-descubrir .flecha { font-size: 1.1rem; transition: transform 0.3s; }
+    .btn-descubrir.abierto .flecha { transform: rotate(180deg); }
+    #catalogo-contenido { display: none; animation: fadeInCat 0.4s ease; }
+    #catalogo-contenido.visible { display: block; }
+    @keyframes fadeInCat { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── SKELETON ── */
+    .skeleton-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    @media (max-width: 768px) { .skeleton-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .skeleton-grid { grid-template-columns: 1fr; } }
+    .skeleton-card { background: white; border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.06); }
+    .skeleton-img { height: 160px; background: #e8e4dc; position: relative; overflow: hidden; }
+    .skeleton-body { padding: 0.85rem 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .skeleton-line { height: 10px; background: #e8e4dc; border-radius: 4px; position: relative; overflow: hidden; }
+    .skeleton-line.short { width: 40%; }
+    .skeleton-line.medium { width: 75%; }
+    .skeleton-line.full { width: 100%; }
+    .skeleton-line.btn { height: 32px; border-radius: 6px; margin-top: 0.5rem; }
+    .skeleton-img::after, .skeleton-line::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.5) 50%, transparent 100%);
+      animation: shimmer 1.4s infinite;
+    }
+    @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+    /* ── LOGO GIRANDO ── */
+    #skeleton-loader { display: none; text-align: center; padding: 2rem 0; }
+    #skeleton-loader.visible { display: block; }
+    .logo-spin-wrap { display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    .logo-spin { width: 52px; height: 52px; animation: spinLogo 1s linear infinite; }
+    @keyframes spinLogo { to { transform: rotate(360deg); } }
+    .logo-spin-label { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 600; color: var(--muted); letter-spacing: 0.1em; }
+      </style>
 </head>
 <body>
 
@@ -403,7 +440,8 @@
     <li><a href="#nosotros">Quiénes Somos</a></li>
   </ul>
   <div style="display:flex;gap:0.75rem;align-items:center;">
-    <button class="nav-cart-btn" onclick="openCart()">🛒 Listado Cotización <span class="cart-count hidden" id="cartCount">0</span></button>
+    <button class="nav-cart-btn" onclick="openCart()">🛒 Cotización <span class="cart-count hidden" id="cartCount">0</span></button>
+    <button class="nav-cta">Consultar</button>
   </div>
   <button class="hamburger" onclick="toggleMenu()" id="hamburger"><span></span><span></span><span></span></button>
 </nav>
@@ -519,11 +557,43 @@
   <div class="catalog-header">
     <p class="section-eyebrow">Lo que ofrecemos</p>
     <h2 class="section-title">Nuestro Catálogo</h2>
-    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:0.75rem;">
+  </div>
+
+  <!-- BOTÓN DESCUBRIR -->
+  <div id="descubrir-btn-wrap">
+    <button class="btn-descubrir" id="btnDescubrir" onclick="mostrarCatalogo()">
+      Descubrí nuestros productos
+      <span class="flecha">↓</span>
+    </button>
+  </div>
+
+  <!-- SKELETON LOADER -->
+  <div id="skeleton-loader">
+    <div class="logo-spin-wrap">
+      <img src="img/favicon-32x32.png" class="logo-spin" alt="Cargando..." />
+      <span class="logo-spin-label">Cargando productos...</span>
+    </div>
+    <div class="skeleton-grid">
+      ${[...Array(6)].map(() => `
+      <div class="skeleton-card">
+        <div class="skeleton-img"></div>
+        <div class="skeleton-body">
+          <div class="skeleton-line short"></div>
+          <div class="skeleton-line medium"></div>
+          <div class="skeleton-line full"></div>
+          <div class="skeleton-line full"></div>
+          <div class="skeleton-line btn"></div>
+        </div>
+      </div>`).join('')}
+    </div>
+  </div>
+
+  <!-- CONTENIDO REAL -->
+  <div id="catalogo-contenido">
+    <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;">
       <button onclick="exportarPDF()" id="btnPDF" style="background:#a67c2e;color:white;border:none;border-radius:8px;padding:0.6rem 1.2rem;font-family:'Montserrat',sans-serif;font-size:0.76rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem;">📄 Catálogo PDF</button>
       <button onclick="document.getElementById('compat-modal').style.display='flex'" style="background:white;color:var(--teal);border:1.5px solid var(--teal);border-radius:8px;padding:0.6rem 1.2rem;font-family:'Montserrat',sans-serif;font-size:0.76rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:0.4rem;">🔗 Compatibilidad Dispensers</button>
     </div>
-  </div>
 <div class="catalog-layout">
     <div class="sidebar-wrapper">
       <div class="sidebar">
@@ -554,12 +624,30 @@
     </div><!-- /products-grid -->
     </div><!-- /columna derecha -->
   </div><!-- /catalog-layout -->
+  </div><!-- /catalogo-contenido -->
 </section>
 
 <script>
   // Cargar productos desde Supabase
   const SUPABASE_URL = 'https://khxtmxbdrcigddvskalk.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoeHRteGJkcmNpZ2RkdnNrYWxrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzOTA0OTUsImV4cCI6MjA5NDk2NjQ5NX0.D82fR_OTye8Fbsk4xccfCr-J1FvqjO2Rnxjfsnsc_nQ';
+
+  function mostrarCatalogo() {
+    const btn = document.getElementById('btnDescubrir');
+    const contenido = document.getElementById('catalogo-contenido');
+    const skeleton = document.getElementById('skeleton-loader');
+    const wrap = document.getElementById('descubrir-btn-wrap');
+
+    btn.classList.add('abierto');
+    wrap.style.display = 'none';
+    skeleton.classList.add('visible');
+
+    // Scroll suave al catálogo
+    document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
+
+    // Cargar productos
+    cargarProductosDinamicos();
+  }
 
   async function cargarProductosDinamicos() {
     try {
@@ -591,12 +679,19 @@
         </div>
       `).join('');
       container.appendChild(div);
+
+      // Ocultar skeleton y mostrar contenido
+      document.getElementById('skeleton-loader').classList.remove('visible');
+      document.getElementById('catalogo-contenido').classList.add('visible');
+
     } catch(e) {
       console.log('Error cargando productos dinámicos:', e);
+      document.getElementById('skeleton-loader').classList.remove('visible');
+      document.getElementById('catalogo-contenido').classList.add('visible');
     }
   }
 
-  cargarProductosDinamicos();
+  // NO llamar cargarProductosDinamicos() al inicio — espera el botón
 
   // ── SIDEBAR DINÁMICO DESDE SUPABASE ──
   async function construirSidebar() {
@@ -644,7 +739,44 @@
     .review-card { background: var(--dark); border-radius: 12px; padding: 1.75rem; border: 1px solid rgba(0,0,0,0.06); width: 300px; flex-shrink: 0; }
     .review-avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
     .review-avatar-placeholder { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; }
-  </style>
+
+    /* ── DESCUBRIR PRODUCTOS ── */
+    #descubrir-btn-wrap { text-align:center; padding: 2rem 0 1rem; }
+    .btn-descubrir { display: inline-flex; align-items: center; gap: 0.75rem; background: var(--teal); color: white; border: none; border-radius: 50px; padding: 1rem 2rem; font-family: 'Montserrat', sans-serif; font-size: 0.88rem; font-weight: 700; cursor: pointer; letter-spacing: 0.05em; box-shadow: 0 4px 16px rgba(26,74,68,0.3); transition: all 0.3s; }
+    .btn-descubrir:hover { background: var(--teal2); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,74,68,0.35); }
+    .btn-descubrir .flecha { font-size: 1.1rem; transition: transform 0.3s; }
+    .btn-descubrir.abierto .flecha { transform: rotate(180deg); }
+    #catalogo-contenido { display: none; animation: fadeInCat 0.4s ease; }
+    #catalogo-contenido.visible { display: block; }
+    @keyframes fadeInCat { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+    /* ── SKELETON ── */
+    .skeleton-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    @media (max-width: 768px) { .skeleton-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .skeleton-grid { grid-template-columns: 1fr; } }
+    .skeleton-card { background: white; border-radius: 12px; overflow: hidden; border: 1px solid rgba(0,0,0,0.06); }
+    .skeleton-img { height: 160px; background: #e8e4dc; position: relative; overflow: hidden; }
+    .skeleton-body { padding: 0.85rem 1rem; display: flex; flex-direction: column; gap: 0.5rem; }
+    .skeleton-line { height: 10px; background: #e8e4dc; border-radius: 4px; position: relative; overflow: hidden; }
+    .skeleton-line.short { width: 40%; }
+    .skeleton-line.medium { width: 75%; }
+    .skeleton-line.full { width: 100%; }
+    .skeleton-line.btn { height: 32px; border-radius: 6px; margin-top: 0.5rem; }
+    .skeleton-img::after, .skeleton-line::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.5) 50%, transparent 100%);
+      animation: shimmer 1.4s infinite;
+    }
+    @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+    /* ── LOGO GIRANDO ── */
+    #skeleton-loader { display: none; text-align: center; padding: 2rem 0; }
+    #skeleton-loader.visible { display: block; }
+    .logo-spin-wrap { display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    .logo-spin { width: 52px; height: 52px; animation: spinLogo 1s linear infinite; }
+    @keyframes spinLogo { to { transform: rotate(360deg); } }
+    .logo-spin-label { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 600; color: var(--muted); letter-spacing: 0.1em; }
+      </style>
   <div class="reviews-wrapper">
     <div class="reviews-track" id="reviewsTrack">
 
@@ -1058,6 +1190,7 @@
       <span class="ssl-badge">✅ Empresa verificada</span>
       <button onclick="document.getElementById('cartel-modal').style.display='flex'" style="background:none;border:1px solid rgba(240,236,228,0.3);color:rgba(240,236,228,0.6);border-radius:20px;padding:0.3rem 0.75rem;font-size:0.68rem;font-family:'Montserrat',sans-serif;font-weight:700;cursor:pointer;">🖨️ Generador de carteles</button>
       <button onclick="document.getElementById('etiqueta-modal').style.display='flex'" style="background:none;border:1px solid rgba(240,236,228,0.3);color:rgba(240,236,228,0.6);border-radius:20px;padding:0.3rem 0.75rem;font-size:0.68rem;font-family:'Montserrat',sans-serif;font-weight:700;cursor:pointer;">🏷️ Etiquetas personalizadas</button>
+      <span style="color:rgba(240,236,228,0.5);">Proveedor del Gobierno de la Ciudad de Buenos Aires</span></div>
 </footer>
 
 <div id="modal-overlay" onclick="closeModal()">
