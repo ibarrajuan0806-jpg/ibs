@@ -35,21 +35,16 @@
   <meta name="twitter:image" content="img/CAMIONETA.png" />
 
   <!-- SCHEMA MARKUP (datos estructurados para Google) -->
-
-  <!-- Store (negocio local unificado) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "Store",
+    "@type": "LocalBusiness",
     "name": "Ibarra Insumos",
-    "description": "Distribuidora mayorista de productos de limpieza, higiene institucional y descartables. Proveedor del Gobierno de la Ciudad de Buenos Aires. Más de 40 años de experiencia en CABA y GBA.",
+    "description": "Distribuidora de productos de limpieza, higiene institucional y descartables con más de 40 años de experiencia en Buenos Aires. Proveedor del Gobierno de la Ciudad de Buenos Aires.",
     "url": "https://ibarrainsumos.com.ar",
-    "logo": "https://ibarrainsumos.com.ar/img/Logo.png",
-    "image": "https://ibarrainsumos.com.ar/img/CAMIONETA.png",
     "telephone": "+5491144402807",
     "email": "info@ibarrainsumos.com.ar",
     "foundingDate": "1985",
-    "openingHours": "Mo-Fr 08:00-17:00",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Buenos Aires",
@@ -61,11 +56,57 @@
       "latitude": -34.6037,
       "longitude": -58.3816
     },
-    "areaServed": ["Ciudad Autónoma de Buenos Aires", "Gran Buenos Aires", "Argentina"],
+    "areaServed": ["Buenos Aires", "GBA", "Argentina"],
+    "servesCuisine": null,
     "priceRange": "$$",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "127",
+      "bestRating": "5"
+    },
     "sameAs": [
       "https://wa.me/5491144402807"
     ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Productos de Limpieza e Higiene Institucional",
+      "itemListElement": [
+        {"@type": "Offer", "itemOffered": {"@type": "Product", "name": "Dispensers de Higiene"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Product", "name": "Papeles Higiénicos Institucionales"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Product", "name": "Lavandinas y Limpiadores"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Product", "name": "Productos Descartables"}},
+        {"@type": "Offer", "itemOffered": {"@type": "Product", "name": "Insumos de Higiene Institucional"}}
+      ]
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Ibarra Insumos",
+    "description": "Distribuidora mayorista de productos de limpieza, higiene institucional y descartables. Proveedor del Gobierno de la Ciudad de Buenos Aires. Más de 40 años de experiencia en CABA y GBA.",
+    "url": "https://ibarrainsumos.com.ar",
+    "telephone": "+5491144402807",
+    "email": "info@ibarrainsumos.com.ar",
+    "foundingDate": "1985",
+    "openingHours": "Mo-Fr 08:00-17:00",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Buenos Aires",
+      "addressRegion": "Ciudad Autónoma de Buenos Aires",
+      "addressCountry": "AR"
+    },
+    "areaServed": ["Buenos Aires", "GBA", "CABA", "Argentina"],
+    "priceRange": "$$",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "127",
+      "bestRating": "5"
+    },
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
       "name": "Productos de Limpieza e Higiene Institucional",
@@ -76,45 +117,6 @@
         {"@type": "Offer", "itemOffered": {"@type": "Product", "name": "Productos Descartables"}},
         {"@type": "Offer", "itemOffered": {"@type": "Product", "name": "Insumos de Higiene Institucional"}}
       ]
-    }
-  }
-  </script>
-
-  <!-- Organization (para el logo en resultados de Google) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Ibarra Insumos",
-    "url": "https://ibarrainsumos.com.ar",
-    "logo": "https://ibarrainsumos.com.ar/img/Logo.png",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "telephone": "+5491144402807",
-      "contactType": "sales",
-      "areaServed": "AR",
-      "availableLanguage": "Spanish"
-    },
-    "sameAs": [
-      "https://wa.me/5491144402807"
-    ]
-  }
-  </script>
-
-  <!-- WebSite (habilita la cajita de búsqueda en Google) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Ibarra Insumos",
-    "url": "https://ibarrainsumos.com.ar",
-    "potentialAction": {
-      "@type": "SearchAction",
-      "target": {
-        "@type": "EntryPoint",
-        "urlTemplate": "https://ibarrainsumos.com.ar/#catalogo?q={search_term_string}"
-      },
-      "query-input": "required name=search_term_string"
     }
   }
   </script>
@@ -419,7 +421,7 @@
 </div>
 
 <nav>
-  <div class="nav-logo"><img src="img/Logo.png" alt="Ibarra Insumos — Distribuidora de Limpieza" width="120" height="38" /></div>
+  <div class="nav-logo"><img src="img/Logo.png" alt="Ibarra Insumos" /></div>
   <ul class="nav-links">
     <li><a href="#inicio">Inicio</a></li>
     <li class="nav-dropdown">
@@ -499,15 +501,6 @@
   <div class="hero-buttons">
     <button class="btn-primary" onclick="document.getElementById('catalogo').scrollIntoView({behavior:'smooth'})">Ver catálogo</button>
     <button class="btn-outline" onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'})">Contactanos</button>
-  </div>
-</section>
-
-<!-- INTRO SEO: texto indexable con keywords principales -->
-<section style="background:white; padding:2.5rem 1.5rem; border-bottom:1px solid var(--border);">
-  <div style="max-width:860px; margin:0 auto; text-align:center;">
-    <p style="font-size:0.97rem; color:var(--muted); line-height:1.9;">
-      <strong>Ibarra Insumos</strong> es la distribuidora mayorista de <strong>insumos de limpieza e higiene institucional</strong> de referencia en <strong>Buenos Aires y GBA</strong>, con más de 40 años en el mercado. Proveemos a hospitales, clínicas, consorcios, industrias, escuelas, oficinas y comercios de <strong>CABA y el Gran Buenos Aires</strong> con productos de calidad a precios mayoristas. Nuestro catálogo incluye <strong>dispensers de papel higiénico, dispensers de jabón, toallas intercaladas, lavandinas concentradas, limpiadores multiuso, desodorantes de ambiente, descartables y mucho más</strong>. Contamos con stock permanente, entregas programadas y atención personalizada para que tu empresa nunca quede sin insumos. Somos proveedores habilitados del <strong>Gobierno de la Ciudad de Buenos Aires</strong> y participamos en licitaciones públicas. Si buscás un <strong>proveedor de limpieza confiable en Buenos Aires</strong>, cotizá por WhatsApp sin cargo.
-    </p>
   </div>
 </section>
 
@@ -639,16 +632,6 @@
   const SUPABASE_URL = 'https://khxtmxbdrcigddvskalk.supabase.co';
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoeHRteGJkcmNpZ2RkdnNrYWxrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzOTA0OTUsImV4cCI6MjA5NDk2NjQ5NX0.D82fR_OTye8Fbsk4xccfCr-J1FvqjO2Rnxjfsnsc_nQ';
 
-  // Genera slug SEO-friendly a partir del nombre del producto
-  function toSlug(str) {
-    return str
-      .toLowerCase()
-      .normalize('NFD').replace(/[̀-ͯ]/g, '') // quitar acentos
-      .replace(/[^a-z0-9\s-]/g, '')
-      .trim()
-      .replace(/\s+/g, '-');
-  }
-
   function mostrarCatalogo() {
     const btn = document.getElementById('btnDescubrir');
     const contenido = document.getElementById('catalogo-contenido');
@@ -679,9 +662,9 @@
       div.id = 'dynamicProducts';
       div.style.display = 'contents'; // no rompe el grid
       div.innerHTML = productos.map(p => `
-        <div class="product-card" data-category="${p.categoria}" data-sub="${p.subcategoria}" data-id="${p.id}" data-slug="${toSlug(p.nombre)}" onclick="openModal(this)">
+        <div class="product-card" data-category="${p.categoria}" data-sub="${p.subcategoria}" data-id="${p.id}" onclick="openModal(this)">
           <div class="product-image">
-            ${p.imagen_url ? `<img src="${p.imagen_url}" alt="${p.nombre} — Ibarra Insumos" loading="lazy" />` : ''}
+            ${p.imagen_url ? `<img src="${p.imagen_url}" alt="${p.nombre}" />` : ''}
             <div class="hover-overlay">Ver Detalle</div>
           </div>
           <div class="product-info">
@@ -801,7 +784,7 @@
         <div style="color:#f59e0b; font-size:0.9rem; margin-bottom:0.75rem;">★★★★★</div>
         <p style="font-size:0.84rem; color:var(--muted); line-height:1.7; margin-bottom:1.25rem; font-style:italic;">"Llevamos más de 5 años trabajando con Ibarra Insumos. La calidad y la puntualidad en las entregas es lo que más valoramos. Nunca nos fallaron."</p>
         <div style="display:flex; align-items:center; gap:0.75rem;">
-          <img src="img/reseña1.png" class="review-avatar" alt="María Laura González" loading="lazy" width="44" height="44" />
+          <img src="img/reseña1.png" class="review-avatar" alt="María Laura González" />
           <div><p style="font-family:'Montserrat',sans-serif; font-size:0.82rem; font-weight:700; color:var(--text);">María Laura González</p><p style="font-size:0.72rem; color:var(--muted);">Jefa de Compras — Hospital Privado del Sur</p></div>
         </div>
       </div>
@@ -810,7 +793,7 @@
         <div style="color:#f59e0b; font-size:0.9rem; margin-bottom:0.75rem;">★★★★★</div>
         <p style="font-size:0.84rem; color:var(--muted); line-height:1.7; margin-bottom:1.25rem; font-style:italic;">"Desde que empezamos a abastecernos con ellos, redujimos costos sin sacrificar calidad. Los dispensers son excelentes y el servicio postventa es muy bueno."</p>
         <div style="display:flex; align-items:center; gap:0.75rem;">
-          <img src="img/reseña2.png" class="review-avatar" alt="Carlos Rodríguez" loading="lazy" width="44" height="44" />
+          <img src="img/reseña2.png" class="review-avatar" alt="Carlos Rodríguez" />
           <div><p style="font-family:'Montserrat',sans-serif; font-size:0.82rem; font-weight:700; color:var(--text);">Carlos Rodríguez</p><p style="font-size:0.72rem; color:var(--muted);">Gerente de Operaciones — Sanatorio Central</p></div>
         </div>
       </div>
@@ -819,7 +802,7 @@
         <div style="color:#f59e0b; font-size:0.9rem; margin-bottom:0.75rem;">★★★★★</div>
         <p style="font-size:0.84rem; color:var(--muted); line-height:1.7; margin-bottom:1.25rem; font-style:italic;">"Excelente atención. Siempre tienen stock de lo que necesito y el delivery es rápido. Lo recomiendo a cualquier institución que busque un proveedor serio."</p>
         <div style="display:flex; align-items:center; gap:0.75rem;">
-          <img src="img/reseña3.png" class="review-avatar" alt="Ana Pérez" loading="lazy" width="44" height="44" />
+          <img src="img/reseña3.png" class="review-avatar" alt="Ana Pérez" />
           <div><p style="font-family:'Montserrat',sans-serif; font-size:0.82rem; font-weight:700; color:var(--text);">Ana Pérez</p><p style="font-size:0.72rem; color:var(--muted);">Encargada de Higiene — Hospital Municipal Nº 5</p></div>
         </div>
       </div>
@@ -828,7 +811,7 @@
         <div style="color:#f59e0b; font-size:0.9rem; margin-bottom:0.75rem;">★★★★★</div>
         <p style="font-size:0.84rem; color:var(--muted); line-height:1.7; margin-bottom:1.25rem; font-style:italic;">"Compro hace años para mi casa y mi negocio. Los precios son muy buenos para la calidad que ofrecen. Me atienden siempre con amabilidad y rapidez."</p>
         <div style="display:flex; align-items:center; gap:0.75rem;">
-          <img src="img/reseña4.png" class="review-avatar" alt="Roberto Díaz" loading="lazy" width="44" height="44" />
+          <img src="img/reseña4.png" class="review-avatar" alt="Roberto Díaz" />
           <div><p style="font-family:'Montserrat',sans-serif; font-size:0.82rem; font-weight:700; color:var(--text);">Roberto Díaz</p><p style="font-size:0.72rem; color:var(--muted);">Cliente particular — Buenos Aires</p></div>
         </div>
       </div>
@@ -837,7 +820,7 @@
         <div style="color:#f59e0b; font-size:0.9rem; margin-bottom:0.75rem;">★★★★★</div>
         <p style="font-size:0.84rem; color:var(--muted); line-height:1.7; margin-bottom:1.25rem; font-style:italic;">"El servicio es impecable. Nos proveen de todos los insumos para nuestras tres sucursales sin ningún problema. Muy recomendables."</p>
         <div style="display:flex; align-items:center; gap:0.75rem;">
-          <img src="img/reseña5.png" class="review-avatar" alt="Silvana Martínez" loading="lazy" width="44" height="44" />
+          <img src="img/reseña5.png" class="review-avatar" alt="Silvana Martínez" />
           <div><p style="font-family:'Montserrat',sans-serif; font-size:0.82rem; font-weight:700; color:var(--text);">Silvana Martínez</p><p style="font-size:0.72rem; color:var(--muted);">Administradora — Clínica San Martín</p></div>
         </div>
       </div>
@@ -846,7 +829,7 @@
         <div style="color:#f59e0b; font-size:0.9rem; margin-bottom:0.75rem;">★★★★★</div>
         <p style="font-size:0.84rem; color:var(--muted); line-height:1.7; margin-bottom:1.25rem; font-style:italic;">"Trabajamos con ellos hace 3 años. La relación precio-calidad es inmejorable y el trato siempre es muy profesional."</p>
         <div style="display:flex; align-items:center; gap:0.75rem;">
-          <img src="img/reseña6.png" class="review-avatar" alt="Jorge Peralta" loading="lazy" width="44" height="44" />
+          <img src="img/reseña6.png" class="review-avatar" alt="Jorge Peralta" />
           <div><p style="font-family:'Montserrat',sans-serif; font-size:0.82rem; font-weight:700; color:var(--text);">Jorge Peralta</p><p style="font-size:0.72rem; color:var(--muted);">Encargado de Compras — Empresa Constructora</p></div>
         </div>
       </div>
@@ -855,7 +838,7 @@
         <div style="color:#f59e0b; font-size:0.9rem; margin-bottom:0.75rem;">★★★★★</div>
         <p style="font-size:0.84rem; color:var(--muted); line-height:1.7; margin-bottom:1.25rem; font-style:italic;">"Nos proveen hace años y nunca tuvimos un problema. Siempre cumplen con los tiempos y los productos son de primera calidad."</p>
         <div style="display:flex; align-items:center; gap:0.75rem;">
-          <img src="img/reseña7.png" class="review-avatar" alt="Laura Fernández" loading="lazy" width="44" height="44" />
+          <img src="img/reseña7.png" class="review-avatar" alt="Laura Fernández" />
           <div><p style="font-family:'Montserrat',sans-serif; font-size:0.82rem; font-weight:700; color:var(--text);">Laura Fernández</p><p style="font-size:0.72rem; color:var(--muted);">Supervisora — Hospital Público de Lomas</p></div>
         </div>
       </div>
@@ -1058,7 +1041,7 @@
 
 <section id="nosotros" class="about-section">
   <div class="about-grid">
-    <div class="about-image"><img src="img/foto-deposito.png" alt="Depósito de Ibarra Insumos — distribuidora de limpieza en Buenos Aires" loading="lazy" width="560" height="420" /></div>
+    <div class="about-image"><img src="img/foto-deposito.png" alt="Ibarra Insumos" /></div>
     <div>
       <div class="gold-divider"></div>
       <p class="about-eyebrow">Sobre nosotros</p>
@@ -1179,58 +1162,6 @@
       <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.84rem; color:var(--text);"><span style="width:14px;height:14px;background:#a67c2e;border-radius:50%;display:inline-block;"></span> Gran Buenos Aires completo</div>
       <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.84rem; color:var(--text);"><span style="width:14px;height:14px;background:#16a34a;border-radius:50%;display:inline-block;"></span> Provincia de Buenos Aires</div>
       <div style="display:flex; align-items:center; gap:0.5rem; font-size:0.84rem; color:var(--text);">🚚 Entrega programada Lun-Vie</div>
-    </div>
-  </div>
-</section>
-
-<!-- SECCIONES POR ZONA Y RUBRO (SEO long-tail) -->
-<section id="zonas-rubros" style="padding:4rem 1.5rem; background:var(--dark2);">
-  <div style="max-width:1100px; margin:0 auto;">
-    <p style="font-family:'Montserrat',sans-serif; font-size:0.7rem; font-weight:600; letter-spacing:0.25em; text-transform:uppercase; color:var(--teal); margin-bottom:0.5rem; text-align:center;">Cobertura y especialidades</p>
-    <h2 style="font-family:'Montserrat',sans-serif; font-size:clamp(1.4rem,3vw,2.2rem); font-weight:700; color:var(--teal); margin-bottom:0.75rem; text-align:center;">Insumos de limpieza en toda el área metropolitana</h2>
-    <p style="text-align:center; color:var(--muted); font-size:0.94rem; max-width:700px; margin:0 auto 3rem;">Realizamos entregas programadas en Capital Federal y todo el Gran Buenos Aires. Conocé las soluciones que tenemos para cada zona y tipo de institución.</p>
-
-    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem;">
-
-      <!-- Zonas -->
-      <div style="background:white; border-radius:12px; padding:1.75rem; border:1px solid rgba(0,0,0,0.07);">
-        <h3 style="font-family:'Montserrat',sans-serif; font-size:1rem; font-weight:700; color:var(--teal); margin-bottom:0.75rem;">🏙️ Insumos de limpieza en CABA</h3>
-        <p style="font-size:0.86rem; color:var(--muted); line-height:1.7;">Distribuimos en todos los barrios de la Ciudad Autónoma de Buenos Aires: Palermo, Flores, Belgrano, Villa Urquiza, Caballito, Almagro y más. Entregas rápidas con frecuencia semanal o quincenal según tu volumen de compra.</p>
-      </div>
-
-      <div style="background:white; border-radius:12px; padding:1.75rem; border:1px solid rgba(0,0,0,0.07);">
-        <h3 style="font-family:'Montserrat',sans-serif; font-size:1rem; font-weight:700; color:var(--teal); margin-bottom:0.75rem;">🌆 Insumos de limpieza en GBA</h3>
-        <p style="font-size:0.86rem; color:var(--muted); line-height:1.7;">Cubrimos toda la zona del Gran Buenos Aires: Zona Norte (San Isidro, Vicente López, Tigre), Zona Oeste (Morón, Ramos Mejía, Haedo) y Zona Sur (Lomas de Zamora, Quilmes, Avellaneda). Consultanos por tu zona específica.</p>
-      </div>
-
-      <!-- Rubros -->
-      <div style="background:white; border-radius:12px; padding:1.75rem; border:1px solid rgba(0,0,0,0.07);">
-        <h3 style="font-family:'Montserrat',sans-serif; font-size:1rem; font-weight:700; color:var(--teal); margin-bottom:0.75rem;">🏢 Limpieza para consorcios y edificios</h3>
-        <p style="font-size:0.86rem; color:var(--muted); line-height:1.7;">Proveemos a administradores de consorcios y encargados de edificios con dispensers, papeles, lavandinas, detergentes y todos los insumos de higiene necesarios para el mantenimiento de espacios comunes. Precios especiales para compras mensuales.</p>
-      </div>
-
-      <div style="background:white; border-radius:12px; padding:1.75rem; border:1px solid rgba(0,0,0,0.07);">
-        <h3 style="font-family:'Montserrat',sans-serif; font-size:1rem; font-weight:700; color:var(--teal); margin-bottom:0.75rem;">🍽️ Limpieza para gastronomía y hoteles</h3>
-        <p style="font-size:0.86rem; color:var(--muted); line-height:1.7;">Restaurantes, bares, hoteles y catering encuentran en Ibarra Insumos el proveedor ideal: desengrasantes profesionales, jabón líquido institucional, toallas en bobina, descartables y todos los productos de higiene para cocina y baños de alta frecuencia de uso.</p>
-      </div>
-
-      <div style="background:white; border-radius:12px; padding:1.75rem; border:1px solid rgba(0,0,0,0.07);">
-        <h3 style="font-family:'Montserrat',sans-serif; font-size:1rem; font-weight:700; color:var(--teal); margin-bottom:0.75rem;">🏥 Limpieza para instituciones de salud</h3>
-        <p style="font-size:0.86rem; color:var(--muted); line-height:1.7;">Hospitales, clínicas, sanatorios y centros médicos confían en nosotros para su abastecimiento de insumos de higiene institucional. Stock permanente, facturación A y B, y capacidad para participar en licitaciones públicas. Somos proveedores del Gobierno de la Ciudad de Buenos Aires.</p>
-      </div>
-
-      <div style="background:white; border-radius:12px; padding:1.75rem; border:1px solid rgba(0,0,0,0.07);">
-        <h3 style="font-family:'Montserrat',sans-serif; font-size:1rem; font-weight:700; color:var(--teal); margin-bottom:0.75rem;">🏫 Limpieza para escuelas y oficinas</h3>
-        <p style="font-size:0.86rem; color:var(--muted); line-height:1.7;">Colegios, universidades, estudios contables y oficinas corporativas encuentran en nuestro catálogo todo lo necesario: papel higiénico institucional, dispensers de jabón y toallas, limpiadores multiuso y productos de higiene en formato mayorista con entrega directa.</p>
-      </div>
-
-    </div>
-
-    <div style="text-align:center; margin-top:2.5rem;">
-      <a href="https://wa.me/5491144402807" target="_blank" style="display:inline-flex;align-items:center;gap:0.6rem;background:#25D366;color:white;border-radius:10px;padding:0.9rem 2rem;font-family:'Montserrat',sans-serif;font-size:0.85rem;font-weight:700;text-decoration:none;">
-        <svg viewBox="0 0 24 24" fill="white" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885a.5.5 0 0 0 .606.62l6.288-1.643A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.726 9.726 0 0 1-5.001-1.383l-.36-.214-3.733.976.999-3.62-.234-.374A9.718 9.718 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
-        Consultá para tu zona o rubro
-      </a>
     </div>
   </div>
 </section>
@@ -1394,8 +1325,7 @@
     const productoId = card.dataset.id;
     // Si tiene ID de Supabase → abrir página propia
     if (productoId) {
-      const slug = card.dataset.slug || productoId;
-      window.location.href = `/producto/${slug}?id=${productoId}`;
+      window.location.href = `producto.html?id=${productoId}`;
       return;
     }
     // Productos fijos → modal normal

@@ -5,21 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Producto — Ibarra Insumos</title>
   <meta name="description" content="Distribuidora mayorista de limpieza e higiene institucional en CABA y GBA." />
-  <meta name="robots" content="index, follow" />
-  <link rel="canonical" href="https://ibarrainsumos.com.ar/producto.html" id="canonicalTag" />
   <link rel="icon" type="image/png" href="img/favicon-32x32.png" />
-
-  <!-- Open Graph (dinámico — se actualiza por JS) -->
-  <meta property="og:type" content="product" />
-  <meta property="og:site_name" content="Ibarra Insumos" />
-  <meta property="og:url" content="https://ibarrainsumos.com.ar/producto.html" id="ogUrl" />
-  <meta property="og:title" content="Producto — Ibarra Insumos" id="ogTitle" />
-  <meta property="og:description" content="Distribuidora mayorista de limpieza e higiene institucional en CABA y GBA." id="ogDesc" />
-  <meta property="og:image" content="https://ibarrainsumos.com.ar/img/CAMIONETA.png" id="ogImage" />
-  <meta property="og:locale" content="es_AR" />
-
-  <!-- Schema Product (dinámico — se inyecta por JS) -->
-  <script type="application/ld+json" id="schemaProduct">{}</script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -136,7 +122,7 @@
 <div id="loader"><div class="loader-spinner"></div></div>
 
 <nav>
-  <div class="nav-logo"><img src="img/Logo.png" alt="Ibarra Insumos — Distribuidora de Limpieza" width="120" height="38" /></div>
+  <div class="nav-logo"><img src="img/Logo.png" alt="Ibarra Insumos" /></div>
   <a class="nav-back" href="index.html">
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     Volver al catálogo
@@ -232,11 +218,7 @@
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoeHRteGJkcmNpZ2RkdnNrYWxrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzOTA0OTUsImV4cCI6MjA5NDk2NjQ5NX0.D82fR_OTye8Fbsk4xccfCr-J1FvqjO2Rnxjfsnsc_nQ';
 
   const params = new URLSearchParams(window.location.search);
-  // Retrocompatibilidad: acepta ?id=X y también /producto/slug (el id viene igual via ?id en el rewrite)
   const productoId = params.get('id');
-  // Si la URL es /producto/slug sin ?id, podemos buscar por slug en el futuro
-  // Por ahora el rewrite de Vercel redirige /producto/slug → producto.html y el JS de index.html
-  // pasa el ?id junto con el slug en la navegación.
 
   let galFotos = [], galIdx = 0;
   let productoActual = null;
@@ -256,59 +238,8 @@
       productoActual = p;
 
       // SEO dinámico
-      document.title = `${p.nombre} | Ibarra Insumos — Distribuidora de Limpieza Buenos Aires`;
-      const desc = p.descripcion ? `${p.descripcion} — Distribuidora mayorista Ibarra Insumos, CABA y GBA.` : `${p.nombre}: insumo de limpieza e higiene institucional. Ibarra Insumos, distribuidora mayorista en Buenos Aires y GBA.`;
-      document.querySelector('meta[name="description"]').content = desc;
-
-      // OG tags dinámicos
-      const pageUrl = `https://ibarrainsumos.com.ar/producto.html?id=${p.id}`;
-      const imgUrl = p.imagen_url || 'https://ibarrainsumos.com.ar/img/CAMIONETA.png';
-      document.getElementById('canonicalTag').href = pageUrl;
-      document.getElementById('ogUrl').content = pageUrl;
-      document.getElementById('ogTitle').content = `${p.nombre} | Ibarra Insumos`;
-      document.getElementById('ogDesc').content = desc;
-      document.getElementById('ogImage').content = imgUrl;
-
-      // Schema Product (JSON-LD)
-      const schemaProduct = {
-        "@context": "https://schema.org",
-        "@type": "Product",
-        "name": p.nombre,
-        "description": p.descripcion || p.nombre,
-        "image": imgUrl,
-        "brand": { "@type": "Brand", "name": "Ibarra Insumos" },
-        "category": p.categoria,
-        "offers": {
-          "@type": "Offer",
-          "url": pageUrl,
-          "priceCurrency": "ARS",
-          "price": "0",
-          "priceSpecification": {
-            "@type": "PriceSpecification",
-            "priceCurrency": "ARS",
-            "description": "Precio mayorista — consultar"
-          },
-          "availability": "https://schema.org/InStock",
-          "seller": { "@type": "Organization", "name": "Ibarra Insumos" }
-        }
-      };
-      document.getElementById('schemaProduct').textContent = JSON.stringify(schemaProduct);
-
-      // BreadcrumbList (JSON-LD)
-      const schemaBreadcrumb = {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Inicio", "item": "https://ibarrainsumos.com.ar" },
-          { "@type": "ListItem", "position": 2, "name": "Catálogo", "item": "https://ibarrainsumos.com.ar/#catalogo" },
-          { "@type": "ListItem", "position": 3, "name": p.categoria, "item": `https://ibarrainsumos.com.ar/#catalogo` },
-          { "@type": "ListItem", "position": 4, "name": p.nombre, "item": pageUrl }
-        ]
-      };
-      const schemaBcScript = document.createElement('script');
-      schemaBcScript.type = 'application/ld+json';
-      schemaBcScript.textContent = JSON.stringify(schemaBreadcrumb);
-      document.head.appendChild(schemaBcScript);
+      document.title = `${p.nombre} — Ibarra Insumos`;
+      document.querySelector('meta[name="description"]').content = p.descripcion;
 
       // Rellenar datos
       document.getElementById('prodNombre').textContent = p.nombre;
