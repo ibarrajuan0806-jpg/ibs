@@ -1,0 +1,26 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "ibs-delta.vercel.app"
+        }
+      ],
+      "destination": "https://ibarrainsumos.com.ar/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.ibarrainsumos.com.ar"
+        }
+      ],
+      "destination": "https://ibarrainsumos.com.ar/:path*",
+      "permanent": true
+    }
+  ]
+}
