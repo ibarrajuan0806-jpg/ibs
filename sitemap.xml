@@ -3,18 +3,49 @@
 
   <!-- Página principal -->
   <url>
-    <loc>https://ibs-delta.vercel.app/</loc>
-    <lastmod>2026-05-31</lastmod>
+    <loc>https://ibarrainsumos.com.ar/</loc>
+    <lastmod>2026-06-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <!-- Catálogo -->
   <url>
-    <loc>https://ibs-delta.vercel.app/index.html</loc>
-    <lastmod>2026-05-31</lastmod>
+    <loc>https://ibarrainsumos.com.ar/#catalogo</loc>
+    <lastmod>2026-06-03</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
+
+  <!-- Quiénes somos -->
+  <url>
+    <loc>https://ibarrainsumos.com.ar/#nosotros</loc>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Contacto -->
+  <url>
+    <loc>https://ibarrainsumos.com.ar/#contacto</loc>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- FAQ -->
+  <url>
+    <loc>https://ibarrainsumos.com.ar/#faq</loc>
+    <lastmod>2026-06-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Página de producto (dinámica) -->
+  <!-- NOTA: Para regenerar este sitemap con todos los productos, ejecutar:
+       1. Obtener todos los productos de Supabase: GET /rest/v1/productos?select=id,nombre
+       2. Generar una entrada por cada producto con URL: https://ibarrainsumos.com.ar/producto/{slug}
+       3. Donde slug = nombre en minúsculas, sin acentos, espacios reemplazados por guiones
+  -->
 
 </urlset>

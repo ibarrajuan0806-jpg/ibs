@@ -1,4 +1,10 @@
 {
+  "rewrites": [
+    {
+      "source": "/producto/:slug",
+      "destination": "/producto.html"
+    }
+  ],
   "redirects": [
     {
       "source": "/:path*",
