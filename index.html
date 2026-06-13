@@ -457,41 +457,8 @@
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
 <div class="sidebar-drawer" id="sidebarDrawer">
   <div class="sidebar-drawer-header">Categorías <button class="sidebar-drawer-close" onclick="closeSidebar()">✕</button></div>
-  <div style="padding:0;">
-    <div class="cat-item"><div class="cat-row active" onclick="filterCat('Todos', this); closeSidebar()">Todos</div></div>
-    <div class="cat-item">
-      <div class="cat-row" onclick="toggleCat(this, 'Dispensers')">Dispensers <span class="cat-arrow">▶</span></div>
-      <div class="cat-subs">
-        <div class="cat-sub-row" onclick="filterSub('Dispenser Toallas', this); closeSidebar()">Dispenser de Toallas</div>
-        <div class="cat-sub-row" onclick="filterSub('Dispenser Jabón', this); closeSidebar()">Dispenser de Jabón</div>
-        <div class="cat-sub-row" onclick="filterSub('Dispenser Papel', this); closeSidebar()">Dispenser de Papel Higiénico</div>
-      </div>
-    </div>
-    <div class="cat-item">
-      <div class="cat-row" onclick="toggleCat(this, 'Papeles')">Papeles <span class="cat-arrow">▶</span></div>
-      <div class="cat-subs">
-        <div class="cat-sub-row" onclick="filterSub('Toallas Intercaladas', this); closeSidebar()">Toallas Intercaladas</div>
-        <div class="cat-sub-row" onclick="filterSub('Toallas en Bobina', this); closeSidebar()">Toallas en Bobina</div>
-        <div class="cat-sub-row" onclick="filterSub('Toallas en Rollo', this); closeSidebar()">Toallas en Rollo</div>
-        <div class="cat-sub-row" onclick="filterSub('Papel Higiénico', this); closeSidebar()">Papel Higiénico</div>
-      </div>
-    </div>
-    <div class="cat-item">
-      <div class="cat-row" onclick="toggleCat(this, 'Limpieza')">Limpieza <span class="cat-arrow">▶</span></div>
-      <div class="cat-subs">
-        <div class="cat-sub-row" onclick="filterSub('Lavandinas', this); closeSidebar()">Lavandinas</div>
-        <div class="cat-sub-row" onclick="filterSub('Limpiadores Multiusos', this); closeSidebar()">Limpiadores Multiusos</div>
-        <div class="cat-sub-row" onclick="filterSub('Limpiavidrios', this); closeSidebar()">Limpiavidrios</div>
-        <div class="cat-sub-row" onclick="filterSub('Desodorantes Ambientes', this); closeSidebar()">Desodorantes Ambientes</div>
-      </div>
-    </div>
-    <div class="cat-item"><div class="cat-row" onclick="filterCat('Higiene', this); closeSidebar()">Higiene</div></div>
-    <div class="cat-item"><div class="cat-row" onclick="filterCat('Descartables', this); closeSidebar()">Descartables</div></div>
-    <div class="sidebar-help" style="margin:1rem;">
-      <div class="sidebar-help-title">ℹ ¿Necesitás Ayuda?</div>
-      <p>Nuestros asesores pueden armar el plan ideal para tu empresa sin cargo.</p>
-      <button onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'}); closeSidebar()">Consultar ahora →</button>
-    </div>
+  <div id="sidebarDrawerContent" style="padding:0;">
+    <div class="loading" style="padding:1rem;font-size:0.84rem;color:#4a6b65;">Cargando categorías...</div>
   </div>
 </div>
 
@@ -711,13 +678,28 @@
       CATS = JSON.parse(localStorage.getItem('ibarra_cats') || '{}');
     }
     const container = document.getElementById('sidebarCatList');
-    if (!container) return;
+    const drawerContent = document.getElementById('sidebarDrawerContent');
+
     let html = `<div class="cat-item"><div class="cat-row active" onclick="filterCat('Todos', this)">Todos</div></div>`;
+    let htmlDrawer = `<div class="cat-item"><div class="cat-row active" onclick="filterCat('Todos', this); closeSidebar()">Todos</div></div>`;
+
     Object.entries(CATS).forEach(([cat, subs]) => {
       const ce = cat.replace(/'/g, "\'");
-      html += `<div class="cat-item"><div class="cat-row" onclick="toggleCat(this, '${ce}')">${cat} <span class="cat-arrow">&#9658;</span></div><div class="cat-subs">${(subs||[]).map(sub=>`<div class="cat-sub-row" onclick="filterSub('${sub.replace(/'/g,"\'")}', this)">${sub}</div>`).join('')}</div></div>`;
+      const subsHtml = (subs||[]).map(sub => `<div class="cat-sub-row" onclick="filterSub('${sub.replace(/'/g,"\'")}', this)">${sub}</div>`).join('');
+      const subsHtmlDrawer = (subs||[]).map(sub => `<div class="cat-sub-row" onclick="filterSub('${sub.replace(/'/g,"\'")}', this); closeSidebar()">${sub}</div>`).join('');
+      html += `<div class="cat-item"><div class="cat-row" onclick="toggleCat(this, '${ce}')">${cat} <span class="cat-arrow">&#9658;</span></div><div class="cat-subs">${subsHtml}</div></div>`;
+      htmlDrawer += `<div class="cat-item"><div class="cat-row" onclick="toggleCat(this, '${ce}')">${cat} <span class="cat-arrow">&#9658;</span></div><div class="cat-subs">${subsHtmlDrawer}</div></div>`;
     });
-    container.innerHTML = html;
+
+    // Agregar ayuda al drawer
+    htmlDrawer += `<div class="sidebar-help" style="margin:1rem;">
+      <div class="sidebar-help-title">ℹ ¿Necesitás Ayuda?</div>
+      <p>Nuestros asesores pueden armar el plan ideal para tu empresa sin cargo.</p>
+      <button onclick="document.getElementById('contacto').scrollIntoView({behavior:'smooth'}); closeSidebar()">Consultar ahora →</button>
+    </div>`;
+
+    if (container) container.innerHTML = html;
+    if (drawerContent) drawerContent.innerHTML = htmlDrawer;
   }
   construirSidebar();
 </script>
@@ -1296,29 +1278,47 @@
   function openSidebar() { document.getElementById('sidebarDrawer').classList.add('open'); document.getElementById('sidebarOverlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
   function closeSidebar() { document.getElementById('sidebarDrawer').classList.remove('open'); document.getElementById('sidebarOverlay').classList.remove('open'); document.body.style.overflow = ''; }
 
+  function setCardVisible(card, visible) {
+    // Las cards dinámicas son <a> o <div> directos — se puede cambiar display
+    // Las cards dentro de dynamicProducts con display:contents necesitan wrapper
+    if (card.style.display !== undefined) {
+      try { card.style.display = visible ? '' : 'none'; } catch(e) {}
+    }
+  }
+
   function filterCat(cat, el) {
     document.querySelectorAll('.cat-row').forEach(r => r.classList.remove('active'));
     document.querySelectorAll('.cat-sub-row').forEach(r => r.classList.remove('active'));
     if (el) el.classList.add('active');
-    document.querySelectorAll('.product-card').forEach(card => { card.style.display = (cat === 'Todos' || card.dataset.category === cat) ? 'flex' : 'none'; });
+    document.querySelectorAll('.product-card').forEach(card => {
+      const show = cat === 'Todos' || card.dataset.category === cat;
+      card.style.display = show ? '' : 'none';
+    });
   }
 
   function toggleCat(el, cat) {
     const subs = el.nextElementSibling;
+    if (!subs) return;
     const isOpen = subs.classList.contains('open');
     document.querySelectorAll('.cat-subs').forEach(s => s.classList.remove('open'));
     document.querySelectorAll('.cat-row').forEach(r => r.classList.remove('active', 'open'));
     document.querySelectorAll('.cat-sub-row').forEach(r => r.classList.remove('active'));
     if (!isOpen) {
       subs.classList.add('open'); el.classList.add('open', 'active');
-      document.querySelectorAll('.product-card').forEach(card => { card.style.display = card.dataset.category === cat ? 'flex' : 'none'; });
-    } else { document.querySelectorAll('.product-card').forEach(card => card.style.display = 'flex'); }
+      document.querySelectorAll('.product-card').forEach(card => {
+        card.style.display = card.dataset.category === cat ? '' : 'none';
+      });
+    } else {
+      document.querySelectorAll('.product-card').forEach(card => { card.style.display = ''; });
+    }
   }
 
   function filterSub(sub, el) {
     document.querySelectorAll('.cat-sub-row').forEach(r => r.classList.remove('active'));
-    el.classList.add('active');
-    document.querySelectorAll('.product-card').forEach(card => { card.style.display = card.dataset.sub === sub ? 'flex' : 'none'; });
+    if (el) el.classList.add('active');
+    document.querySelectorAll('.product-card').forEach(card => {
+      card.style.display = card.dataset.sub === sub ? '' : 'none';
+    });
   }
 
   let galFotos = [], galIdx = 0;
