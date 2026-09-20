@@ -85,6 +85,19 @@
     .btn-wa:hover { background: #1da851; }
     .btn-cotizar { display: flex; align-items: center; justify-content: center; gap: 0.6rem; background: var(--teal); color: white; border: none; border-radius: 10px; padding: 1rem 1.5rem; font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 700; cursor: pointer; text-decoration: none; transition: background 0.2s; }
     .btn-cotizar:hover { background: var(--teal2); }
+    
+    .product-price-box { background: var(--dark2); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 0.5rem; }
+    .price-main { font-family: 'Montserrat', sans-serif; font-size: 1.6rem; font-weight: 700; color: var(--teal); }
+    .price-main.oferta { color: #ef4444; }
+    .price-tachado { font-family: 'Montserrat', sans-serif; font-size: 0.9rem; color: var(--muted); text-decoration: line-through; margin-left: 0.5rem; }
+    .price-mayorista-tag { font-size: 0.78rem; color: var(--muted); margin-top: 0.25rem; }
+    .price-consultar { font-family: 'Montserrat', sans-serif; font-size: 0.9rem; color: var(--muted); font-style: italic; }
+    .qty-selector { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+    .qty-selector label { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 600; color: var(--muted); }
+    .qty-btns { display: flex; align-items: center; gap: 0; border: 1px solid rgba(0,0,0,0.12); border-radius: 8px; overflow: hidden; }
+    .qty-btns button { width: 36px; height: 36px; border: none; background: white; font-size: 1.1rem; cursor: pointer; font-weight: 700; color: var(--teal); transition: background 0.15s; }
+    .qty-btns button:hover { background: var(--dark2); }
+    .qty-btns span { width: 40px; text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.9rem; }
     .btn-share { display: flex; align-items: center; justify-content: center; gap: 0.5rem; background: none; color: var(--muted); border: 1px solid rgba(0,0,0,0.12); border-radius: 10px; padding: 0.75rem; font-family: 'Montserrat', sans-serif; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
     .btn-share:hover { border-color: var(--teal); color: var(--teal); }
 
@@ -173,6 +186,21 @@
         <h1 class="product-name" id="prodNombre"></h1>
         <p class="product-desc" id="prodDesc"></p>
 
+        <!-- PRECIO -->
+        <div class="product-price-box" id="precioBox" style="display:none;">
+          <div id="precioDisplay"></div>
+        </div>
+
+        <!-- CANTIDAD -->
+        <div class="qty-selector">
+          <label>Cantidad:</label>
+          <div class="qty-btns">
+            <button onclick="cambiarQty(-1)">−</button>
+            <span id="qtyDisplay">1</span>
+            <button onclick="cambiarQty(1)">+</button>
+          </div>
+        </div>
+
         <!-- ACCIONES -->
         <div class="product-actions">
           <a class="btn-wa" id="btnWA" href="#" target="_blank">
@@ -221,6 +249,13 @@
   const productoId = params.get('id');
 
   let galFotos = [], galIdx = 0;
+  let qtyActual = 1;
+  let precioProducto = 0;
+
+  function cambiarQty(delta) {
+    qtyActual = Math.max(1, qtyActual + delta);
+    document.getElementById('qtyDisplay').textContent = qtyActual;
+  }
   let productoActual = null;
 
   async function cargarProducto() {
@@ -251,8 +286,22 @@
       document.getElementById('metaCat').textContent = p.categoria;
       document.getElementById('metaSub').textContent = p.subcategoria;
 
+      // Precio
+      const precioBox = document.getElementById('precioBox');
+      const precioDisplay = document.getElementById('precioDisplay');
+      if (p.precio_lista > 0) {
+        precioBox.style.display = 'block';
+        precioProducto = p.precio_lista;
+        if (p.en_oferta && p.precio_oferta > 0) {
+          precioProducto = p.precio_oferta;
+          precioDisplay.innerHTML = `<span class="price-main oferta">$${p.precio_oferta.toLocaleString('es-AR')}</span><span class="price-tachado">$${p.precio_lista.toLocaleString('es-AR')}</span><div class="price-mayorista-tag">🔥 Precio oferta especial</div>`;
+        } else {
+          precioDisplay.innerHTML = `<span class="price-main">$${p.precio_lista.toLocaleString('es-AR')}</span>${p.precio_mayorista > 0 ? `<div class="price-mayorista-tag">Precio mayorista: $${p.precio_mayorista.toLocaleString('es-AR')}</div>` : ''}`;
+        }
+      }
+
       // WA link
-      const waMsg = encodeURIComponent(`Hola! Me interesa este producto:\n\n*${p.nombre}* (${p.categoria})\n${p.descripcion}\n\nVer: ${window.location.href}`);
+      const waMsg = encodeURIComponent(`Hola! Me interesa este producto:\n\n*${p.nombre}* (${p.categoria})\n${p.descripcion}${p.precio_lista > 0 ? `\n💰 Precio: $${p.precio_lista.toLocaleString('es-AR')}` : ''}\n\nVer: ${window.location.href}`);
       document.getElementById('btnWA').href = `https://wa.me/5491144402807?text=${waMsg}`;
 
       // Fotos
