@@ -396,7 +396,23 @@
     .logo-spin { width: 52px; height: 52px; animation: spinLogo 1s linear infinite; }
     @keyframes spinLogo { to { transform: rotate(360deg); } }
     .logo-spin-label { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 600; color: var(--muted); letter-spacing: 0.1em; }
-      </style>
+    
+    /* ── PRECIOS ── */
+    .product-price { display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+    .price-lista { font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; color: var(--teal); }
+    .price-mayorista { font-family: 'Montserrat', sans-serif; font-size: 0.72rem; color: var(--muted); text-decoration: line-through; }
+    .price-oferta { font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; color: #ef4444; }
+    .price-badge-oferta { background: #ef4444; color: white; font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 700; padding: 0.15rem 0.4rem; border-radius: 4px; letter-spacing: 0.05em; }
+    .price-sin-precio { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; color: var(--muted); font-style: italic; }
+
+    /* ── CUPÓN ── */
+    #cupon-bar { background: linear-gradient(135deg, var(--teal), var(--teal2)); padding: 0.6rem 1.5rem; display: flex; align-items: center; justify-content: center; gap: 0.75rem; flex-wrap: wrap; }
+    #cupon-bar input { padding: 0.45rem 0.85rem; border: none; border-radius: 6px; font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 600; outline: none; width: 160px; text-transform: uppercase; }
+    #cupon-bar button { background: var(--accent2); color: white; border: none; border-radius: 6px; padding: 0.45rem 1rem; font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 700; cursor: pointer; }
+    #cupon-status { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 600; color: white; }
+    #cupon-status.ok { color: #86efac; }
+    #cupon-status.error { color: #fca5a5; }
+  </style>
 </head>
 <body>
 
@@ -411,7 +427,14 @@
     <div class="cart-empty" id="cartEmpty">Tu lista está vacía.<br>Agregá productos para cotizar.</div>
   </div>
   <div class="cart-footer">
-    <p class="cart-footer-note">Al hacer clic en "Enviar por WhatsApp" te contactamos con la lista de productos seleccionados.</p>
+    <div id="cart-total" style="display:none;background:var(--dark);border-radius:8px;padding:0.75rem 1rem;margin-bottom:0.75rem;font-family:'Montserrat',sans-serif;">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:0.78rem;color:var(--muted);">Total estimado</span>
+        <span id="cart-total-amount" style="font-size:1rem;font-weight:700;color:var(--teal);"></span>
+      </div>
+      <div id="cart-cupon-info" style="font-size:0.7rem;color:var(--green);margin-top:0.25rem;display:none;"></div>
+    </div>
+    <p class="cart-footer-note">El precio es referencial. Coordinás el pago por WhatsApp después de hacer el pedido.</p>
     <button class="btn-send-cart" onclick="sendCartToWhatsapp()">
       <svg viewBox="0 0 24 24" fill="white" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.828L.057 23.885a.5.5 0 0 0 .606.62l6.288-1.643A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.726 9.726 0 0 1-5.001-1.383l-.36-.214-3.733.976.999-3.62-.234-.374A9.718 9.718 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
       Enviar por WhatsApp
@@ -445,6 +468,14 @@
   </div>
   <button class="hamburger" onclick="toggleMenu()" id="hamburger"><span></span><span></span><span></span></button>
 </nav>
+
+<!-- BARRA CUPÓN -->
+<div id="cupon-bar" style="margin-top:65px;">
+  <span style="font-family:'Montserrat',sans-serif;font-size:0.78rem;font-weight:600;color:rgba(255,255,255,0.85);">🏷️ ¿Tenés un cupón?</span>
+  <input type="text" id="cuponInput" placeholder="INGRESÁ TU CÓDIGO" maxlength="20" />
+  <button onclick="aplicarCupon()">Aplicar</button>
+  <span id="cupon-status"></span>
+</div>
 
 <div class="mobile-menu" id="mobileMenu">
   <a href="#inicio" onclick="closeMenu()">Inicio</a>
@@ -628,23 +659,39 @@
       const div = document.createElement('div');
       div.id = 'dynamicProducts';
       div.style.display = 'contents'; // no rompe el grid
-      div.innerHTML = productos.map(p => `
-        <div class="product-card" data-category="${p.categoria}" data-sub="${p.subcategoria}" data-id="${p.id}" onclick="openModal(this)">
+      div.innerHTML = productos.map(p => {
+        const desc = cuponActivo ? Math.round(1 - cuponActivo.descuento_pct/100) : 1;
+        let precioHTML = '';
+        if (p.precio_lista > 0) {
+          const precioFinal = cuponActivo ? Math.round(p.precio_lista * (1 - cuponActivo.descuento_pct/100)) : p.precio_lista;
+          if (p.en_oferta && p.precio_oferta > 0) {
+            precioHTML = `<div class="product-price"><span class="price-oferta">$${p.precio_oferta.toLocaleString('es-AR')}</span><span class="price-mayorista">$${p.precio_lista.toLocaleString('es-AR')}</span><span class="price-badge-oferta">OFERTA</span></div>`;
+          } else if (cuponActivo) {
+            precioHTML = `<div class="product-price"><span class="price-oferta">$${precioFinal.toLocaleString('es-AR')}</span><span class="price-mayorista">$${p.precio_lista.toLocaleString('es-AR')}</span><span class="price-badge-oferta">-${cuponActivo.descuento_pct}%</span></div>`;
+          } else {
+            precioHTML = `<div class="product-price"><span class="price-lista">$${p.precio_lista.toLocaleString('es-AR')}</span>${p.precio_mayorista > 0 ? `<span class="price-mayorista">Mayorista: $${p.precio_mayorista.toLocaleString('es-AR')}</span>` : ''}</div>`;
+          }
+        } else {
+          precioHTML = `<div class="product-price"><span class="price-sin-precio">Consultá precio</span></div>`;
+        }
+        return `
+        <div class="product-card" data-category="${p.categoria}" data-sub="${p.subcategoria}" data-id="${p.id}" data-precio="${p.precio_lista||0}" data-nombre="${p.nombre.replace(/"/g,'&quot;')}" data-img="${p.imagen_url||''}" onclick="openModal(this)">
           <div class="product-image">
             ${p.imagen_url ? `<img src="${p.imagen_url}" alt="${p.nombre}" />` : ''}
-            <div class="hover-overlay">Ver Detalle</div>
+            ${p.en_oferta ? '<span class="product-badge-hot">OFERTA</span>' : ''}
           </div>
           <div class="product-info">
             <div class="product-badge">${p.categoria}</div>
             <h3 class="product-name">${p.nombre}</h3>
+            ${precioHTML}
             <p class="product-desc">${p.descripcion}</p>
             <div class="product-actions">
               <a class="btn-cotizar" href="https://wa.me/5491144402807" target="_blank" onclick="event.stopPropagation()">✓ Consultar</a>
-              <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(this)">+ Cotizar</button>
+              <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart(this)">🛒 Agregar</button>
             </div>
           </div>
-        </div>
-      `).join('');
+        </div>`;
+      }).join('');
       container.appendChild(div);
 
       // Ocultar skeleton y mostrar contenido
@@ -758,7 +805,23 @@
     .logo-spin { width: 52px; height: 52px; animation: spinLogo 1s linear infinite; }
     @keyframes spinLogo { to { transform: rotate(360deg); } }
     .logo-spin-label { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 600; color: var(--muted); letter-spacing: 0.1em; }
-      </style>
+    
+    /* ── PRECIOS ── */
+    .product-price { display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+    .price-lista { font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; color: var(--teal); }
+    .price-mayorista { font-family: 'Montserrat', sans-serif; font-size: 0.72rem; color: var(--muted); text-decoration: line-through; }
+    .price-oferta { font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700; color: #ef4444; }
+    .price-badge-oferta { background: #ef4444; color: white; font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 700; padding: 0.15rem 0.4rem; border-radius: 4px; letter-spacing: 0.05em; }
+    .price-sin-precio { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; color: var(--muted); font-style: italic; }
+
+    /* ── CUPÓN ── */
+    #cupon-bar { background: linear-gradient(135deg, var(--teal), var(--teal2)); padding: 0.6rem 1.5rem; display: flex; align-items: center; justify-content: center; gap: 0.75rem; flex-wrap: wrap; }
+    #cupon-bar input { padding: 0.45rem 0.85rem; border: none; border-radius: 6px; font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 600; outline: none; width: 160px; text-transform: uppercase; }
+    #cupon-bar button { background: var(--accent2); color: white; border: none; border-radius: 6px; padding: 0.45rem 1rem; font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 700; cursor: pointer; }
+    #cupon-status { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 600; color: white; }
+    #cupon-status.ok { color: #86efac; }
+    #cupon-status.error { color: #fca5a5; }
+  </style>
   <div class="reviews-wrapper">
     <div class="reviews-track" id="reviewsTrack">
 
@@ -1207,6 +1270,31 @@
 <script>
   let cart = [];
   let currentModalCard = null;
+  let cuponActivo = null;
+
+  const SUPABASE_URL_FRONT = 'https://khxtmxbdrcigddvskalk.supabase.co';
+  const SUPABASE_KEY_FRONT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoeHRteGJkcmNpZ2RkdnNrYWxrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzOTA0OTUsImV4cCI6MjA5NDk2NjQ5NX0.D82fR_OTye8Fbsk4xccfCr-J1FvqjO2Rnxjfsnsc_nQ';
+
+  async function aplicarCupon() {
+    const codigo = document.getElementById('cuponInput').value.trim().toUpperCase();
+    const status = document.getElementById('cupon-status');
+    if (!codigo) { status.textContent = 'Ingresá un código'; status.className = 'error'; return; }
+    try {
+      const res = await fetch(`${SUPABASE_URL_FRONT}/rest/v1/cupones?codigo=eq.${codigo}&activo=eq.true`, {
+        headers: { 'apikey': SUPABASE_KEY_FRONT, 'Authorization': `Bearer ${SUPABASE_KEY_FRONT}` }
+      });
+      const data = await res.json();
+      if (!data.length) { status.textContent = '❌ Cupón inválido o expirado'; status.className = 'error'; cuponActivo = null; return; }
+      const cupon = data[0];
+      if (cupon.usos_actuales >= cupon.usos_max) { status.textContent = '❌ Cupón agotado'; status.className = 'error'; return; }
+      cuponActivo = cupon;
+      status.textContent = `✓ Cupón aplicado: -${cupon.descuento_pct}%`; status.className = 'ok';
+      // Recargar productos con descuento aplicado
+      cargarProductosDinamicos();
+    } catch(e) {
+      status.textContent = 'Error al verificar'; status.className = 'error';
+    }
+  }
 
   function showToast() {
     const t = document.getElementById('toast');
@@ -1216,6 +1304,16 @@
 
   function updateCartUI() {
     const count = cart.reduce((a, i) => a + i.qty, 0);
+    const total = calcularTotal();
+    const totalEl = document.getElementById('cart-total');
+    const totalAmountEl = document.getElementById('cart-total-amount');
+    const cuponInfo = document.getElementById('cart-cupon-info');
+    if (totalEl && cart.length > 0 && total > 0) {
+      totalEl.style.display = 'block';
+      totalAmountEl.textContent = `$${total.toLocaleString('es-AR')}`;
+      if (cuponActivo) { cuponInfo.style.display = 'block'; cuponInfo.textContent = `Cupón ${cuponActivo.codigo} aplicado (-${cuponActivo.descuento_pct}%)`; }
+      else { cuponInfo.style.display = 'none'; }
+    } else if (totalEl) { totalEl.style.display = 'none'; }
     document.getElementById('cartCount').textContent = count;
     document.getElementById('cartCountMobile').textContent = count;
     document.getElementById('cartCount').classList.toggle('hidden', count === 0);
@@ -1253,8 +1351,10 @@
     const badge = card.querySelector('.product-badge').textContent;
     const imgEl = card.querySelector('.product-image img');
     const img = imgEl ? imgEl.src : '';
+    let precio = parseFloat(card.dataset.precio || 0);
+    if (cuponActivo && precio > 0) precio = Math.round(precio * (1 - cuponActivo.descuento_pct/100));
     const existing = cart.find(i => i.name === name);
-    if (existing) { existing.qty++; } else { cart.push({ name, badge, img, qty: 1 }); }
+    if (existing) { existing.qty++; } else { cart.push({ name, badge, img, precio, qty: 1 }); }
     updateCartUI();
   }
 
@@ -1265,11 +1365,21 @@
   function openCart() { document.getElementById('cart-panel').classList.add('open'); document.getElementById('cartOverlay').classList.add('open'); document.body.style.overflow = 'hidden'; }
   function closeCart() { document.getElementById('cart-panel').classList.remove('open'); document.getElementById('cartOverlay').classList.remove('open'); document.body.style.overflow = ''; }
 
+  function calcularTotal() {
+    return cart.reduce((total, item) => total + (item.precio * item.qty), 0);
+  }
+
   function sendCartToWhatsapp() {
-    if (cart.length === 0) { alert('Tu lista de cotización está vacía.'); return; }
-    let msg = 'Hola! Quiero cotizar los siguientes productos de Ibarra Insumos:\n\n';
-    cart.forEach(item => { msg += `• ${item.name} (x${item.qty})\n`; });
-    msg += '\nQuedo a la espera de su respuesta. ¡Gracias!';
+    if (cart.length === 0) { alert('Tu carrito está vacío.'); return; }
+    let msg = 'Hola! Quiero realizar el siguiente pedido:\n\n';
+    cart.forEach(item => {
+      const subtotal = item.precio > 0 ? ` — $${(item.precio * item.qty).toLocaleString('es-AR')}` : '';
+      msg += `• ${item.name} x${item.qty}${subtotal}\n`;
+    });
+    const total = calcularTotal();
+    if (total > 0) msg += `\n💰 *Total estimado: $${total.toLocaleString('es-AR')}*`;
+    if (cuponActivo) msg += `\n🏷️ Cupón aplicado: ${cuponActivo.codigo} (-${cuponActivo.descuento_pct}%)`;
+    msg += '\n\n¿Podemos coordinar el pago y la entrega?';
     window.open(`https://wa.me/5491144402807?text=${encodeURIComponent(msg)}`, '_blank');
   }
 
